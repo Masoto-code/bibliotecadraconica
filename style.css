@@ -1,0 +1,11 @@
+body{
+    background-color: black;
+    color: white;
+}
+.central{
+    font-size: 1.35cm;
+    font-family: 'cinzel', serif;
+    text-align: center;
+    position: relative;
+    top: 4.15cm;
+}
