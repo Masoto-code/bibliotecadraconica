@@ -1,0 +1,29 @@
+body{
+    @import url('https://googleapis.com');
+    background-color: black;
+    color: white;
+}
+
+.central{
+    font-size: 1.35cm;
+    font-family: 'cinzel', serif;
+    text-align: center;
+    position: relative;
+    top: 4.15cm;
+    background-image: linear-gradient(to right, #e3e152, #ffeee1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.icon{
+    width: 40px;
+    top: 1px
+    
+}
+
+.b_p{
+
+}
+.b_p2{
+
+}
