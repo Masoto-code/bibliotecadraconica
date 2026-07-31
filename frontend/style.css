@@ -1,10 +1,36 @@
-body{
-    @import url('https://googleapis.com');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+body {
     background-color: black;
     color: white;
 }
 
-.central{
+/* Nova regra para agrupar a logo e o texto */
+.logo-container {
+    position: absolute;
+    top: 20px;          /* Distância do topo */
+    left: 40px;         /* Distância da borda esquerda */
+    display: flex;      /* Coloca os itens lado a lado */
+    align-items: center; /* Alinha a imagem e o texto no meio, verticalmente */
+    gap: 15px;          /* Espaçamento entre a imagem e o texto */
+}
+
+.icon {
+    width: 40px;
+    /* A posição foi removida daqui, pois agora o container controla isso */
+}
+
+/* Opcional: remove as margens padrão do parágrafo para alinhar melhor */
+.texto-logo {
+    margin: 0; 
+    font-family: 'cinzel', serif; /* Coloquei a mesma fonte do título para combinar */
+    background-image: linear-gradient(to right, #e3e152, #ffeee1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.central {
     font-size: 1.35cm;
     font-family: 'cinzel', serif;
     text-align: center;
@@ -14,16 +40,4 @@ body{
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-}
-.icon{
-    width: 40px;
-    top: 1px
-    
-}
-
-.b_p{
-
-}
-.b_p2{
-
 }
