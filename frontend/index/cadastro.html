@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Livro - Biblioteca Dracônica</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img class="icon" src="../icones/logo.png" alt="BD.icon">
+            </a>
+            <p class="texto-logo">Biblioteca <br>Dracônica</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="livros.html">Catálogo</a></li>
+                <li><a href="cadastro.html">Cadastrar Livro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="central">CADASTRAR NOVO LIVRO</h1>
+
+        <section class="form-container">
+            <!-- Form preparado para enviar arquivos (Capas e PDFs) ao Backend -->
+            <form id="formCadastro" enctype="multipart/form-data">
+                <div class="campo">
+                    <label for="titulo">Título do Livro:</label>
+                    <input type="text" id="titulo" name="titulo" required placeholder="Ex: Livro do Jogador D&D 5e">
+                </div>
+
+                <div class="campo">
+                    <label for="sistema">Sistema de RPG:</label>
+                    <select id="sistema" name="sistema" required>
+                        <option value="">Selecione o Sistema</option>
+                        <option value="dnd5e">D&D 5e</option>
+                        <option value="tormenta20">Tormenta20</option>
+                        <option value="vampiro">Vampiro: A Máscara</option>
+                        <option value="callofcthulhu">Call of Cthulhu</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="autor">Autor / Editora:</label>
+                    <input type="text" id="autor" name="autor" placeholder="Ex: Wizards of the Coast">
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição / Sinopse:</label>
+                    <textarea id="descricao" name="descricao" rows="4" placeholder="Escreva um resumo do livro..."></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="capa">Capa do Livro (Imagem):</label>
+                    <input type="file" id="capa" name="capa" accept="image/*" required>
+                </div>
+
+                <div class="campo">
+                    <label for="pdf">Arquivo do Livro (PDF):</label>
+                    <input type="file" id="pdf" name="pdf" accept=".pdf" required>
+                </div>
+
+                <button type="submit" class="btn-enviar">Cadastrar na Biblioteca</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
+    </footer>
+
+    <!-- Script de integração com o backend -->
+    <script src="../js/cadastro.js"></script>
+</body>
+</html>

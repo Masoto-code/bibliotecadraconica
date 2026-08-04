@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Biblioteca Dracônica</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img class="icon" src="../icones/logo.png" alt="BD.icon">
+            </a>
+            <p class="texto-logo">Biblioteca <br>Dracônica</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="livros.html">Catálogo</a></li>
+                <li><a href="cadastro.html">Cadastrar Livro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="central">CATÁLOGO DE LIVROS</h1>
+
+        <!-- Seção de Busca e Filtros -->
+        <section class="busca-container">
+            <form id="formBusca">
+                <input type="search" id="inputBusca" placeholder="Pesquisar por título ou autor...">
+                
+                <select id="selectSistema">
+                    <option value="">Todos os Sistemas</option>
+                    <option value="dnd5e">D&D 5e</option>
+                    <option value="tormenta20">Tormenta20</option>
+                    <option value="vampiro">Vampiro: A Máscara</option>
+                    <option value="callofcthulhu">Call of Cthulhu</option>
+                </select>
+
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <!-- Grid onde os livros carregados via JS serão exibidos -->
+        <section class="catalogo">
+            <div id="gridLivros" class="grid-livros">
+                <!-- Os cards de livro serão inseridos dinamicamente pelo pesquisar.js -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
+    </footer>
+
+    <!-- Scripts de integração -->
+    <script src="../js/pesquisar.js"></script>
+</body>
+</html>
