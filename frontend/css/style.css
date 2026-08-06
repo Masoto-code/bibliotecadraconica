@@ -41,3 +41,12 @@ body {
     background-clip: text;
     color: transparent;
 }
+
+.pesquisa{
+    width: 300px;
+    font-size: 24px;
+     margin: 0 auto;             /* Centraliza blocos horizontalmente */
+    text-align: center;         /* Centraliza o texto por dentro */
+    background: linear-gradient(90deg, #e3e152, #ffeee1);
+
+}
