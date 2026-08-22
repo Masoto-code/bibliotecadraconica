@@ -1,0 +1,22 @@
+{
+    "name": "biblioteca-draconica-backend",
+    "version": "1.0.0",
+    "description": "Backend para a Biblioteca Dracônica - TCC RPG",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js",
+      "dev": "nodemon app.js"
+    },
+    "keywords": ["rpg", "tcc", "express", "backend"],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.19.2",
+      "multer": "^1.4.5-lts.1",
+      "mysql2": "^3.9.7"
+    },
+    "devDependencies": {
+      "nodemon": "^3.1.0"
+    }
+  }
