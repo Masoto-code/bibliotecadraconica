@@ -30,6 +30,19 @@ body {
     color: transparent;
 }
 
+nav a {
+    color: #1e1eff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espaçamento entre os itens */
+}  
+
 .central {
     font-size: 1.35cm;
     font-family: 'cinzel', serif;

@@ -1,86 +1,69 @@
-/* --- CONFIGURAÇÕES GERAIS E PALETA DE CORES --- */
-:root {
-    --cor-fundo: #0d0d0d;       /* Preto profundo */
-    --cor-card: #1a1515;        /* Grafite avermelhado */
-    --cor-texto: #e6e6e6;       /* Branco fosco */
-    --cor-principal: #8b0000;   /* Vermelho Sangue / Dracônico */
-    --cor-destaque: #d4af37;    /* Dourado Ouro */
-    --cor-borda: #3a2f2f;       /* Borda sutil */
-}
-
+/* Configurações Gerais Temáticas */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Cinzel', 'Georgia', serif; /* Fonte clássica/fantasia */
+    font-family: 'Segoe UI', Georgia, serif;
 }
 
 body {
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
+    background-color: #121214;
+    color: #e1e1e6;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* --- HEADER --- */
+/* Cabeçalho */
 header {
-    background-color: var(--cor-card);
-    border-bottom: 2px solid var(--cor-destaque);
+    background-color: #1a1a1e;
+    border-bottom: 2px solid #e3e152;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 5%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-.logo-container .icon {
+.icon {
     width: 50px;
     height: 50px;
     object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.logo-container:hover .icon {
-    transform: scale(1.1) rotate(-5deg);
+    filter: drop-shadow(0 0 5px rgba(255, 62, 62, 0.5));
 }
 
 .texto-logo {
-    color: var(--cor-destaque);
+    color: #fff;
     font-weight: bold;
-    font-size: 1.1rem;
     line-height: 1.2;
     text-transform: uppercase;
+    font-size: 14px;
     letter-spacing: 1px;
 }
 
 nav ul {
     display: flex;
     list-style: none;
-    gap: 25px;
+    gap: 20px;
 }
 
 nav a {
-    color: var(--cor-texto);
+    color: #a8a8b3;
     text-decoration: none;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-    padding-bottom: 5px;
+    font-weight: 600;
+    transition: color 0.2s;
 }
 
 nav a:hover {
-    color: var(--cor-destaque);
-    border-bottom: 2px solid var(--cor-principal);
+    color: #e3e152;
 }
 
-/* --- ÁREA PRINCIPAL --- */
+/* Container Principal */
 main {
     flex: 1;
     display: flex;
@@ -89,85 +72,81 @@ main {
     padding: 40px 20px;
 }
 
-/* Container de Detalhes */
 .detalhes-container {
-    background-color: var(--cor-card);
-    border: 1px solid var(--cor-borda);
+    background-color: #1a1a1e;
     border-radius: 12px;
+    padding: 30px;
     max-width: 900px;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
     gap: 40px;
-    padding: 35px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #29292e;
 }
 
 /* Caixa da Capa */
 .capa-box {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
-.capa-box img {
-    width: 100%;
+#capaLivro {
     max-width: 250px;
+    width: 100%;
     height: auto;
     border-radius: 8px;
-    border: 3px solid var(--cor-destaque);
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    border: 2px solid #e3e152;
+    transition: transform 0.3s;
 }
 
-.capa-box img:hover {
-    transform: translateY(-5px);
+#capaLivro:hover {
+    transform: scale(1.03);
 }
 
 /* Caixa de Informações */
 .info-box {
+    flex: 2;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.info-box h1 {
-    color: var(--cor-destaque);
-    font-size: 2rem;
-    border-bottom: 1px solid var(--cor-principal);
+#tituloLivro {
+    color: #fff;
+    font-size: 32px;
+    border-bottom: 1px solid #29292e;
     padding-bottom: 10px;
 }
 
 .info-box p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: #cccccc;
+    font-size: 16px;
+    color: #c4c4cc;
 }
 
 .info-box strong {
-    color: var(--cor-texto);
+    color: #e3e152;
 }
 
 .info-box h3 {
-    color: var(--cor-destaque);
-    font-size: 1.3rem;
-    margin-top: 15px;
-    text-transform: uppercase;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
+    color: #ffda62;
+    font-size: 18px;
+    margin-top: 10px;
 }
 
 #descricaoLivro {
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    border-left: 3px solid var(--cor-principal);
-    border-radius: 4px;
-    font-style: italic;
+    line-height: 1.6;
+    color: #a8a8b3;
 }
 
-/* --- AVALIAÇÃO POR ESTRELAS --- */
+/* Sistema de Avaliação */
 .avaliacao-container {
     margin-top: 15px;
+    background: #202024;
+    padding: 15px;
+    border-radius: 8px;
 }
 
 .estrelas {
@@ -178,74 +157,70 @@ main {
 
 .estrela {
     font-size: 30px;
-    color: #444; /* Cor apagada inicial */
+    color: #29292e;
     cursor: pointer;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: color 0.2s, transform 0.1s;
 }
 
-.estrela:hover,
-.estrela.active {
-    color: var(--cor-destaque);
-    transform: scale(1.15);
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+.estrela:hover {
+    transform: scale(1.2);
 }
 
-/* --- BOTÃO DE DOWNLOAD --- */
+.estrela.marcada {
+    color: #ffda62;
+    text-shadow: 0 0 8px rgba(255, 218, 98, 0.5);
+}
+
+/* Botão de Download */
 .download-container {
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .btn-download {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--cor-principal) 0%, #5a0000 100%);
-    color: var(--cor-texto);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff3e3e;
+    color: #fff;
     text-decoration: none;
     font-weight: bold;
-    padding: 15px 30px;
+    padding: 14px 28px;
     border-radius: 6px;
-    border: 1px solid var(--cor-destaque);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 62, 62, 0.3);
 }
 
 .btn-download:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(139, 0, 0, 0.4);
-    background: linear-gradient(135deg, #a30000 0%, var(--cor-principal) 100%);
-    color: var(--cor-destaque);
+    background-color: #e3e152;
+    transform: translateY(-2px);
 }
 
-/* --- FOOTER --- */
+.btn-download:active {
+    transform: translateY(0);
+}
+
+/* Rodapé */
 footer {
-    background-color: #080808;
+    background-color: #09090a;
     text-align: center;
     padding: 20px;
-    border-top: 1px solid var(--cor-borda);
-    color: #666;
-    font-size: 0.9rem;
+    color: #7c7c8a;
+    font-size: 14px;
+    border-top: 1px solid #1a1a1e;
 }
 
-/* --- RESPONSIVIDADE (PARA CELULARES) --- */
+/* Responsividade para Celulares */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
         gap: 15px;
         text-align: center;
     }
-
     .detalhes-container {
-        grid-template-columns: 1fr; /* Vira uma única coluna no celular */
-        gap: 25px;
-        padding: 20px;
+        flex-direction: column;
+        align-items: center;
     }
-
-    .capa-box img {
-        max-width: 200px;
-    }
-
-    .info-box h1 {
-        font-size: 1.6rem;
+    .capa-box {
+        width: 100%;
     }
 }
