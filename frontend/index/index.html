@@ -1,43 +1,108 @@
 <!DOCTYPE html>
-<html lang="PtBr">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Draconica</title>
+    <title>Catálogo - Biblioteca Dracônica</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/avaliacao.js"></script>
 </head>
 <body>
-    
-    <header>
-        <div class="logo-container">
-                <img class="icon" src="../icones/logo.png" alt="BD.icon">
-            </a>
-            <p class="texto-logo">Biblioteca <br>Dracônica</p>
-        </div>
 
+    <!-- Cabeçalho (Baseado na imagem 1) -->
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo2" src="../icones/logo.png" alt="...">
+            <h1>BIBLIOTECA DRACÔNICA</h1>
+        </div>
         <nav>
-            <ul class="menu">
-                <li><a href="detalhes.html">Detalhes</a></li>
-                <li><a href="livros.html">Catálogo</a></li>
-            </ul>
+            <a href="#">Início</a>
+            <a href="#" class="active">Catálogo</a>
         </nav>
     </header>
 
+    <main>
+        <!-- Seção de Busca (Simplificada da imagem 2) -->
+        <section class="hero-search">
+            <h2>Biblioteca Draconica</h2>
+            <p>Todo saber que já foi gravado em pedra, pergaminho ou pixel.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar grimórios, sistemas, autores...">
+                <button type="button">Buscar</button>
+            </div>
+        </section>
 
-    <!-- Agrupamos a logo e o texto em um container -->
-    <div class="logo-container">
-        <img  src="../icones/logo.png" class="icon" alt="BD.icon">
-        <p class="texto-logo">Biblioteca <br>Draconica</p>
-    </div>
+        <!-- Catálogo e Filtros (Baseado na imagem 3) -->
+        <section class="catalog-section">
+            <div class="filters">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">D&D 5E</button>
+                <button class="filter-btn">Tormenta 20</button>
+                <button class="filter-btn">Ordem Paranormal</button>
+                <button class="filter-btn">Outros Sistemas</button>
+            </div>
 
-    <h1 class="central">BIBLIOTECA DRACONICA</h1>
-    <form class="pesquisa" action="/buscar" method="get">
-    <input type="search" name="q" placeholder="..." required>
-    <button type="submit">Pesquisar</button>
-</form>
+            <!-- Grade de Livros -->
+            <div class="book-grid">
+                
+                <!-- Cartão de Livro 1 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Livro do Jogador</h3>
+                        <p>O guia essencial para criação de personagens e regras fundamentais.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Cartão de Livro 2 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <span class="tag">Bestiário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Ameaças de Arton</h3>
+                        <p>Centenas de criaturas e bestas para povoar suas campanhas.</p>
+                        <a href="download.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Cartão de Livro 3 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Ordem Paranormal</span>
+                        <h3>Livro Básico</h3>
+                        <p>Regras completas para investigar e combater o paranormal.</p>
+                        <a href="download.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Cartão de Livro 4 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <span class="tag">Suplemento</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Guia do Mestre</h3>
+                        <p>Ferramentas e segredos para conduzir aventuras épicas.</p>
+                        <a href="download.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
+    </footer>
 
 </body>
-<footer>
-</footer>S
 </html>

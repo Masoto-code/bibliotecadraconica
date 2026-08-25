@@ -1,65 +1,252 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+/* Configurações Globais e Variáveis de Cor */
+:root {
+    --bg-color: #0f1011;
+    --header-bg: #17181a;
+    --card-bg: #1e1e24;
+    --accent-color: #facc15; /* Amarelo da logo/linha */
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --btn-bg: #2d2d35;
+    --btn-hover: #3f3f4a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 body {
-    background-color: black;
-    color: white;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
 }
 
-/* Nova regra para agrupar a logo e o texto */
-.logo-container {
-    position: absolute;
-    top: 20px;          /* Distância do topo */
-    left: 40px;         /* Distância da borda esquerda */
-    display: flex;      /* Coloca os itens lado a lado */
-    align-items: center; /* Alinha a imagem e o texto no meio, verticalmente */
-    gap: 15px;          /* Espaçamento entre a imagem e o texto */
+/* ================= HEADER ================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-bg);
+    padding: 15px 50px;
+    border-bottom: 2px solid var(--accent-color); /* A linha amarela da primeira imagem */
 }
 
-.icon {
-    width: 40px;
-    /* A posição foi removida daqui, pois agora o container controla isso */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Opcional: remove as margens padrão do parágrafo para alinhar melhor */
-.texto-logo {
-    margin: 0; 
-    font-family: 'cinzel', serif; /* Coloquei a mesma fonte do título para combinar */
-    background-image: linear-gradient(to right, #e3e152, #ffeee1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+.logo h1 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 nav a {
-    color: #1e1eff;
+    color: var(--text-muted);
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s;
+    margin-left: 20px;
+    font-size: 0.95rem;
+    transition: color 0.3s;
 }
 
-nav ul {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Espaçamento entre os itens */
-}  
+nav a:hover, nav a.active {
+    color: var(--text-main);
+}
 
-.central {
-    font-size: 1.35cm;
-    font-family: 'cinzel', serif;
+/* ================= SEÇÃO DE BUSCA ================= */
+.hero-search {
     text-align: center;
-    position: relative;
-    top: 4.15cm;
-    background-image: linear-gradient(to right, #e3e152, #ffeee1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    padding: 60px 20px;
+    background: linear-gradient(to bottom, #17181a, #0f1011);
 }
 
-.pesquisa{
-    width: 300px;
-    font-size: 24px;
-     margin: 0 auto;             /* Centraliza blocos horizontalmente */
-    text-align: center;         /* Centraliza o texto por dentro */
-    background: linear-gradient(90deg, #e3e152, #ffeee1);
+.hero-search h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
 
+.hero-search p {
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid #333;
+    border-right: none;
+    color: var(--text-main);
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-bar input:focus {
+    border-color: var(--accent-color);
+}
+
+.search-bar button {
+    padding: 12px 25px;
+    background-color: var(--accent-color);
+    color: #000;
+    border: none;
+    font-weight: bold;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.search-bar button:hover {
+    opacity: 0.9;
+}
+
+/* ================= CATÁLOGO E FILTROS ================= */
+.catalog-section {
+    padding: 20px 50px 60px;
+}
+
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    overflow-x: auto;
+}
+
+.filter-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: var(--btn-bg);
+    color: var(--text-main);
+}
+
+.filter-btn.active {
+    background-color: var(--accent-color);
+    color: #000;
+    font-weight: bold;
+}
+
+/* ================= GRADE DE LIVROS (CARDS) ================= */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.book-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.cover-placeholder {
+    height: 300px;
+    background-color: #2a2a35; /* Aqui você pode colocar background-image: url(...) */
+    position: relative;
+    border-bottom: 1px solid #333;
+}
+
+.cover-placeholder .tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--accent-color);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.book-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.book-info .system {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.book-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.book-info p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    flex-grow: 1; /* Empurra o botão para o fundo */
+}
+
+.btn-details {
+    display: block;
+    text-align: center;
+    background-color: var(--btn-bg);
+    color: var(--text-main);
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-details:hover {
+    background-color: var(--btn-hover);
+}
+
+/* ================= FOOTER ================= */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid #222;
+}
+
+.logo2{
+    width: 50px;
+    height: 50px;
 }
