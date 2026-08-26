@@ -8,10 +8,10 @@
 </head>
 <body>
 
-    <!-- Cabeçalho (Baseado na imagem 1) -->
+    <!-- Cabeçalho -->
     <header class="navbar">
         <div class="logo">
-            <img class="logo2" src="../icones/logo.png" alt="...">
+            <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
             <h1>BIBLIOTECA DRACÔNICA</h1>
         </div>
         <nav>
@@ -21,9 +21,9 @@
     </header>
 
     <main>
-        <!-- Seção de Busca (Simplificada da imagem 2) -->
+        <!-- Seção de Busca -->
         <section class="hero-search">
-            <h2>Biblioteca Draconica</h2>
+            <h2>Biblioteca Dracônica</h2>
             <p>Todo saber que já foi gravado em pedra, pergaminho ou pixel.</p>
             <div class="search-bar">
                 <input type="text" placeholder="Buscar grimórios, sistemas, autores...">
@@ -31,22 +31,25 @@
             </div>
         </section>
 
-        <!-- Catálogo e Filtros (Baseado na imagem 3) -->
+        <!-- Catálogo e Filtros -->
         <section class="catalog-section">
             <div class="filters">
                 <button class="filter-btn active">Todos</button>
                 <button class="filter-btn">D&D 5E</button>
                 <button class="filter-btn">Tormenta 20</button>
-                <button class="filter-btn">Ordem Paranormal</button>
-                <button class="filter-btn">Outros Sistemas</button>
+                <button class="filter-btn">Fabula Ultima</button>
             </div>
 
-            <!-- Grade de Livros -->
+            <!-- CATEGORIA: D&D 5E (6 Cards) -->
+            <div class="category-header">
+                <h3>Livros D&D 5E</h3>
+                <hr>
+            </div>
             <div class="book-grid">
-                
-                <!-- Cartão de Livro 1 -->
+                <!-- Card 1 -->
                 <article class="book-card">
                     <div class="cover-placeholder">
+                        <img src="../img/dnd-jogador.jpg" alt="Capa Livro do Jogador" class="book-cover">
                         <span class="tag">Manual Principal</span>
                     </div>
                     <div class="book-info">
@@ -57,45 +60,299 @@
                     </div>
                 </article>
 
-                <!-- Cartão de Livro 2 -->
+                <!-- Card 2 -->
                 <article class="book-card">
                     <div class="cover-placeholder">
-                        <span class="tag">Bestiário</span>
-                    </div>
-                    <div class="book-info">
-                        <span class="system">Tormenta 20</span>
-                        <h3>Ameaças de Arton</h3>
-                        <p>Centenas de criaturas e bestas para povoar suas campanhas.</p>
-                        <a href="download.html" class="btn-details">Ver Detalhes</a>
-                    </div>
-                </article>
-
-                <!-- Cartão de Livro 3 -->
-                <article class="book-card">
-                    <div class="cover-placeholder">
-                        <span class="tag">Manual Principal</span>
-                    </div>
-                    <div class="book-info">
-                        <span class="system">Ordem Paranormal</span>
-                        <h3>Livro Básico</h3>
-                        <p>Regras completas para investigar e combater o paranormal.</p>
-                        <a href="download.html" class="btn-details">Ver Detalhes</a>
-                    </div>
-                </article>
-
-                <!-- Cartão de Livro 4 -->
-                <article class="book-card">
-                    <div class="cover-placeholder">
+                        <img src="../img/dnd-mestre.jpg" alt="Capa Guia do Mestre" class="book-cover">
                         <span class="tag">Suplemento</span>
                     </div>
                     <div class="book-info">
                         <span class="system">D&D 5E</span>
                         <h3>Guia do Mestre</h3>
                         <p>Ferramentas e segredos para conduzir aventuras épicas.</p>
-                        <a href="download.html" class="btn-details">Ver Detalhes</a>
+                        <a href="../index/detalhes1.html" class="btn-details">Ver Detalhes</a>
                     </div>
                 </article>
 
+                <!-- Card 3 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/dnd-monstros.jpg" alt="Capa Manual dos Monstros" class="book-cover">
+                        <span class="tag">Bestiário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Manual dos Monstros</h3>
+                        <p>Uma horda de criaturas clássicas para desafiar os jogadores.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/dnd-xanathar.jpg" alt="Capa Guia de Xanathar" class="book-cover">
+                        <span class="tag">Suplemento</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Guia de Xanathar</h3>
+                        <p>Novas subclasses, magias e ferramentas para expandir o jogo.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 5 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/dnd-valdas.jpg" alt="Capa Valda's Spire of Secrets" class="book-cover">
+                        <span class="tag">Homebrew Oficial</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Valda's Spire of Secrets</h3>
+                        <p>Expansão massiva com novas classes, raças e mecânicas.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 6 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/dnd-ficha.jpg" alt="Ficha de Personagem D&D" class="book-cover">
+                        <span class="tag">Acessório</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Ficha de Personagem</h3>
+                        <p>Modelos oficiais e customizados para registrar seus heróis em D&D.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- CATEGORIA: TORMENTA 20 (6 Cards) -->
+            <div class="category-header">
+                <h3>Livros Tormenta 20</h3>
+                <hr>
+            </div>
+            <div class="book-grid">
+                <!-- Card 7 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-basico.jpg" alt="Capa Livro Básico T20" class="book-cover">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Livro do Jogador Básico</h3>
+                        <p>O guia completo para jogar no maior cenário do Brasil.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 8 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-ameacas.jpg" alt="Capa Ameaças de Arton" class="book-cover">
+                        <span class="tag">Bestiário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Ameaças de Arton</h3>
+                        <p>Centenas de criaturas e bestas para povoar suas campanhas.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 9 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-herois.jpg" alt="Capa Heróis de Arton" class="book-cover">
+                        <span class="tag">Suplemento</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Heróis de Arton</h3>
+                        <p>Novas opções de poderes, raças e classes para seus personagens.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 10 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-deuses.jpg" alt="Capa Deuses de Arton" class="book-cover">
+                        <span class="tag">Suplemento</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Deuses de Arton</h3>
+                        <p>Detalhes profundos sobre o Panteão e regras divinas.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 11 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-atlas.jpg" alt="Capa Atlas de Arton" class="book-cover">
+                        <span class="tag">Cenário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Atlas de Arton</h3>
+                        <p>Geografia, reinos e a história completa do mundo de Arton.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 12 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-ficha.jpg" alt="Ficha de Personagem T20" class="book-cover">
+                        <span class="tag">Acessório</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Ficha de Personagem</h3>
+                        <p>Folhas de registro otimizadas para os heróis de Arton.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- CATEGORIA: FABULA ULTIMA (9 Cards) -->
+            <div class="category-header">
+                <h3>Livros Fabula Ultima</h3>
+                <hr>
+            </div>
+            <div class="book-grid">
+                <!-- Card 13 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-basico.jpg" alt="Capa Fabula Ultima Básico" class="book-cover">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Livro Básico</h3>
+                        <p>O TTJRPG inspirado nos clássicos dos videogames.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 14 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-mestre.jpg" alt="Capa Guia do Mestre FU" class="book-cover">
+                        <span class="tag">Suplemento</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Guia do Mestre</h3>
+                        <p>Ferramentas avançadas para narrar campanhas inesquecíveis.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 15 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-techno.jpg" alt="Capa Atlas Techno Fantasy" class="book-cover">
+                        <span class="tag">Cenário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Atlas Techno Fantasy</h3>
+                        <p>Mergulhe em mundos de tecnologia, rebelião e mechas.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 16 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-high.jpg" alt="Capa Atlas High Fantasy" class="book-cover">
+                        <span class="tag">Cenário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Atlas High Fantasy</h3>
+                        <p>Magia antiga, impérios flutuantes e grandes sagas heroicas.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 17 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-start.jpg" alt="Capa Aperte Start" class="book-cover">
+                        <span class="tag">Aventura</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Aperte Start</h3>
+                        <p>A aventura tutorial perfeita para iniciar no sistema.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 18 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-codex.jpg" alt="Capa Codex Extra" class="book-cover">
+                        <span class="tag">Suplemento</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Codex Extra</h3>
+                        <p>Materiais adicionais, regras opcionais e novos inimigos.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 19 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-natural.jpg" alt="Capa Natural Fantasy" class="book-cover">
+                        <span class="tag">Cenário</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Natural Fantasy</h3>
+                        <p>Explore cenários focados em harmonia, natureza e exploração.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 20 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-estilo.jpg" alt="Capa Guia do Estilo" class="book-cover">
+                        <span class="tag">Acessório</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Guia do Estilo</h3>
+                        <p>Dicas artísticas e tropos narrativos para imersão total.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 21 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-ficha.jpg" alt="Ficha de Personagem Fabula Ultima" class="book-cover">
+                        <span class="tag">Acessório</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Ficha de Personagem</h3>
+                        <p>Layouts limpos e organizados para acompanhar seus atributos e laços.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
             </div>
         </section>
     </main>
