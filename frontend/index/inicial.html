@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Biblioteca Dracônica</title>
+    <link rel="stylesheet" href="../css/inicial.css">
+    <link rel="stylesheet" href="../js/tema.js">
+    <!-- Script direto no HEAD para evitar piscar a tela -->
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Cabeçalho idêntico ao do catálogo -->
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+            <h1>BIBLIOTECA DRACÔNICA</h1>
+        </div>
+        <nav>
+            <a href="index.html" class="active">Início</a>
+            <a href="livros.html">Catálogo</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Boas-vindas (Mantendo o estilo simples da sua seção de busca) -->
+        <section class="hero-simple">
+            <h2>Bem-vindo à Guilda</h2>
+            <p>Explore nosso vasto acervo de RPG, organize suas campanhas e baixe os melhores suplementos.</p>
+            <a href="livros.html" class="btn-primary">Ver Catálogo Completo</a>
+        </section>
+
+        <!-- Destaques (Usando exatamente a mesma estrutura de Cards do Catálogo) -->
+        <section class="catalog-section">
+            <div class="category-header">
+                <h3>Tomos em Destaque</h3>
+                <hr>
+            </div>
+            
+            <div class="book-grid">
+                <!-- Card 1 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../imagens/livro do jogador dnd.jpg.jpeg" alt="Capa Livro do Jogador" class="book-cover">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">D&D 5E</span>
+                        <h3>Livro do Jogador</h3>
+                        <p>O guia essencial para criação de personagens e regras fundamentais.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/t20-basico.jpg" alt="Capa Livro Básico T20" class="book-cover">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Tormenta 20</span>
+                        <h3>Livro do Jogador Básico</h3>
+                        <p>O guia completo para jogar no maior cenário do Brasil.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="book-card">
+                    <div class="cover-placeholder">
+                        <img src="../img/fu-basico.jpg" alt="Capa Fabula Ultima Básico" class="book-cover">
+                        <span class="tag">Manual Principal</span>
+                    </div>
+                    <div class="book-info">
+                        <span class="system">Fabula Ultima</span>
+                        <h3>Livro Básico</h3>
+                        <p>O TTJRPG inspirado nos clássicos dos videogames.</p>
+                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Chamada extra (ferramentas) mantendo o design flat e simples -->
+        <section class="ferramentas-simples">
+            <div class="category-header">
+                <h3>Acesso Restrito</h3>
+                <hr>
+            </div>
+            <div class="ferramentas-box">
+                <p>Crie uma conta para favoritar grimórios, avaliar os livros e fazer downloads diretos para o seu dispositivo.</p>
+                <a href="login.html" class="btn-secondary">Fazer Login ou Cadastro</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé idêntico -->
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
+    </footer>
+<!-- Antes de fechar a tag </body> -->
+    <script src="../js/tema.js"></script>
+</body>
+</body>
+</html>

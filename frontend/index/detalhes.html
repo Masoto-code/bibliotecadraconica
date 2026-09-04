@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Livro - Biblioteca Dracônica</title>
     <link rel="stylesheet" href="../css/detalhes.css">
+    <link rel="stylesheet" href="../js/tema.js"
     <script src="../js/detalhes.js"></script>
+    <!-- Script direto no HEAD para evitar piscar a tela -->
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
 </head>
 <body>
 
@@ -21,8 +28,11 @@
             <ul>
                 <li><a href="index.html">Início</a></li>
                 <li><a href="livros.html">Catálogo</a></li>
+                <a href="login.html" class="btn-login">Entrar</a>
+                    <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
             </ul>
         </nav>
+    
     </header>
 
     <main>
@@ -68,5 +78,8 @@
     <!-- Scripts da página -->
     <script src="../js/download.js"></script>
     <script src="../js/avaliacao.js"></script>
+        <!-- Antes de fechar a tag </body> -->
+    <script src="../js/tema.js"></script>
+</body>
 </body>
 </html>
