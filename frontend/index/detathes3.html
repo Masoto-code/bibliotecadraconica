@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Livro - Biblioteca Dracônica</title>
+    <link rel="stylesheet" href="../css/detalhes.css">
+    <link rel="stylesheet" href="../js/tema.js"
+    <script src="../js/detalhes.js"></script>
+    <!-- Script direto no HEAD para evitar piscar a tela -->
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img class="icon" src="../icones/logo.png" alt="BD.icon">
+            </a>
+            <p class="texto-logo">Biblioteca <br>Dracônica</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="livros.html">Catálogo</a></li>
+                <a href="login.html" class="btn-login">Entrar</a>
+                    <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+            </ul>
+        </nav>
+    
+    </header>
+
+    <main>
+        <article class="detalhes-container">
+            <div class="capa-box">
+                <img id="capaLivro" src="../imagens/GDXPTAC.png" alt="Capa do Livro">
+            </div>
+
+            <div class="info-box">
+                <h1 id="tituloLivro">Guia de Xanathar para todas as coisas</h1>
+                <p><strong>Autor/Editora:</strong> Wizards of the Coast <span id="autorLivro">-</span></p>
+                <p><strong>Sistema:</strong> primeiro grande suplemento de regras para a 5ª edição de D&D <span id="sistemaLivro">-</span></p>
+                
+                <h3>Sinopse</h3>
+                <p id="descricaoLivro">Guia de Xanathar sobre Tudo é o primeiro grande suplemento de regras para a 5ª edição de D&D, trazendo novas opções de jogo tanto para mestres quanto para jogadores sob a perspectiva cômica de um observador criminoso.</p>
+
+                <!-- Avaliação por Estrelas -->
+                <div class="avaliacao-container">
+                    <h3>Avaliar este tomo:</h3>
+                    <div class="estrelas" id="estrellasBox">
+                        <span class="estrela" data-value="1">★</span>
+                        <span class="estrela" data-value="2">★</span>
+                        <span class="estrela" data-value="3">★</span>
+                        <span class="estrela" data-value="4">★</span>
+                        <span class="estrela" data-value="5">★</span>
+                    </div>
+                </div>
+
+                <!-- Botão de Download -->
+                <div class="download-container">
+                    <a id="btnDownload" href="https://drive.google.com/uc?export=download&id=1f_xF5Uf9klmDBrF60OQFFkB8O7IG3hfg" download class="btn-download">
+                        📥 Baixar PDF do Livro
+                    </a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
+    </footer>
+
+    <!-- Scripts da página -->
+    <script src="../js/download.js"></script>
+    <script src="../js/avaliacao.js"></script>
+        <!-- Antes de fechar a tag </body> -->
+    <script src="../js/tema.js"></script>
+</body>
+</body>
+</html>
