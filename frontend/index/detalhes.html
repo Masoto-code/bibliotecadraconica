@@ -4,70 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Livro - Biblioteca Dracônica</title>
-    <link rel="stylesheet" href="../css/detalhes.css">
-    <link rel="stylesheet" href="../js/tema.js"
-    <script src="../js/detalhes.js"></script>
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/detalhes.css">
     <!-- Script direto no HEAD para evitar piscar a tela -->
     <script>
         if (localStorage.getItem('tema') === 'claro') {
             document.documentElement.classList.add('light-theme');
         }
     </script>
+    <style>
+        .btn-compra {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            padding: 14px 28px;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-compra:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.45);
+            opacity: 0.95;
+        }
+        .btn-financiamento {
+            background: #8b5cf6 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35) !important;
+        }
+        .btn-financiamento:hover {
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
+        }
+        .comentario-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .avaliacao-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-container">
-            <a href="index.html">
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
                 <img class="icon" src="../icones/logo.png" alt="BD.icon">
+                <p class="texto-logo">Biblioteca <br>Dracônica</p>
             </a>
-            <p class="texto-logo">Biblioteca <br>Dracônica</p>
         </div>
 
         <nav>
             <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="livros.html">Catálogo</a></li>
-                <a href="login.html" class="btn-login">Entrar</a>
-                    <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+                <li><a href="inicial.html">Início</a></li>
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="forum.html">Fórum</a></li>
+                <li><a href="login.html" class="btn-login">Entrar</a></li>
+                <li><button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button></li>
             </ul>
         </nav>
-    
     </header>
 
     <main>
-        <article class="detalhes-container">
-            <div class="capa-box">
-                <img id="capaLivro" src="../imagens/livro do jogador dnd.jpg.jpeg" alt="Capa do Livro">
-            </div>
+        <article class="detalhes-container" style="flex-direction: column; background: var(--card-bg); border-color: var(--border-color);">
+            <div style="display: flex; gap: 40px; width: 100%; flex-wrap: wrap;">
+                <div class="capa-box">
+                    <img id="capaLivro" src="../imagens/livro do jogador dnd.jpg.jpeg" alt="Capa do Livro">
+                </div>
 
-            <div class="info-box">
-                <h1 id="tituloLivro">Dungeon and Dragons</h1>
-                <p><strong>Autor/Editora:</strong> Gary Gygax e Dave Arneson<span id="autorLivro">-</span></p>
-                <p><strong>Sistema:</strong> é o mais famoso e tradicional sistema de RPG de mesa do mundo<span id="sistemaLivro">-</span></p>
-                
-                <h3>Sinopse</h3>
-                <p id="descricaoLivro">é o jogo de RPG de mesa (papel, lápis e dados) mais famoso do mundo. Criado em 1974 por Gary Gygax e Dave Arneson, ele funciona como uma história interativa de fantasia medieval, onde um grupo de jogadores cria heróis próprios para explorar mundos mágicos, lutar contra monstros e resolver missões guiados pela imaginação.</p>
+                <div class="info-box" style="flex: 2; min-width: 300px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                        <h1 id="tituloLivro" style="color: var(--text-main); border-bottom-color: var(--border-color);">Dungeons & Dragons</h1>
+                        <div id="mediaNotaBadge" style="background: var(--badge-bg); border: 1px solid var(--badge-border); padding: 6px 14px; border-radius: 20px; font-weight: bold; color: var(--badge-text); margin-top: 5px;">
+                            <span id="mediaNotaTexto">5.0 ★</span> <small id="totalAvaliacoesTexto" style="color: var(--text-muted); font-weight: normal;">(0 avaliações)</small>
+                        </div>
+                    </div>
+                    
+                    <p style="color: var(--text-muted);"><strong>Autor/Editora:</strong> <span id="autorLivro" style="color: var(--text-main);">Gary Gygax e Dave Arneson</span></p>
+                    <p style="color: var(--text-muted);"><strong>Sistema:</strong> <span id="sistemaLivro" style="color: var(--text-main);">D&D 5E</span></p>
+                    
+                    <h3 style="color: var(--accent-color);">Sinopse</h3>
+                    <p id="descricaoLivro" style="color: var(--text-main); line-height: 1.6;">O jogo de RPG de mesa mais famoso do mundo. Funciona como uma história interativa de fantasia medieval onde os jogadores criam heróis próprios para explorar mundos mágicos, combater monstros e desvendar mistérios épicos.</p>
 
-                <!-- Avaliação por Estrelas -->
-                <div class="avaliacao-container">
-                    <h3>Avaliar este tomo:</h3>
-                    <div class="estrelas" id="estrellasBox">
-                        <span class="estrela" data-value="1">★</span>
-                        <span class="estrela" data-value="2">★</span>
-                        <span class="estrela" data-value="3">★</span>
-                        <span class="estrela" data-value="4">★</span>
-                        <span class="estrela" data-value="5">★</span>
+                    <!-- Botão de Compra ou Financiamento Coletivo -->
+                    <div class="acao-container" id="acaoContainer" style="margin-top: 25px;">
+                        <a id="btnAcaoLivro" href="#" target="_blank" rel="noopener noreferrer" class="btn-compra">
+                            🛒 Compre o Livro
+                        </a>
                     </div>
                 </div>
-
-                <!-- Botão de Download -->
-                <div class="download-container">
-                    <a id="btnDownload" href="../uploads/ldj.pdf" download class="btn-download">
-                        📥 Baixar PDF do Livro
-                    </a>
-                </div>
             </div>
+
+            <!-- Divisor Dracônico -->
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 35px 0; width: 100%;">
+
+            <!-- Seção de Avaliação e Comentário -->
+            <section class="secao-avaliacoes" style="width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="color: var(--accent-color); font-size: 1.5rem;">⭐ Avaliações & Resenhas dos Aventureiros</h2>
+                </div>
+
+                <!-- Formulário para envio de avaliação -->
+                <div class="avaliacao-box">
+                    <h3 style="color: var(--text-main); margin-bottom: 12px; font-size: 1.2rem;">Deixe sua Avaliação e Comentário sobre este Tomo:</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">Sua Nota (Clique para escolher):</label>
+                        <div class="estrelas" id="estrellasBox" style="font-size: 2rem;">
+                            <span class="estrela" data-value="1">★</span>
+                            <span class="estrela" data-value="2">★</span>
+                            <span class="estrela" data-value="3">★</span>
+                            <span class="estrela" data-value="4">★</span>
+                            <span class="estrela" data-value="5">★</span>
+                        </div>
+                        <span id="notaFeedback" style="font-size: 0.9rem; color: var(--accent-color); margin-top: 5px; display: inline-block;"></span>
+                    </div>
+
+                    <form id="formAvaliacaoLivro">
+                        <input type="hidden" id="avaliacaoNotaInput" value="5">
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label for="usuarioNome" style="display: block; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">Seu Nome ou Apelido de Mesa:</label>
+                            <input type="text" id="usuarioNome" placeholder="Ex: Gandalf, o Cinzento" style="width: 100%; padding: 10px 14px; font-size: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label for="usuarioComentario" style="display: block; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">Comentário / Resenha:</label>
+                            <textarea id="usuarioComentario" rows="3" placeholder="O que você achou das regras, ilustrações e suplementos deste livro? Vale a pena na sua mesa?" style="width: 100%; padding: 12px 14px; font-size: 1rem; resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-compra" style="font-size: 1rem; padding: 12px 24px;">
+                            📜 Enviar Avaliação e Comentário
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Lista de Avaliações / Comentários dos Usuários -->
+                <div id="listaComentariosLivro">
+                    <div style="text-align: center; color: var(--text-muted); padding: 20px;">
+                        Carregando resenhas dos aventureiros...
+                    </div>
+                </div>
+            </section>
         </article>
     </main>
 
@@ -76,10 +168,9 @@
     </footer>
 
     <!-- Scripts da página -->
-    <script src="../js/download.js"></script>
-    <script src="../js/avaliacao.js"></script>
-        <!-- Antes de fechar a tag </body> -->
-    <script src="../js/tema.js"></script>
-</body>
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/detalhes.js"></script>
+    <script src="../static/staticjs/avaliacao.js"></script>
 </body>
 </html>

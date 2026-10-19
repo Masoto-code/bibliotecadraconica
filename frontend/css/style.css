@@ -1,54 +1,18 @@
-/* Configurações Globais - Adicione/Substitua no topo */
-/* No seu css (index.css, style.css, etc) */
-:root {
-    --bg-color: #0f1011;
-    --header-bg: #17181a;
-    --card-bg: #1e1e24;
-    --accent-color: #facc15;
-    --text-main: #f3f4f6;
-    --text-muted: #d1d5db;
-    --btn-bg: #2d2d35;
-    --border-color: #333;
-}
+/* =========================================================
+   ESTILOS PRINCIPAIS DO CATÁLOGO - BIBLIOTECA DRACÔNICA
+   Integrado com theme.css para Temas Escuro e Claro Perfeitos
+   ========================================================= */
 
-/* O Tema Claro aplicado na raiz do documento */
-:root.light-theme {
-    --bg-color: #f3f4f6;
-    --header-bg: #ffffff;
-    --card-bg: #ffffff;
-    --accent-color: #d97706; /* Dourado ajustado para não doer a visão no fundo branco */
-    --text-main: #1f2937;
-    --text-muted: #4b5563;
-    --btn-bg: #e5e7eb;
-    --border-color: #d1d5db;
-}
-
-/* Estilo do botão no Header */
-.btn-theme {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-left: 20px;
-    transition: all 0.3s;
-}
-
-.btn-theme:hover {
-    background: var(--btn-bg);
-}
-
-/* Tamanho de fonte maior para acessibilidade */
 html {
-    font-size: 110%; /* Aumenta a base de 16px para aprox 17.6px */
+    font-size: 110%;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
+    margin: 0;
+    padding: 0;
 }
 
 /* ================= HEADER ================= */
@@ -68,47 +32,55 @@ body {
 }
 
 .logo h1 {
-    font-size: 1.4rem; /* Fonte aumentada */
+    font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: 1px;
+    color: var(--text-main);
 }
 
 .logo2 {
-    width: 60px; /* Levemente maior para acompanhar a fonte */
+    width: 60px;
     height: 60px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
 }
 
 nav a {
     color: var(--text-muted);
     text-decoration: none;
     margin-left: 20px;
-    font-size: 1.1rem; /* Fonte aumentada */
-    font-weight: 500;
+    font-size: 1.05rem;
+    font-weight: 600;
     transition: color 0.3s;
 }
 
 nav a:hover, nav a.active {
-    color: var(--accent-color); /* Destaque melhor na navegação */
+    color: var(--accent-color);
 }
 
 /* ================= SEÇÃO DE BUSCA ================= */
 .hero-search {
     text-align: center;
     padding: 70px 20px;
-    background: linear-gradient(to bottom, #17181a, #0f1011);
+    background: var(--hero-bg);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .hero-search h2 {
-    font-size: 2.8rem; /* Fonte aumentada */
+    font-size: 2.8rem;
     margin-bottom: 10px;
-    font-weight: 300;
-    letter-spacing: 2px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text-main);
 }
 
 .hero-search p {
     color: var(--text-muted);
     font-style: italic;
-    font-size: 1.2rem; /* Fonte aumentada */
+    font-size: 1.2rem;
     margin-bottom: 30px;
 }
 
@@ -121,9 +93,9 @@ nav a:hover, nav a.active {
 
 .search-bar input {
     width: 100%;
-    padding: 15px 20px; /* Área de clique maior */
-    background-color: var(--card-bg);
-    border: 1px solid #444; /* Borda mais visível */
+    padding: 15px 20px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
     border-right: none;
     color: var(--text-main);
     border-radius: 6px 0 0 6px;
@@ -138,54 +110,59 @@ nav a:hover, nav a.active {
 .search-bar button {
     padding: 15px 30px;
     background-color: var(--accent-color);
-    color: #000;
-    border: none;
+    color: var(--accent-text);
+    border: 1px solid var(--accent-color);
     font-size: 1.1rem;
     font-weight: bold;
     border-radius: 0 6px 6px 0;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
 }
 
 .search-bar button:hover {
-    background-color: #eab308; /* Tom de amarelo mais escuro no hover */
+    opacity: 0.92;
 }
 
 /* ================= CATÁLOGO E FILTROS ================= */
 .catalog-section {
-    padding: 20px 50px 80px;
+    padding: 30px 50px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .filters {
     display: flex;
     gap: 15px;
     margin-bottom: 40px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 20px;
     overflow-x: auto;
 }
 
 .filter-btn {
-    background: transparent;
+    background: var(--btn-bg);
     color: var(--text-muted);
-    border: 1px solid transparent;
-    font-size: 1.05rem; /* Fonte aumentada */
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
     cursor: pointer;
     padding: 10px 20px;
     border-radius: 6px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
 }
 
 .filter-btn:hover {
-    background-color: var(--btn-bg);
-    color: var(--text-main);
+    background-color: var(--card-bg);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .filter-btn.active {
     background-color: var(--accent-color);
-    color: #000;
+    color: var(--accent-text);
+    border-color: var(--accent-color);
     font-weight: bold;
 }
 
@@ -209,68 +186,63 @@ nav a:hover, nav a.active {
     flex-grow: 1;
     border: none;
     height: 2px;
-    background-color: #333;
+    background-color: var(--border-color);
 }
 
 /* ================= GRADE DE LIVROS (CARDS) ================= */
 .book-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Cards levemente mais largos para a fonte maior */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
 }
 
 .book-card {
     background-color: var(--card-bg);
-    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-sm);
 }
 
 .book-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border-bottom: 3px solid var(--accent-color);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-color);
 }
 
 .cover-placeholder {
-    height: 320px; /* Aumentado um pouco para dar mais espaço à arte */
-    background-color: #2a2a35;
+    height: 320px;
+    background-color: var(--input-bg);
     position: relative;
-    border-bottom: 1px solid #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; /* Garante que a imagem respeite as bordas arredondadas do card */
+    overflow: hidden;
 }
 
-/* Estilo para a imagem de capa inserida no HTML */
 .book-cover {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Faz a imagem preencher o espaço sem amassar ou esticar */
+    object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-/* Efeito visual legal na imagem ao passar o mouse */
 .book-card:hover .book-cover {
     transform: scale(1.05);
 }
 
-.cover-placeholder .tag {
+.tag {
     position: absolute;
     top: 15px;
     right: 15px;
-    background-color: rgba(0, 0, 0, 0.85);
-    color: var(--accent-color);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
     padding: 6px 12px;
-    font-size: 0.85rem; /* Fonte aumentada */
-    font-weight: 600;
-    border: 1px solid var(--accent-color);
     border-radius: 4px;
-    text-transform: uppercase;
-    z-index: 2; /* Garante que a tag fique por cima da imagem */
+    font-size: 0.85rem;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .book-info {
@@ -280,27 +252,28 @@ nav a:hover, nav a.active {
     flex-grow: 1;
 }
 
-.book-info .system {
-    color: var(--text-muted);
-    font-size: 0.95rem; /* Fonte aumentada */
+.system {
+    color: var(--accent-color);
+    font-size: 0.95rem;
+    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 8px;
-    font-weight: 600;
 }
 
 .book-info h3 {
-    font-size: 1.35rem; /* Fonte aumentada */
+    font-size: 1.35rem;
     margin-bottom: 12px;
     color: var(--text-main);
+    line-height: 1.3;
 }
 
 .book-info p {
-    font-size: 1.05rem; /* Fonte aumentada */
     color: var(--text-muted);
+    font-size: 1rem;
     margin-bottom: 25px;
     flex-grow: 1;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .btn-details {
@@ -308,24 +281,51 @@ nav a:hover, nav a.active {
     text-align: center;
     background-color: var(--btn-bg);
     color: var(--text-main);
-    text-decoration: none;
+    border: 1px solid var(--border-color);
     padding: 12px;
     border-radius: 6px;
-    font-size: 1.05rem; /* Fonte aumentada */
-    font-weight: 600;
-    transition: background 0.3s, color 0.3s;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.05rem;
+    transition: all 0.2s ease;
 }
 
 .btn-details:hover {
     background-color: var(--accent-color);
-    color: #000; /* Botão fica amarelo e texto preto no hover */
+    color: var(--accent-text);
+    border-color: var(--accent-color);
 }
 
-/* ================= FOOTER ================= */
+/* ================= RODAPÉ ================= */
 footer {
     text-align: center;
-    padding: 35px;
+    padding: 30px;
+    background-color: var(--footer-bg);
+    border-top: 1px solid var(--border-color);
     color: var(--text-muted);
-    font-size: 1rem; /* Fonte aumentada */
-    border-top: 1px solid #222;
+    font-size: 1rem;
+    margin-top: 50px;
+}
+
+/* ================= RESPONSIVIDADE ================= */
+@media (max-width: 900px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    nav a {
+        margin: 0;
+    }
+
+    .catalog-section {
+        padding: 20px;
+    }
 }

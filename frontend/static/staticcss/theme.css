@@ -1,0 +1,220 @@
+/* =========================================================
+   SISTEMA DE TEMAS: ESCURO (DRACÔNICO) E CLARO (PERGAMINHO)
+   Biblioteca Dracônica - Cores calibradas para legibilidade e estética
+   ========================================================= */
+
+:root {
+    /* === TEMA ESCURO (PADRÃO) === */
+    --bg-color: #0d0f14;
+    --header-bg: #151821;
+    --card-bg: #1c1f2b;
+    --card-border: #2a2f42;
+    --card-hover: #232737;
+    --hero-bg: linear-gradient(180deg, #151821 0%, #0d0f14 100%);
+    --accent-color: #facc15;
+    --accent-hover: #eab308;
+    --accent-text: #000000;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-subtle: #64748b;
+    --input-bg: #12141c;
+    --input-border: #333a4d;
+    --btn-bg: #272c3d;
+    --border-color: #2a2f42;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --star-empty: #333a4d;
+    --star-active: #facc15;
+    --badge-bg: rgba(250, 204, 21, 0.12);
+    --badge-border: rgba(250, 204, 21, 0.35);
+    --badge-text: #facc15;
+    --footer-bg: #090a0e;
+}
+
+/* === TEMA CLARO (PERGAMINHO / GUILDA REAL) === */
+:root.light-theme {
+    --bg-color: #f6f7fa;
+    --header-bg: #ffffff;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-hover: #f8fafc;
+    --hero-bg: linear-gradient(180deg, #ffffff 0%, #edf1f7 100%);
+    --accent-color: #d97706;
+    --accent-hover: #b45309;
+    --accent-text: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-subtle: #64748b;
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --btn-bg: #f1f5f9;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --star-empty: #cbd5e1;
+    --star-active: #d97706;
+    --badge-bg: rgba(217, 119, 6, 0.12);
+    --badge-border: rgba(217, 119, 6, 0.35);
+    --badge-text: #b45309;
+    --footer-bg: #e2e8f0;
+}
+
+/* Transições suaves ao trocar de tema */
+body, header, nav, section, article, div, input, textarea, select, button, .book-card, .topico-card {
+    transition: background-color 0.25s ease, color 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+header.navbar, header {
+    background-color: var(--header-bg) !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 5% !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+.logo a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.logo2, .icon {
+    width: 55px !important;
+    height: 55px !important;
+    max-width: 55px !important;
+    max-height: 55px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.logo h1, .texto-logo {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    color: var(--text-main) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+}
+
+nav ul {
+    display: flex !important;
+    align-items: center !important;
+    list-style: none !important;
+    gap: 15px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+nav a {
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    transition: color 0.2s ease !important;
+}
+
+nav a:hover, nav a.active {
+    color: var(--accent-color) !important;
+}
+
+footer {
+    background-color: var(--footer-bg) !important;
+    color: var(--text-muted) !important;
+    border-top: 1px solid var(--border-color) !important;
+    text-align: center !important;
+    padding: 24px 20px !important;
+}
+
+/* Botão de Tema */
+.btn-theme {
+    background: var(--btn-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-theme:hover {
+    border-color: var(--accent-color) !important;
+}
+
+/* Botão de Login no Header */
+.btn-login {
+    background-color: var(--btn-bg) !important;
+    border: 1px solid var(--accent-color) !important;
+    color: var(--accent-color) !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-login:hover {
+    background-color: var(--accent-color) !important;
+    color: var(--accent-text) !important;
+}
+
+/* Inputs, Textareas e Selects universais */
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+    background-color: var(--input-bg) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--input-border) !important;
+    border-radius: 6px;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+    border-color: var(--accent-color) !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2);
+}
+
+/* Estrelas universais */
+.estrela, .star {
+    color: var(--star-empty) !important;
+}
+
+.estrela.marcada, .star.active {
+    color: var(--star-active) !important;
+    text-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
+}
+
+/* Modais */
+.modal-content {
+    background: var(--header-bg) !important;
+    border: 1px solid var(--accent-color) !important;
+    color: var(--text-main) !important;
+    box-shadow: var(--shadow-md) !important;
+}

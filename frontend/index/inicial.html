@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início - Biblioteca Dracônica</title>
-    <link rel="stylesheet" href="../css/inicial.css">
-    <link rel="stylesheet" href="../js/tema.js">
+    <title>Biblioteca Dracônica - Acervo & Comunidade RPG de Mesa</title>
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <link rel="stylesheet" href="../static/staticcss/inicial.css">
     <!-- Script direto no HEAD para evitar piscar a tela -->
     <script>
         if (localStorage.getItem('tema') === 'claro') {
@@ -15,99 +16,142 @@
 </head>
 <body>
 
-    <!-- Cabeçalho idêntico ao do catálogo -->
+    <!-- Cabeçalho padronizado da Guilda -->
     <header class="navbar">
         <div class="logo">
-            <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
-            <h1>BIBLIOTECA DRACÔNICA</h1>
+            <a href="inicial.html">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
         </div>
         <nav>
-            <a href="index.html" class="active">Início</a>
-            <a href="livros.html">Catálogo</a>
+            <a href="inicial.html" class="active">Início</a>
+            <a href="index.html">Catálogo</a>
+            <a href="forum.html">Fórum</a>
             <a href="login.html" class="btn-login">Entrar</a>
             <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
         </nav>
     </header>
 
     <main>
-        <!-- Boas-vindas (Mantendo o estilo simples da sua seção de busca) -->
-        <section class="hero-simple">
-            <h2>Bem-vindo à Guilda</h2>
-            <p>Explore nosso vasto acervo de RPG, organize suas campanhas e baixe os melhores suplementos.</p>
-            <a href="livros.html" class="btn-primary">Ver Catálogo Completo</a>
-        </section>
-
-        <!-- Destaques (Usando exatamente a mesma estrutura de Cards do Catálogo) -->
-        <section class="catalog-section">
-            <div class="category-header">
-                <h3>Tomos em Destaque</h3>
-                <hr>
+        <!-- 1. Hero Section Épico -->
+        <section class="hero-epic">
+            <div class="hero-pill">
+                🐉 O Grande Arquivo dos RPGistas de Mesa
             </div>
+            <h2>Descubra Mundos, Domine Regras e <span>Encontre Seus Grimórios</span></h2>
+            <p>O acervo definitivo da guilda para D&D 5ª Edição, Tormenta 20 e Fabula Ultima. Explore tomos oficiais, participe do fórum de regras e saiba onde adquirir seus livros com segurança.</p>
             
-            <div class="book-grid">
-                <!-- Card 1 -->
-                <article class="book-card">
-                    <div class="cover-placeholder">
-                        <img src="../imagens/livro do jogador dnd.jpg.jpeg" alt="Capa Livro do Jogador" class="book-cover">
-                        <span class="tag">Manual Principal</span>
-                    </div>
-                    <div class="book-info">
-                        <span class="system">D&D 5E</span>
-                        <h3>Livro do Jogador</h3>
-                        <p>O guia essencial para criação de personagens e regras fundamentais.</p>
-                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
-                    </div>
-                </article>
+            <div class="hero-actions">
+                <a href="index.html" class="btn-primary-hero">📚 Explorar Catálogo Completo</a>
+                <a href="forum.html" class="btn-secondary-hero">💬 Entrar na Taverna / Fórum</a>
+            </div>
 
-                <!-- Card 2 -->
-                <article class="book-card">
-                    <div class="cover-placeholder">
-                        <img src="../img/t20-basico.jpg" alt="Capa Livro Básico T20" class="book-cover">
-                        <span class="tag">Manual Principal</span>
-                    </div>
-                    <div class="book-info">
-                        <span class="system">Tormenta 20</span>
-                        <h3>Livro do Jogador Básico</h3>
-                        <p>O guia completo para jogar no maior cenário do Brasil.</p>
-                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
-                    </div>
-                </article>
-
-                <!-- Card 3 -->
-                <article class="book-card">
-                    <div class="cover-placeholder">
-                        <img src="../img/fu-basico.jpg" alt="Capa Fabula Ultima Básico" class="book-cover">
-                        <span class="tag">Manual Principal</span>
-                    </div>
-                    <div class="book-info">
-                        <span class="system">Fabula Ultima</span>
-                        <h3>Livro Básico</h3>
-                        <p>O TTJRPG inspirado nos clássicos dos videogames.</p>
-                        <a href="../index/detalhes.html" class="btn-details">Ver Detalhes</a>
-                    </div>
-                </article>
+            <!-- Banner de Estatísticas da Guilda -->
+            <div class="stats-banner">
+                <div class="stat-item">
+                    <span class="stat-number">21+</span>
+                    <span class="stat-label">Grimórios Catalogados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Sistemas Principais</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">⭐ 5.0</span>
+                    <span class="stat-label">Avaliações da Guilda</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Lojas Oficiais & Financiamentos</span>
+                </div>
             </div>
         </section>
 
-        <!-- Chamada extra (ferramentas) mantendo o design flat e simples -->
-        <section class="ferramentas-simples">
-            <div class="category-header">
-                <h3>Acesso Restrito</h3>
-                <hr>
+        <!-- 2. Participe da Taverna dos Aventureiros (Posicionado acima dos sistemas) -->
+        <section class="taverna-top-section">
+            <div class="taverna-box">
+                <span class="taverna-badge">⚔️ FÓRUM & COMUNIDADE DA GUILDA</span>
+                <h3>Participe da Taverna dos Aventureiros</h3>
+                <p>Crie sua ficha de aventureiro gratuita, tire dúvidas sobre regras, debata táticas, avalie tópicos com estrelas e compartilhe suas campanhas e aventuras com mestres e jogadores de todo o reino.</p>
+                
+                <div class="taverna-actions">
+                    <a href="forum.html" class="btn-primary-hero">⚔️ Acessar Fórum da Guilda</a>
+                    <a href="login.html" class="btn-secondary-hero">📜 Criar Conta na Guilda</a>
+                </div>
             </div>
-            <div class="ferramentas-box">
-                <p>Crie uma conta para favoritar grimórios, avaliar os livros e fazer downloads diretos para o seu dispositivo.</p>
-                <a href="login.html" class="btn-secondary">Fazer Login ou Cadastro</a>
+        </section>
+
+        <!-- 3. Navegação por Sistemas de RPG -->
+        <section class="systems-section">
+            <div class="section-title-wrap">
+                <h3>Escolha o seu Sistema de RPG</h3>
+                <p>Navegue diretamente pelos universos mais jogados da guilda</p>
+            </div>
+
+            <div class="systems-grid">
+                <!-- Card Sistema D&D 5E -->
+                <a href="index.html" class="system-box">
+                    <div class="system-icon">🎲</div>
+                    <h4>Dungeons & Dragons 5E</h4>
+                    <p>O mais consagrado sistema de alta fantasia medieval do mundo. Explore masmorras, domine magias lendárias e enfrente dragões ancestrais.</p>
+                    <span class="system-link">Ver Livros de D&D 5E &rarr;</span>
+                </a>
+
+                <!-- Card Sistema Tormenta 20 -->
+                <a href="index.html" class="system-box">
+                    <div class="system-icon">⚔️</div>
+                    <h4>Tormenta 20 (T20)</h4>
+                    <p>O maior cenário de RPG do Brasil. Enfrente a tempestade rubra alienígena em Arton com poderes épicos, 20 divindades e combate dinâmico.</p>
+                    <span class="system-link">Ver Livros de Tormenta 20 &rarr;</span>
+                </a>
+
+                <!-- Card Sistema Fabula Ultima -->
+                <a href="index.html" class="system-box">
+                    <div class="system-icon">🔮</div>
+                    <h4>Fabula Ultima (TTJRPG)</h4>
+                    <p>Inspirado nos clássicos videogames japoneses (Final Fantasy e Dragon Quest). Narrativa compartilhada cinematográfica, laços heroicos e batalhas táticas.</p>
+                    <span class="system-link">Ver Livros de Fabula Ultima &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 4. Vantagens da Guilda -->
+        <section class="guild-features">
+            <div class="section-title-wrap">
+                <h3>Por que a Biblioteca Dracônica?</h3>
+                <p>Tudo o que você precisa reunido em um único santuário</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h4>Onde Adquirir</h4>
+                    <p>Redirecionamos você diretamente para as lojas oficiais (Amazon, Jambô Editora, Need Games) ou campanhas no Catarse e Kickstarter.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h4>Resenhas e Avaliações</h4>
+                    <p>Avalie os livros com notas de 1 a 5 estrelas e leia comentários sinceros deixados por outros mestres e jogadores da comunidade.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h4>Fórum da Guilda</h4>
+                    <p>Participe de discussões sobre balanceamento, debata regras polêmicas, compartilhe ideias de campanhas e monte combos heroicos.</p>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- Rodapé idêntico -->
+    <!-- Rodapé -->
     <footer>
         <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
     </footer>
-<!-- Antes de fechar a tag </body> -->
-    <script src="../js/tema.js"></script>
-</body>
+
+    <!-- Scripts -->
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
 </body>
 </html>

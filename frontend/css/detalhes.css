@@ -1,6 +1,8 @@
+/* =========================================================
+   ESTILOS DE DETALHES DO LIVRO - BIBLIOTECA DRACÔNICA
+   Integrado com theme.css para Temas Escuro e Claro Perfeitos
+   ========================================================= */
 
-
-/* Configurações Gerais Temáticas */
 * {
     margin: 0;
     padding: 0;
@@ -9,17 +11,17 @@
 }
 
 body {
-    background-color: #121214;
-    color: #e1e1e6;
+    background-color: var(--bg-color);
+    color: var(--text-main);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 /* Cabeçalho */
-header {
-    background-color: #1a1a1e;
-    border-bottom: 2px solid #e3e152;
+header.navbar, header {
+    background-color: var(--header-bg);
+    border-bottom: 2px solid var(--accent-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -36,11 +38,11 @@ header {
     width: 50px;
     height: 50px;
     object-fit: contain;
-    filter: drop-shadow(0 0 5px rgba(255, 62, 62, 0.5));
+    filter: drop-shadow(0 0 5px rgba(217, 119, 6, 0.4));
 }
 
 .texto-logo {
-    color: #fff;
+    color: var(--text-main);
     font-weight: bold;
     line-height: 1.2;
     text-transform: uppercase;
@@ -52,17 +54,18 @@ nav ul {
     display: flex;
     list-style: none;
     gap: 20px;
+    align-items: center;
 }
 
 nav a {
-    color: #a8a8b3;
+    color: var(--text-muted);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s;
 }
 
 nav a:hover {
-    color: #e3e152;
+    color: var(--accent-color);
 }
 
 /* Container Principal */
@@ -75,15 +78,15 @@ main {
 }
 
 .detalhes-container {
-    background-color: #1a1a1e;
+    background-color: var(--card-bg);
     border-radius: 12px;
-    padding: 30px;
-    max-width: 900px;
+    padding: 35px;
+    max-width: 950px;
     width: 100%;
     display: flex;
     gap: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid #29292e;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
 }
 
 /* Caixa da Capa */
@@ -95,12 +98,12 @@ main {
 }
 
 #capaLivro {
-    max-width: 250px;
+    max-width: 260px;
     width: 100%;
     height: auto;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-    border: 2px solid #e3e152;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--accent-color);
     transition: transform 0.3s;
 }
 
@@ -117,38 +120,39 @@ main {
 }
 
 #tituloLivro {
-    color: #fff;
+    color: var(--text-main);
     font-size: 32px;
-    border-bottom: 1px solid #29292e;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
 }
 
 .info-box p {
     font-size: 16px;
-    color: #c4c4cc;
+    color: var(--text-muted);
 }
 
 .info-box strong {
-    color: #e3e152;
+    color: var(--accent-color);
 }
 
 .info-box h3 {
-    color: #ffda62;
+    color: var(--accent-color);
     font-size: 18px;
     margin-top: 10px;
 }
 
 #descricaoLivro {
     line-height: 1.6;
-    color: #a8a8b3;
+    color: var(--text-main);
 }
 
 /* Sistema de Avaliação */
 .avaliacao-container {
     margin-top: 15px;
-    background: #202024;
-    padding: 15px;
+    background: var(--card-bg);
+    padding: 20px;
     border-radius: 8px;
+    border: 1px solid var(--border-color);
 }
 
 .estrelas {
@@ -159,7 +163,7 @@ main {
 
 .estrela {
     font-size: 30px;
-    color: #29292e;
+    color: var(--star-empty);
     cursor: pointer;
     transition: color 0.2s, transform 0.1s;
 }
@@ -169,51 +173,23 @@ main {
 }
 
 .estrela.marcada {
-    color: #ffda62;
-    text-shadow: 0 0 8px rgba(255, 218, 98, 0.5);
-}
-
-/* Botão de Download */
-.download-container {
-    margin-top: 20px;
-}
-
-.btn-download {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ff3e3e;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 14px 28px;
-    border-radius: 6px;
-    transition: background 0.2s, transform 0.2s;
-    box-shadow: 0 4px 15px rgba(255, 62, 62, 0.3);
-}
-
-.btn-download:hover {
-    background-color: #e3e152;
-    transform: translateY(-2px);
-}
-
-.btn-download:active {
-    transform: translateY(0);
+    color: var(--star-active);
+    text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
 }
 
 /* Rodapé */
 footer {
-    background-color: #09090a;
+    background-color: var(--footer-bg);
     text-align: center;
-    padding: 20px;
-    color: #7c7c8a;
+    padding: 22px;
+    color: var(--text-muted);
     font-size: 14px;
-    border-top: 1px solid #1a1a1e;
+    border-top: 1px solid var(--border-color);
 }
 
 /* Responsividade para Celulares */
 @media (max-width: 768px) {
-    header {
+    header.navbar, header {
         flex-direction: column;
         gap: 15px;
         text-align: center;
