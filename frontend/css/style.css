@@ -245,6 +245,54 @@ nav a:hover, nav a.active {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Badges de Tipo de Link (Compra / Financiamento / Acervo) */
+.badge-aquisicao {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge-aquisicao-compra {
+    background: rgba(217, 119, 6, 0.9);
+    color: #ffffff;
+    border: 1px solid #f59e0b;
+}
+
+.badge-aquisicao-financiamento {
+    background: rgba(139, 92, 246, 0.92);
+    color: #ffffff;
+    border: 1px solid #c084fc;
+}
+
+.badge-aquisicao-acervo {
+    background: rgba(14, 165, 233, 0.9);
+    color: #ffffff;
+    border: 1px solid #38bdf8;
+}
+
+.badge-tipo-jogo-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    border: 1px solid var(--badge-border);
+    margin-bottom: 6px;
+    align-self: flex-start;
+}
+
 .book-info {
     padding: 25px;
     display: flex;

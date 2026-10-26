@@ -67,8 +67,8 @@ def register():
 
     senha_hash = generate_password_hash(senha)
     cursor.execute('''
-        INSERT INTO usuarios (nome, email, senha_hash, avatar)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO usuarios (nome, email, senha_hash, avatar, bio, status_jogo)
+        VALUES (?, ?, ?, ?, '', 'procurando_campanha')
     ''', (nome, email, senha_hash, avatar))
     user_id = cursor.lastrowid
     conn.commit()
@@ -80,7 +80,9 @@ def register():
             "id": user_id,
             "nome": nome,
             "email": email,
-            "avatar": avatar
+            "avatar": avatar,
+            "bio": "",
+            "status_jogo": "procurando_campanha"
         }
     }), 201
 
@@ -111,18 +113,28 @@ def login():
             "id": usuario['id'],
             "nome": usuario['nome'],
             "email": usuario['email'],
-            "avatar": usuario['avatar']
+            "avatar": usuario['avatar'],
+            "bio": usuario['bio'] if 'bio' in usuario.keys() and usuario['bio'] else "",
+            "status_jogo": usuario['status_jogo'] if 'status_jogo' in usuario.keys() and usuario['status_jogo'] else "procurando_campanha"
         }
     })
 
 
-# ================= ROTAS DA API: LIVROS =================
+# ================= ROTAS DA API: LIVROS & CATÁLOGO DINÂMICO =================
 
 @app.route('/api/livros', methods=['GET'])
 def listar_livros():
-    """Retorna os livros com links de compra/financiamento, busca e filtro por sistema."""
+    """
+    Retorna todos os livros de RPG do acervo com suporte a filtros completos:
+    - tipo_jogo: JJRPG, Fantasia Medieval, Horror Cósmico, Cyberpunk, etc.
+    - tipo_link: compra, financiamento ou todos
+    - sistema: D&D 5E, Fabula Ultima, Tormenta 20, etc.
+    - busca: termo de busca em título, autor, sinopse, sistema e tipo_jogo
+    """
     busca = request.args.get('busca', '').strip()
     sistema = request.args.get('sistema', '').strip()
+    tipo_jogo = request.args.get('tipo_jogo', '').strip()
+    tipo_link = request.args.get('tipo_link', '').strip()
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -138,13 +150,23 @@ def listar_livros():
     params = []
 
     if busca:
-        query += ' AND (l.titulo LIKE ? OR l.autor LIKE ? OR l.sinopse LIKE ? OR l.categoria LIKE ?)'
+        query += ' AND (l.titulo LIKE ? OR l.autor LIKE ? OR l.sinopse LIKE ? OR l.categoria LIKE ? OR l.sistema LIKE ? OR l.tipo_jogo LIKE ?)'
         busca_termo = f'%{busca}%'
-        params.extend([busca_termo, busca_termo, busca_termo, busca_termo])
+        params.extend([busca_termo, busca_termo, busca_termo, busca_termo, busca_termo, busca_termo])
 
     if sistema and sistema.lower() != 'todos':
         query += ' AND l.sistema = ?'
         params.append(sistema)
+
+    if tipo_jogo and tipo_jogo.lower() != 'todos':
+        query += ' AND l.tipo_jogo = ?'
+        params.append(tipo_jogo)
+
+    if tipo_link and tipo_link.lower() != 'todos':
+        if tipo_link.lower() == 'compra':
+            query += " AND l.tipo_link = 'compra'"
+        elif tipo_link.lower() == 'financiamento':
+            query += " AND l.tipo_link = 'financiamento'"
 
     query += ' GROUP BY l.id ORDER BY l.id ASC'
 
@@ -156,6 +178,110 @@ def listar_livros():
         livro['media_nota'] = round(livro['media_nota'], 1)
 
     return jsonify(livros)
+
+
+@app.route('/api/livros/catalogo-completo', methods=['GET'])
+def catalogo_completo():
+    """
+    Retorna todos os livros agrupados por tópicos de Tipo de Jogo (ex: JJRPG, Fantasia Medieval),
+    com contagem de livros para compra direta e em financiamento coletivo.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT l.*, 
+               COALESCE(AVG(a.nota), 0) AS media_nota,
+               COUNT(a.id) AS total_avaliacoes
+        FROM livros l
+        LEFT JOIN avaliacoes a ON l.id = a.livro_id
+        GROUP BY l.id
+        ORDER BY l.tipo_jogo ASC, l.id ASC
+    ''')
+    todos_livros = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+
+    for livro in todos_livros:
+        livro['media_nota'] = round(livro['media_nota'], 1)
+
+    # Agrupa por tipo de jogo
+    grupos = {}
+    total_compra = 0
+    total_financiamento = 0
+
+    for l in todos_livros:
+        tj = l.get('tipo_jogo') or 'Geral'
+        if tj not in grupos:
+            grupos[tj] = []
+        grupos[tj].append(l)
+
+        if l.get('tipo_link') == 'compra':
+            total_compra += 1
+        elif l.get('tipo_link') == 'financiamento':
+            total_financiamento += 1
+
+    return jsonify({
+        "total_livros": len(todos_livros),
+        "total_compra": total_compra,
+        "total_financiamento": total_financiamento,
+        "grupos_por_tipo": grupos,
+        "livros": todos_livros
+    })
+
+
+@app.route('/api/livros', methods=['POST'])
+def adicionar_livro():
+    """Cadastra um novo livro de RPG no catálogo da guilda."""
+    dados = request.get_json() or {}
+    titulo = dados.get('titulo', '').strip()
+    autor = dados.get('autor', '').strip()
+    sistema = dados.get('sistema', '').strip()
+    tipo_jogo = dados.get('tipo_jogo', 'Fantasia Medieval').strip()
+    categoria = dados.get('categoria', 'Manual Principal').strip()
+    sinopse = dados.get('sinopse', '').strip()
+    capa_url = dados.get('capa_url', '').strip() or '../imagens/livro do jogador dnd.jpg.jpeg'
+    link_compra = dados.get('link_compra', '').strip() or None
+    tipo_link = dados.get('tipo_link', None) # 'compra', 'financiamento' ou None
+
+    if not titulo or not autor or not sistema:
+        return jsonify({"erro": "Título, autor e sistema são obrigatórios."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO livros (titulo, autor, sistema, tipo_jogo, categoria, sinopse, capa_url, link_compra, tipo_link, downloads)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+    ''', (titulo, autor, sistema, tipo_jogo, categoria, sinopse, capa_url, link_compra, tipo_link))
+    livro_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "mensagem": "Livro de RPG adicionado com sucesso ao catálogo!",
+        "livro_id": livro_id
+    }), 201
+
+
+@app.route('/api/tipos-jogo', methods=['GET'])
+def listar_tipos_jogo():
+    """Retorna os tipos de jogo disponíveis no catálogo e contagem de grimórios."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT tipo_jogo, 
+               COUNT(id) as total_livros,
+               SUM(CASE WHEN tipo_link = 'compra' THEN 1 ELSE 0 END) as total_compra,
+               SUM(CASE WHEN tipo_link = 'financiamento' THEN 1 ELSE 0 END) as total_financiamento
+        FROM livros
+        GROUP BY tipo_jogo
+        ORDER BY total_livros DESC
+    ''')
+    tipos = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+
+    return jsonify(tipos)
 
 
 @app.route('/api/livros/<int:livro_id>', methods=['GET'])
@@ -281,8 +407,11 @@ def listar_topicos_forum():
     params = []
 
     if sistema and sistema.lower() != 'todos':
-        query += ' AND t.sistema = ?'
-        params.append(sistema)
+        if sistema.upper() in ['JJRPG', 'JRPG']:
+            query += " AND (t.sistema = 'JJRPG' OR t.sistema LIKE '%Fabula%' OR t.sistema LIKE '%Ryuutama%' OR t.titulo LIKE '%JJRPG%' OR t.titulo LIKE '%JRPG%')"
+        else:
+            query += ' AND t.sistema = ?'
+            params.append(sistema)
 
     query += ' GROUP BY t.id ORDER BY t.data_criacao DESC'
 
@@ -407,6 +536,184 @@ def adicionar_comentario_forum(topico_id):
         "mensagem": "Comentário e avaliação adicionados com sucesso!",
         "comentarios": comentarios
     }), 201
+
+
+@app.route('/api/forum/topicos/<int:topico_id>', methods=['DELETE'])
+def excluir_topico_forum(topico_id):
+    """Exclui um tópico do fórum e seus comentários associados."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT id FROM forum_topicos WHERE id = ?', (topico_id,))
+    if not cursor.fetchone():
+        conn.close()
+        return jsonify({"erro": "Tópico não encontrado."}), 404
+
+    cursor.execute('DELETE FROM forum_comentarios WHERE topico_id = ?', (topico_id,))
+    cursor.execute('DELETE FROM forum_topicos WHERE id = ?', (topico_id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"mensagem": "Tópico e comentários removidos com sucesso!"})
+
+
+# ================= ROTAS DE PERSONALIZAÇÃO DE PERFIL E ATIVIDADES =================
+
+@app.route('/api/usuarios/perfil', methods=['GET'])
+def obter_perfil_usuario():
+    """Retorna os dados do perfil do usuário por ID ou Email."""
+    user_id = request.args.get('id')
+    email = request.args.get('email', '').strip().lower()
+
+    if not user_id and not email:
+        return jsonify({"erro": "Parâmetro id ou email é obrigatório."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if user_id:
+        cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE id = ?', (user_id,))
+    else:
+        cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE email = ?', (email,))
+
+    usuario = cursor.fetchone()
+    conn.close()
+
+    if not usuario:
+        return jsonify({"erro": "Aventureiro não encontrado."}), 404
+
+    u_dict = dict(usuario)
+    if not u_dict.get('bio'):
+        u_dict['bio'] = ''
+    if not u_dict.get('status_jogo'):
+        u_dict['status_jogo'] = 'procurando_campanha'
+
+    return jsonify(u_dict)
+
+
+@app.route('/api/usuarios/perfil', methods=['PUT'])
+def atualizar_perfil_usuario():
+    """Atualiza o perfil do usuário: nome, avatar (upload/emoji), bio e status_jogo."""
+    dados = request.get_json() or {}
+    user_id = dados.get('id')
+    email = dados.get('email', '').strip().lower()
+    novo_nome = dados.get('nome', '').strip()
+    novo_avatar = dados.get('avatar', '').strip()
+    nova_bio = dados.get('bio', '').strip()
+    novo_status = dados.get('status_jogo', '').strip()
+
+    if not user_id and not email:
+        return jsonify({"erro": "Identificador do usuário (id ou email) é obrigatório."}), 400
+
+    if not novo_nome:
+        return jsonify({"erro": "O nome do aventureiro não pode ficar em branco."}), 400
+
+    # Validação do status de jogo
+    status_permitidos = ['procurando_campanha', 'procurando_jogadores', 'em_campanha']
+    if novo_status and novo_status not in status_permitidos:
+        novo_status = 'procurando_campanha'
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Localiza o usuário
+    if user_id:
+        cursor.execute('SELECT id, nome FROM usuarios WHERE id = ?', (user_id,))
+    else:
+        cursor.execute('SELECT id, nome FROM usuarios WHERE email = ?', (email,))
+    
+    usuario_antigo = cursor.fetchone()
+    if not usuario_antigo:
+        conn.close()
+        return jsonify({"erro": "Usuário não encontrado."}), 404
+
+    u_id = usuario_antigo['id']
+    nome_antigo = usuario_antigo['nome']
+
+    # Se o nome mudou, podemos sincronizar também os tópicos e comentários anteriores do usuário
+    if novo_nome != nome_antigo:
+        cursor.execute('UPDATE forum_topicos SET autor = ? WHERE autor = ?', (novo_nome, nome_antigo))
+        cursor.execute('UPDATE forum_comentarios SET usuario = ? WHERE usuario = ?', (novo_nome, nome_antigo))
+        cursor.execute('UPDATE avaliacoes SET usuario = ? WHERE usuario = ?', (novo_nome, nome_antigo))
+
+    # Atualiza o perfil
+    cursor.execute('''
+        UPDATE usuarios 
+        SET nome = ?, avatar = COALESCE(NULLIF(?, ''), avatar), bio = ?, status_jogo = ?
+        WHERE id = ?
+    ''', (novo_nome, novo_avatar, nova_bio, novo_status, u_id))
+    conn.commit()
+
+    cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE id = ?', (u_id,))
+    usuario_atualizado = dict(cursor.fetchone())
+    conn.close()
+
+    return jsonify({
+        "mensagem": "Perfil do aventureiro atualizado com sucesso!",
+        "usuario": usuario_atualizado
+    })
+
+
+@app.route('/api/usuarios/atividades', methods=['GET'])
+def atividades_usuario():
+    """Retorna os tópicos criados, tópicos respondidos e avaliações feitas pelo usuário."""
+    nome = request.args.get('nome', '').strip()
+    if not nome:
+        return jsonify({"erro": "Nome do aventureiro é obrigatório."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # 1. Tópicos criados pelo usuário
+    cursor.execute('''
+        SELECT t.*, 
+               COUNT(c.id) as total_comentarios, 
+               COALESCE(AVG(c.avaliacao), 5.0) as media_avaliacao
+        FROM forum_topicos t
+        LEFT JOIN forum_comentarios c ON t.id = c.topico_id
+        WHERE t.autor = ?
+        GROUP BY t.id
+        ORDER BY t.data_criacao DESC
+    ''', (nome,))
+    topicos_criados = [dict(row) for row in cursor.fetchall()]
+    for t in topicos_criados:
+        t['media_avaliacao'] = round(t['media_avaliacao'], 1)
+
+    # 2. Tópicos onde o usuário comentou / respondeu (excluindo os que ele mesmo criou)
+    cursor.execute('''
+        SELECT DISTINCT t.id, t.titulo, t.sistema, t.autor, t.data_criacao,
+               COUNT(all_c.id) as total_comentarios,
+               COALESCE(AVG(all_c.avaliacao), 5.0) as media_avaliacao
+        FROM forum_comentarios c
+        JOIN forum_topicos t ON c.topico_id = t.id
+        LEFT JOIN forum_comentarios all_c ON t.id = all_c.topico_id
+        WHERE c.usuario = ? AND t.autor != ?
+        GROUP BY t.id
+        ORDER BY t.data_criacao DESC
+    ''', (nome, nome))
+    topicos_respondidos = [dict(row) for row in cursor.fetchall()]
+    for t in topicos_respondidos:
+        t['media_avaliacao'] = round(t['media_avaliacao'], 1)
+
+    # 3. Avaliações feitas pelo usuário (em livros)
+    cursor.execute('''
+        SELECT a.id, a.livro_id, a.nota, a.comentario, a.data_criacao,
+               l.titulo as livro_titulo, l.capa_url as livro_capa, l.sistema as livro_sistema
+        FROM avaliacoes a
+        JOIN livros l ON a.livro_id = l.id
+        WHERE a.usuario = ?
+        ORDER BY a.data_criacao DESC
+    ''', (nome,))
+    avaliacoes = [dict(row) for row in cursor.fetchall()]
+
+    conn.close()
+
+    return jsonify({
+        "usuario": nome,
+        "topicos_criados": topicos_criados,
+        "topicos_respondidos": topicos_respondidos,
+        "avaliacoes": avaliacoes
+    })
 
 
 if __name__ == '__main__':

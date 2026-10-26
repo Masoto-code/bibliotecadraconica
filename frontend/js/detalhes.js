@@ -220,6 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (capaEl) {
             capaEl.src = livro.capa_url || livro.capa;
             capaEl.alt = `Capa de ${livro.titulo}`;
+            capaEl.onerror = () => {
+                capaEl.onerror = null;
+                capaEl.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%27300%27%20height%3D%27420%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20300%20420%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%231c1f2b%27%2F%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20fill%3D%27%23facc15%27%20font-size%3D%2716%27%20font-weight%3D%27bold%27%20text-anchor%3D%27middle%27%3EBiblioteca%20Drac%C3%B4nica%3C%2Ftext%3E%3C%2Fsvg%3E";
+            };
         }
 
         // Lógica do botão de compra ou financiamento coletivo
@@ -238,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnCompra.target = '_blank';
             btnCompra.rel = 'noopener noreferrer';
             btnCompra.className = 'btn-compra btn-financiamento';
-            btnCompra.innerHTML = '📦 Apoiar Financiamento Coletivo';
+            btnCompra.innerHTML = 'Apoiar Financiamento Coletivo';
             btnCompra.style.background = '#8b5cf6';
             btnCompra.style.color = '#ffffff';
         } else {
@@ -248,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnCompra.target = '_blank';
             btnCompra.rel = 'noopener noreferrer';
             btnCompra.className = 'btn-compra';
-            btnCompra.innerHTML = '🛒 Compre o Livro';
+            btnCompra.innerHTML = 'Compre o Livro';
             btnCompra.style.background = 'var(--accent-color)';
             btnCompra.style.color = 'var(--accent-text)';
         }

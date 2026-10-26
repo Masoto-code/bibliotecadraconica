@@ -1,6 +1,11 @@
 // Arquivo: avaliacao.js - Sistema de Avaliação com Estrelas e Comentários
 
-document.addEventListener('DOMContentLoaded', () => {
+if (window._draconicaAvaliacaoIniciada) {
+    console.log("Avaliacao já iniciada, ignorando.");
+} else {
+    window._draconicaAvaliacaoIniciada = true;
+
+    document.addEventListener('DOMContentLoaded', () => {
     // Obtém o ID do livro pela URL (ex: detalhes.html?id=2) ou assume 1 por padrão
     const urlParams = new URLSearchParams(window.location.search);
     const livroId = parseInt(urlParams.get('id')) || 1;
@@ -59,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaComentarios = document.getElementById('listaComentariosLivro');
     const mediaNotaEl = document.getElementById('mediaNotaTexto');
     const totalAvaliacoesEl = document.getElementById('totalAvaliacoesTexto');
+    let isSubmittingAvaliacao = false;
 
     // Carrega avaliações da API ou LocalStorage
     carregarAvaliacoes();
@@ -66,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formAvaliacao) {
         formAvaliacao.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            if (isSubmittingAvaliacao) return;
 
             const usuarioInput = document.getElementById('usuarioNome');
             const comentarioInput = document.getElementById('usuarioComentario');
@@ -78,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            isSubmittingAvaliacao = true;
             const dadosAvaliacao = {
                 usuario: usuario || 'Aventureiro Anônimo',
                 nota: notaSelecionada,
@@ -109,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 salvarLocalmente(dadosAvaliacao);
                 alert('✨ Sua avaliação foi registrada localmente (Modo Offline)!');
             } finally {
+                isSubmittingAvaliacao = false;
                 if (submitBtn) {
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Enviar Avaliação e Comentário';
@@ -194,3 +204,4 @@ document.addEventListener('DOMContentLoaded', () => {
         return div.innerHTML;
     }
 });
+}

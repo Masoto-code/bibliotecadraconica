@@ -28,6 +28,7 @@
             <a href="inicial.html">Início</a>
             <a href="index.html">Catálogo</a>
             <a href="forum.html" class="active">Fórum</a>
+            <a href="perfil.html">Meu Perfil</a>
             <a href="login.html" class="btn-login">Entrar</a>
             <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
         </nav>
@@ -44,6 +45,7 @@
         <div class="forum-actions-bar" style="margin-top: 30px;">
             <div class="filters" style="margin: 0;">
                 <button class="filter-btn forum-filter-btn active">Todos</button>
+                <button class="filter-btn forum-filter-btn">JJRPG</button>
                 <button class="filter-btn forum-filter-btn">D&D 5E</button>
                 <button class="filter-btn forum-filter-btn">Tormenta 20</button>
                 <button class="filter-btn forum-filter-btn">Fabula Ultima</button>
@@ -80,12 +82,15 @@
 
                 <div class="form-group" style="display: flex; gap: 15px;">
                     <div style="flex: 1;">
-                        <label for="novoTopicoSistema" style="color: var(--text-main);">Sistema de RPG:</label>
+                        <label for="novoTopicoSistema" style="color: var(--text-main);">Tipo de Jogo / Sistema:</label>
                         <select id="novoTopicoSistema" class="form-control">
-                            <option value="D&D 5E">D&D 5E</option>
+                            <option value="JJRPG">JJRPG (JRPG de Mesa / Anime / Fabula Ultima)</option>
+                            <option value="D&D 5E">D&D 5E (Fantasia Medieval)</option>
                             <option value="Tormenta 20">Tormenta 20</option>
                             <option value="Fabula Ultima">Fabula Ultima</option>
-                            <option value="Geral">Discussão Geral / Outros</option>
+                            <option value="Horror Cósmico">Horror Cósmico / Investigação</option>
+                            <option value="Cyberpunk">Cyberpunk / Sci-Fi</option>
+                            <option value="Geral">Discussão Geral / Outros Sistemas</option>
                         </select>
                     </div>
                     <div style="flex: 1;">
