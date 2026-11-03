@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens & Guildas - Biblioteca Dracônica</title>
+    <!-- Favicon da Biblioteca Dracônica -->
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <link rel="stylesheet" href="../static/staticcss/mensagens.css">
+</head>
+<body>
+    <!-- Barra de Navegação Superior -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
+        </div>
+        <nav>
+            <a href="inicial.html">Início</a>
+            <a href="index.html">Catálogo</a>
+            <a href="forum.html">Fórum</a>
+            <a href="mensagens.html" class="active">Mensagens</a>
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal do Mensageiro -->
+    <main class="messenger-wrapper">
+        <div class="messenger-app" id="messenger-app">
+            
+            <!-- 1. PAINEL LATERAL (LISTA DE CONVERSAS E GRUPOS) -->
+            <aside class="messenger-sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-header-top">
+                        <h2 class="sidebar-title">💬 Mensagens</h2>
+                        <div class="sidebar-actions">
+                            <button class="btn-sidebar-action" id="btn-abrir-novo-chat" title="Iniciar Conversa Privada">
+                                ➕ Chat
+                            </button>
+                            <button class="btn-sidebar-action" id="btn-abrir-novo-grupo" title="Criar Grupo ou Mesa">
+                                👥 Grupo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Campo de Busca Rápida -->
+                    <div class="sidebar-search-box">
+                        <span class="search-icon-pos">🔍</span>
+                        <input type="text" id="input-busca-conversas" placeholder="Buscar conversas ou guildas...">
+                    </div>
+
+                    <!-- Filtros de Navegação -->
+                    <div class="conversas-tabs">
+                        <button class="tab-pill active" data-filtro="todos">Todas</button>
+                        <button class="tab-pill" data-filtro="privada">Privadas</button>
+                        <button class="tab-pill" data-filtro="grupo">Grupos</button>
+                    </div>
+                </div>
+
+                <!-- Lista Dinâmica de Conversas -->
+                <div class="conversas-list" id="conversas-list">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+            </aside>
+
+            <!-- 2. ÁREA DE CHAT (JANELA DA CONVERSA ATIVA) -->
+            <section class="messenger-chat" id="messenger-chat">
+                
+                <!-- Estado Vazio (Nenhuma Conversa Selecionada) -->
+                <div class="chat-empty-state" id="chat-empty-state">
+                    <div class="empty-icon">📜</div>
+                    <h3>Taverna dos Mensageiros</h3>
+                    <p>Conecte-se com outros aventureiros, monte mesas de RPG, compartilhe fichas e converse em tempo real.</p>
+                    <div class="empty-quick-actions">
+                        <button class="btn-sidebar-action" onclick="document.getElementById('btn-abrir-novo-chat').click()">
+                            ➕ Iniciar Conversa Privada
+                        </button>
+                        <button class="btn-sidebar-action" onclick="document.getElementById('btn-abrir-novo-grupo').click()">
+                            👥 Criar Grupo de Mesa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Janela de Conversa Ativa -->
+                <div id="chat-active-container" style="display: none; height: 100%; flex-direction: column;">
+                    
+                    <!-- Cabeçalho do Chat -->
+                    <div class="chat-header">
+                        <div class="chat-header-info">
+                            <button class="btn-header-action" id="btn-voltar-lista" style="display: none;" title="Voltar para a lista">
+                                ⬅️
+                            </button>
+                            <div class="chat-header-avatar" id="chat-header-avatar">
+                                🧙‍♂️
+                            </div>
+                            <div class="chat-header-details">
+                                <h3 id="chat-header-title">Nome da Conversa</h3>
+                                <p id="chat-header-subtitle">Status ou Participantes</p>
+                            </div>
+                        </div>
+                        <div class="chat-header-actions">
+                            <button class="btn-header-action" id="btn-ver-membros" title="Ver Membros da Conversa">
+                                👥 Membros
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feed de Mensagens Rolável -->
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Mensagens renderizadas dinamicamente -->
+                    </div>
+
+                    <!-- Painel de Digitação e Ações de RPG -->
+                    <div class="chat-input-panel">
+                        <!-- Barra de Ferramentas Rápidas (Dados RPG & Emojis) -->
+                        <div class="chat-quick-tools">
+                            <span style="font-size: 0.76rem; color: var(--text-subtle); font-weight: 700;">Ações Rápidas:</span>
+                            <button class="btn-tool-pill" id="btn-quick-d20" title="Rolar d20 na conversa">🎲 Rolar d20</button>
+                            <button class="btn-tool-pill" id="btn-quick-d6" title="Rolar d6 na conversa">🎲 Rolar d6</button>
+                            <button class="btn-tool-pill" onclick="MensagensApp.inserirEmote('⚔️')">⚔️</button>
+                            <button class="btn-tool-pill" onclick="MensagensApp.inserirEmote('🛡️')">🛡️</button>
+                            <button class="btn-tool-pill" onclick="MensagensApp.inserirEmote('🐉')">🐉</button>
+                            <button class="btn-tool-pill" onclick="MensagensApp.inserirEmote('🍻')">🍻</button>
+                        </div>
+
+                        <!-- Formulário de Envio -->
+                        <form class="chat-input-form" id="form-enviar-mensagem">
+                            <input type="text" class="chat-input-field" id="input-mensagem-texto" placeholder="Escreva sua mensagem para a guilda..." autocomplete="off">
+                            <button type="submit" class="btn-send-msg">
+                                Enviar 🚀
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ================= MODAL: NOVO CHAT PRIVADO ================= -->
+    <div class="modal-overlay" id="modal-novo-chat" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🗡️ Iniciar Conversa Privada</h3>
+                <button class="btn-close-modal" onclick="MensagensApp.fecharModais()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-group-field">
+                    <label>Procurar Aventureiro:</label>
+                    <input type="text" id="input-busca-aventureiro" placeholder="Digite o nome do aventureiro...">
+                </div>
+                <div class="user-select-list" id="lista-aventureiros-privado">
+                    <!-- Usuários para conversar -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="MensagensApp.fecharModais()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: CRIAR NOVO GRUPO ================= -->
+    <div class="modal-overlay" id="modal-novo-grupo" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🏰 Criar Grupo ou Mesa de RPG</h3>
+                <button class="btn-close-modal" onclick="MensagensApp.fecharModais()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-group-field">
+                    <label for="input-nome-grupo">Nome do Grupo ou Mesa:</label>
+                    <input type="text" id="input-nome-grupo" placeholder="Ex: Mesa Semanal de Fabula Ultima">
+                </div>
+                
+                <div class="modal-group-field">
+                    <label>Escolha o Brasão / Ícone do Grupo:</label>
+                    <div class="icon-selector" id="grupo-icon-selector">
+                        <div class="icon-opt selected" data-icon="🏰">🏰</div>
+                        <div class="icon-opt" data-icon="🛡️">🛡️</div>
+                        <div class="icon-opt" data-icon="⚔️">⚔️</div>
+                        <div class="icon-opt" data-icon="🐉">🐉</div>
+                        <div class="icon-opt" data-icon="🎲">🎲</div>
+                        <div class="icon-opt" data-icon="🏹">🏹</div>
+                        <div class="icon-opt" data-icon="🧙‍♂️">🧙‍♂️</div>
+                        <div class="icon-opt" data-icon="🍻">🍻</div>
+                    </div>
+                </div>
+
+                <div class="modal-group-field">
+                    <label for="input-msg-inicial-grupo">Mensagem de Boas-Vindas (opcional):</label>
+                    <textarea id="input-msg-inicial-grupo" rows="2" placeholder="Ex: Sejam bem-vindos à nossa mesa! Sessões aos sábados..."></textarea>
+                </div>
+
+                <div class="modal-group-field">
+                    <label>Convidar Membros da Guilda:</label>
+                    <div class="user-select-list" id="lista-convite-membros">
+                        <!-- Checkboxes com aventureiros cadastrados -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="MensagensApp.fecharModais()">Cancelar</button>
+                <button class="btn-modal-confirm" id="btn-confirmar-criar-grupo">Criar Grupo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: MEMBROS DA CONVERSA ================= -->
+    <div class="modal-overlay" id="modal-membros" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="titulo-modal-membros">👥 Membros da Conversa</h3>
+                <button class="btn-close-modal" onclick="MensagensApp.fecharModais()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="user-select-list" id="lista-membros-atuais">
+                    <!-- Lista de participantes -->
+                </div>
+
+                <div id="secao-adicionar-membro" style="margin-top: 16px; display: none;">
+                    <hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 12px;">
+                    <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); display: block; margin-bottom: 6px;">
+                        ➕ Adicionar Aventureiro ao Grupo:
+                    </label>
+                    <div class="user-select-list" id="lista-novos-membros-adicionar">
+                        <!-- Usuários não participantes -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="MensagensApp.fecharModais()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts da Aplicação -->
+    <script src="../static/staticjs/theme.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/mensagens.js"></script>
+</body>
+</html>

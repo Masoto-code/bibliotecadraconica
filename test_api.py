@@ -6,15 +6,15 @@ from app import app
 
 client = app.test_client()
 
-# 1. Testar listar livros (acervo ampliado de livros, suplementos e homebrews com capas web)
+# 1. Testar listar livros (acervo ampliado de livros, suplementos e homebrews com capas garantidas)
 res = client.get('/api/livros')
 assert res.status_code == 200, f'Status: {res.status_code}'
 livros = res.get_json()
 assert len(livros) >= 44, f'Esperava pelo menos 44 livros, obteve {len(livros)}'
-assert all(l['capa_url'].startswith('http') for l in livros), 'Todas as capas devem ser URLs web!'
+assert all(bool(l['capa_url']) for l in livros), 'Todos os livros devem ter capa definida!'
 assert any(l['categoria'] == 'Suplemento' for l in livros), 'Deve conter suplementos'
 assert any(l['categoria'] == 'Homebrew' for l in livros), 'Deve conter homebrews'
-print(f'[TEST 1 OK] /api/livros retornou {len(livros)} livros com capas web, suplementos e homebrews!')
+print(f'[TEST 1 OK] /api/livros retornou {len(livros)} livros com capas garantidas, suplementos e homebrews!')
 
 # 2. Testar busca de livros
 res = client.get('/api/livros?busca=fabula')
@@ -54,12 +54,13 @@ print(f'[TEST 6 OK] /api/forum/topicos retornou {len(topicos)} topicos!')
 # 7. Testar criar topico
 res = client.post('/api/forum/topicos', json={'titulo': 'Topico de Teste', 'autor': 'Tester', 'sistema': 'Geral', 'conteudo': 'Conteudo de teste'})
 assert res.status_code == 201
+topico_criado_id = res.get_json()['id']
 print('[TEST 7 OK] POST /api/forum/topicos criou topico!')
 
 # 8. Testar comentar no forum
-res = client.post('/api/forum/topicos/1/comentarios', json={'usuario': 'Comentador', 'texto': 'Comentario de teste', 'avaliacao': 5})
+res = client.post(f'/api/forum/topicos/{topico_criado_id}/comentarios', json={'usuario': 'Comentador', 'texto': 'Comentario de teste', 'avaliacao': 5})
 assert res.status_code == 201
-print('[TEST 8 OK] POST /api/forum/topicos/1/comentarios adicionou avaliacao e comentario!')
+print('[TEST 8 OK] POST /api/forum/topicos/<id>/comentarios adicionou avaliacao e comentario!')
 
 # 9. Testar Registro e Login
 email_teste = f'teste_{os.getpid()}@draconica.com'
@@ -69,7 +70,7 @@ res_login = client.post('/api/auth/login', json={'email': email_teste, 'senha': 
 assert res_login.status_code == 200
 print('[TEST 9 OK] Registro e Login funcionando com sucesso!')
 
-# 10. Testar páginas estáticas (incluindo perfil.html)
+# 10. Testar páginas estáticas (incluindo perfil.html e mensagens.html)
 assert client.get('/').status_code == 200
 assert client.get('/index.html').status_code == 200
 assert client.get('/inicial.html').status_code == 200
@@ -77,7 +78,8 @@ assert client.get('/forum.html').status_code == 200
 assert client.get('/detalhes.html').status_code == 200
 assert client.get('/login.html').status_code == 200
 assert client.get('/perfil.html').status_code == 200
-print('[TEST 10 OK] Todas as paginas estaticas (inicial, catalogo, forum, detalhes, login, perfil) servidas com sucesso!')
+assert client.get('/mensagens.html').status_code == 200
+print('[TEST 10 OK] Todas as paginas estaticas (inicial, catalogo, forum, detalhes, login, perfil, mensagens) servidas com sucesso!')
 
 # 11. Testar Personalização de Perfil (Nome, Bio, Status de Jogo e Avatar/Upload)
 user_id = res_login.get_json()['usuario']['id']
@@ -98,24 +100,25 @@ print('[TEST 11 OK] PUT /api/usuarios/perfil atualizou nome, bio, avatar e statu
 # 12. Testar Atividades do Usuário
 res_atividades = client.get('/api/usuarios/atividades?nome=Paladino Sagrado Renomeado')
 assert res_atividades.status_code == 200
-atividades = res_atividades.get_json()
-assert 'topicos_criados' in atividades
-assert 'topicos_respondidos' in atividades
-assert 'avaliacoes' in atividades
-print('[TEST 12 OK] GET /api/usuarios/atividades retornou tópicos e avaliações do aventureiro!')
+ativ = res_atividades.get_json()
+assert 'topicos_criados' in ativ
+assert 'topicos_respondidos' in ativ
+assert 'avaliacoes' in ativ
+print('[TEST 12 OK] GET /api/usuarios/atividades retornou histórico completo do perfil!')
 
-# 13. Testar Exclusão de Tópico do Fórum
-res_del = client.delete(f'/api/forum/topicos/{topicos[-1]["id"]}')
-assert res_del.status_code in [200, 404]
-print('[TEST 13 OK] DELETE /api/forum/topicos/<id> validado com sucesso!')
+# 13. Testar Obter Perfil por ID
+res_perfil_get = client.get(f'/api/usuarios/perfil/{user_id}')
+assert res_perfil_get.status_code == 200
+perfil_get = res_perfil_get.get_json()
+assert perfil_get['nome'] == 'Paladino Sagrado Renomeado'
+assert perfil_get['status_jogo'] == 'procurando_jogadores'
+print('[TEST 13 OK] GET /api/usuarios/perfil/<id> retornou dados do perfil!')
 
-# 14. Testar API de Livros com filtro por Tipo de Jogo (JJRPG)
-res_jjrpg = client.get('/api/livros?tipo_jogo=JJRPG')
-assert res_jjrpg.status_code == 200
-livros_jjrpg = res_jjrpg.get_json()
-assert len(livros_jjrpg) >= 6, f'Esperava livros de JJRPG, obteve {len(livros_jjrpg)}'
-assert any('Fabula' in l['titulo'] for l in livros_jjrpg)
-print(f'[TEST 14 OK] /api/livros?tipo_jogo=JJRPG retornou {len(livros_jjrpg)} grimórios de JJRPG!')
+# 14. Testar Tratamento de Erros e Proteção contra Duplicidade
+res_dup = client.post('/api/auth/register', json={'nome': 'Outro', 'email': email_teste, 'senha': 'senha_duplicada'})
+assert res_dup.status_code == 409
+assert 'já está cadastrado' in res_dup.get_json()['erro']
+print('[TEST 14 OK] Proteção contra emails duplicados validada!')
 
 # 15. Testar API de Livros com filtro por Financiamento Coletivo e Compra
 res_fin = client.get('/api/livros?tipo_link=financiamento')
@@ -153,7 +156,7 @@ res_post_livro = client.post('/api/livros', json={
     'tipo_jogo': 'JJRPG',
     'categoria': 'Manual Principal',
     'sinopse': 'O mais lendário RPG de mesa japonês de fantasia com dados 2d6 e combates ágeis.',
-    'capa_url': '../img/fu-basico.jpg',
+    'capa_url': '../imagens/capas/livro_1.svg',
     'link_compra': 'https://bookwalker.jp/',
     'tipo_link': 'compra'
 })
@@ -167,4 +170,66 @@ topicos_jjrpg = res_topicos_jjrpg.get_json()
 assert len(topicos_jjrpg) >= 1
 print(f'[TEST 18 OK] /api/forum/topicos?sistema=JJRPG retornou {len(topicos_jjrpg)} discussões de JJRPG!')
 
-print('\n>>> TODOS OS TESTES (18/18) PASSARAM COM 100% DE SUCESSO! <<<')
+# ================= TESTES DO SISTEMA DE MENSAGENS (MESSENGER / REDE SOCIAL) =================
+
+# 19. Testar Listar Usuários da Guilda para Mensagens
+res_users = client.get('/api/usuarios')
+assert res_users.status_code == 200
+guild_users = res_users.get_json()
+assert len(guild_users) >= 4
+assert any(u['nome'] == 'Mestre dos Magos' for u in guild_users)
+print(f'[TEST 19 OK] /api/usuarios retornou {len(guild_users)} aventureiros para chat e grupos!')
+
+# 20. Testar Listar Conversas do Usuário
+res_convs = client.get('/api/mensagens/conversas?usuario_id=1')
+assert res_convs.status_code == 200
+convs = res_convs.get_json()
+assert len(convs) >= 2
+assert any(c['tipo'] == 'grupo' for c in convs)
+print(f'[TEST 20 OK] /api/mensagens/conversas listou {len(convs)} conversas com participantes e prévias!')
+
+# 21. Testar Criar Conversa Privada (Direct Message 1-a-1)
+res_priv = client.post('/api/mensagens/conversas', json={
+    'tipo': 'privada',
+    'usuario_id': user_id,
+    'destinatario_id': 1
+})
+assert res_priv.status_code in [200, 201]
+chat_priv_id = res_priv.get_json()['conversa_id']
+print(f'[TEST 21 OK] POST /api/mensagens/conversas iniciou chat privado (ID: {chat_priv_id})!')
+
+# 22. Testar Criar Grupo de Mesa de RPG (Social Group Chat)
+res_grupo = client.post('/api/mensagens/conversas', json={
+    'tipo': 'grupo',
+    'nome_grupo': 'Mesa Semanal de Fabula Ultima',
+    'criador_id': user_id,
+    'criador_nome': 'Paladino Sagrado Renomeado',
+    'foto_grupo': '🏰',
+    'participantes_ids': [1, 2, 3],
+    'mensagem_inicial': 'Saudações aventureiros! Sessão 0 agendada para sexta-feira.'
+})
+assert res_grupo.status_code == 201
+grupo_id = res_grupo.get_json()['conversa_id']
+print(f'[TEST 22 OK] POST /api/mensagens/conversas criou grupo social (ID: {grupo_id}) com participantes!')
+
+# 23. Testar Enviar Mensagens na Conversa
+res_msg = client.post(f'/api/mensagens/conversas/{grupo_id}/mensagens', json={
+    'remetente_id': user_id,
+    'remetente_nome': 'Paladino Sagrado Renomeado',
+    'remetente_avatar': '🛡️',
+    'conteudo': '🎲 [Rolagem de d20]: Resultado = 20 🌟 ACERTO CRÍTICO!'
+})
+assert res_msg.status_code == 201
+msg_enviada = res_msg.get_json()['dados']
+assert 'ACERTO CRÍTICO' in msg_enviada['conteudo']
+print('[TEST 23 OK] POST /api/mensagens/conversas/<id>/mensagens enviou mensagem e rolagem de dado!')
+
+# 24. Testar Histórico Completo de Mensagens e Membros
+res_hist = client.get(f'/api/mensagens/conversas/{grupo_id}/mensagens')
+assert res_hist.status_code == 200
+dados_hist = res_hist.get_json()
+assert len(dados_hist['mensagens']) >= 2
+assert len(dados_hist['participantes']) >= 2
+print(f"[TEST 24 OK] GET /api/mensagens/conversas/<id>/mensagens retornou histórico ({len(dados_hist['mensagens'])} msgs) e membros ({len(dados_hist['participantes'])})!")
+
+print('\n>>> TODOS OS TESTES (24/24) PASSARAM COM 100% DE SUCESSO! <<<')

@@ -261,6 +261,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Primeiro aplica fallback imediato
     if (catalogoFallback[livroId]) {
         atualizarPagina(catalogoFallback[livroId]);
+    } else {
+        // Fallback dinâmico para qualquer ID do acervo ampliado
+        atualizarPagina({
+            titulo: `Tomo de RPG #${livroId}`,
+            autor: "Acervo Biblioteca Dracônica",
+            sistema: "RPG de Mesa",
+            sinopse: "Consulte os detalhes deste livro de RPG, avaliações dos aventureiros e adquira seu exemplar.",
+            capa: `../imagens/capas/livro_${livroId}.svg`,
+            link_compra: null,
+            tipo_link: null
+        });
     }
 
     // Em seguida, consulta a API Python para obter os dados do banco

@@ -560,21 +560,29 @@ def excluir_topico_forum(topico_id):
 # ================= ROTAS DE PERSONALIZAÇÃO DE PERFIL E ATIVIDADES =================
 
 @app.route('/api/usuarios/perfil', methods=['GET'])
-def obter_perfil_usuario():
-    """Retorna os dados do perfil do usuário por ID ou Email."""
-    user_id = request.args.get('id')
+@app.route('/api/usuarios/perfil/<int:user_id>', methods=['GET'])
+def obter_perfil_usuario(user_id=None):
+    """Retorna os dados do perfil do usuário por ID, Email ou Nome."""
+    if not user_id:
+        user_id = request.args.get('id')
     email = request.args.get('email', '').strip().lower()
+    nome = request.args.get('nome', '').strip()
 
-    if not user_id and not email:
-        return jsonify({"erro": "Parâmetro id ou email é obrigatório."}), 400
+    if not user_id and not email and not nome:
+        return jsonify({"erro": "Parâmetro id, email ou nome é obrigatório."}), 400
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
     if user_id:
         cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE id = ?', (user_id,))
+    elif email:
+        cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE LOWER(email) = LOWER(?)', (email,))
     else:
-        cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE email = ?', (email,))
+        cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE LOWER(nome) = LOWER(?)', (nome,))
+        row = cursor.fetchone()
+        if not row:
+            cursor.execute('SELECT id, nome, email, avatar, bio, status_jogo, data_criacao FROM usuarios WHERE LOWER(nome) LIKE LOWER(?) LIMIT 1', (f'%{nome}%',))
 
     usuario = cursor.fetchone()
     conn.close()
@@ -714,6 +722,337 @@ def atividades_usuario():
         "topicos_respondidos": topicos_respondidos,
         "avaliacoes": avaliacoes
     })
+
+
+
+
+# ================= ROTAS DO SISTEMA DE MENSAGENS (MESSENGER / REDE SOCIAL) =================
+
+@app.route('/mensagens.html')
+def page_mensagens():
+    """Serve a página do mensageiro da guilda."""
+    return send_from_directory(os.path.join(FRONTEND_DIR, 'index'), 'mensagens.html')
+
+@app.route('/api/usuarios', methods=['GET'])
+def listar_usuarios():
+    """Lista aventureiros cadastrados para iniciar chats privados ou adicionar a grupos."""
+    busca = request.args.get('busca', '').strip()
+    exceto_id = request.args.get('exceto_id', type=int)
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = 'SELECT id, nome, email, avatar, bio, status_jogo FROM usuarios WHERE 1=1'
+    params = []
+
+    if exceto_id:
+        query += ' AND id != ?'
+        params.append(exceto_id)
+
+    if busca:
+        query += ' AND (nome LIKE ? OR bio LIKE ?)'
+        params.extend([f'%{busca}%', f'%{busca}%'])
+
+    query += ' ORDER BY nome ASC'
+    cursor.execute(query, params)
+    usuarios = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+
+    return jsonify(usuarios)
+
+
+@app.route('/api/mensagens/conversas', methods=['GET'])
+def listar_conversas():
+    """
+    Lista conversas do usuário (tanto chats privados onde ele participa quanto grupos dos quais faz parte ou grupos públicos).
+    """
+    usuario_id = request.args.get('usuario_id', type=int)
+    if not usuario_id:
+        return jsonify({"erro": "Parâmetro usuario_id é obrigatório."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT DISTINCT c.id, c.tipo, c.nome_grupo, c.criador_id, c.foto_grupo, c.data_criacao, c.data_atualizacao
+        FROM conversas c
+        LEFT JOIN conversa_participantes cp ON c.id = cp.conversa_id
+        WHERE cp.usuario_id = ? OR c.tipo = 'grupo'
+        ORDER BY c.data_atualizacao DESC
+    ''', (usuario_id,))
+    conversas_rows = cursor.fetchall()
+
+    resultado = []
+    for crow in conversas_rows:
+        cid = crow['id']
+        tipo = crow['tipo']
+
+        cursor.execute('''
+            SELECT u.id, u.nome, u.avatar, u.status_jogo
+            FROM conversa_participantes cp
+            JOIN usuarios u ON cp.usuario_id = u.id
+            WHERE cp.conversa_id = ?
+        ''', (cid,))
+        participantes = [dict(p) for p in cursor.fetchall()]
+
+        cursor.execute('''
+            SELECT remetente_id, remetente_nome, remetente_avatar, conteudo, data_envio
+            FROM mensagens
+            WHERE conversa_id = ?
+            ORDER BY id DESC LIMIT 1
+        ''', (cid,))
+        ultima_msg = cursor.fetchone()
+
+        nome_exibicao = crow['nome_grupo']
+        avatar_exibicao = crow['foto_grupo'] or '🏰'
+        status_jogo = None
+        outro_usuario_id = None
+
+        if tipo == 'privada':
+            outro = next((p for p in participantes if p['id'] != usuario_id), None)
+            if not outro and participantes:
+                outro = participantes[0]
+            if outro:
+                nome_exibicao = outro['nome']
+                avatar_exibicao = outro['avatar']
+                status_jogo = outro['status_jogo']
+                outro_usuario_id = outro['id']
+            else:
+                nome_exibicao = "Aventureiro"
+
+        resultado.append({
+            "id": cid,
+            "tipo": tipo,
+            "nome": nome_exibicao,
+            "avatar": avatar_exibicao,
+            "status_jogo": status_jogo,
+            "outro_usuario_id": outro_usuario_id,
+            "criador_id": crow['criador_id'],
+            "total_participantes": len(participantes),
+            "participantes": participantes,
+            "ultima_mensagem": ultima_msg['conteudo'] if ultima_msg else "Nenhuma mensagem ainda.",
+            "data_ultima_mensagem": ultima_msg['data_envio'] if ultima_msg else crow['data_criacao'],
+            "remetente_ultima_mensagem": ultima_msg['remetente_nome'] if ultima_msg else None
+        })
+
+    conn.close()
+    return jsonify(resultado)
+
+
+@app.route('/api/mensagens/conversas', methods=['POST'])
+def criar_conversa():
+    """
+    Cria uma nova conversa privada ou um grupo de aventureiros.
+    """
+    dados = request.get_json() or {}
+    tipo = dados.get('tipo', 'privada')
+    usuario_id = dados.get('usuario_id') or dados.get('criador_id')
+
+    if not usuario_id:
+        return jsonify({"erro": "usuario_id do remetente é obrigatório."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if tipo == 'privada':
+        destinatario_id = dados.get('destinatario_id')
+        destinatario_nome = dados.get('destinatario_nome')
+        if not destinatario_id and destinatario_nome:
+            cursor.execute('SELECT id FROM usuarios WHERE LOWER(nome) = LOWER(?)', (destinatario_nome.strip(),))
+            user_found = cursor.fetchone()
+            if not user_found:
+                cursor.execute('SELECT id FROM usuarios WHERE LOWER(nome) LIKE LOWER(?) LIMIT 1', (f'%{destinatario_nome.strip()}%',))
+                user_found = cursor.fetchone()
+            if user_found:
+                destinatario_id = user_found['id']
+
+        if not destinatario_id:
+            conn.close()
+            return jsonify({"erro": "destinatario_id é obrigatório para chat privado."}), 400
+
+        cursor.execute('''
+            SELECT c.id FROM conversas c
+            JOIN conversa_participantes cp1 ON c.id = cp1.conversa_id AND cp1.usuario_id = ?
+            JOIN conversa_participantes cp2 ON c.id = cp2.conversa_id AND cp2.usuario_id = ?
+            WHERE c.tipo = 'privada'
+            LIMIT 1
+        ''', (usuario_id, destinatario_id))
+        conversa_existente = cursor.fetchone()
+
+        if conversa_existente:
+            conversa_id = conversa_existente['id']
+            conn.close()
+            return jsonify({
+                "mensagem": "Conversa existente recuperada.",
+                "conversa_id": conversa_id,
+                "ja_existia": True
+            }), 200
+
+        cursor.execute('''
+            INSERT INTO conversas (tipo, nome_grupo, criador_id, foto_grupo)
+            VALUES ('privada', '', ?, '👤')
+        ''', (usuario_id,))
+        conversa_id = cursor.lastrowid
+
+        cursor.execute('INSERT INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, usuario_id))
+        cursor.execute('INSERT INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, destinatario_id))
+        conn.commit()
+        conn.close()
+
+        return jsonify({
+            "mensagem": "Chat privado iniciado com sucesso!",
+            "conversa_id": conversa_id,
+            "ja_existia": False
+        }), 201
+
+    elif tipo == 'grupo':
+        nome_grupo = dados.get('nome_grupo', '').strip()
+        foto_grupo = dados.get('foto_grupo', '🛡️')
+        participantes_ids = dados.get('participantes_ids', [])
+
+        if not nome_grupo:
+            conn.close()
+            return jsonify({"erro": "Nome do grupo é obrigatório."}), 400
+
+        cursor.execute('''
+            INSERT INTO conversas (tipo, nome_grupo, criador_id, foto_grupo)
+            VALUES ('grupo', ?, ?, ?)
+        ''', (nome_grupo, usuario_id, foto_grupo))
+        conversa_id = cursor.lastrowid
+
+        cursor.execute('INSERT OR IGNORE INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, usuario_id))
+
+        for pid in participantes_ids:
+            if pid and pid != usuario_id:
+                cursor.execute('INSERT OR IGNORE INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, pid))
+
+        msg_inicial = dados.get('mensagem_inicial')
+        if msg_inicial:
+            cursor.execute('''
+                INSERT INTO mensagens (conversa_id, remetente_id, remetente_nome, remetente_avatar, conteudo)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (conversa_id, usuario_id, dados.get('criador_nome', 'Mestre do Grupo'), dados.get('criador_avatar', '🧙‍♂️'), msg_inicial))
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({
+            "mensagem": f"Grupo '{nome_grupo}' criado com sucesso!",
+            "conversa_id": conversa_id
+        }), 201
+
+    else:
+        conn.close()
+        return jsonify({"erro": f"Tipo de conversa inválido: {tipo}"}), 400
+
+
+@app.route('/api/mensagens/conversas/<int:conversa_id>/mensagens', methods=['GET'])
+def listar_mensagens_conversa(conversa_id):
+    """
+    Obtém todo o histórico de mensagens de uma conversa.
+    """
+    usuario_id = request.args.get('usuario_id', type=int)
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM conversas WHERE id = ?', (conversa_id,))
+    conversa = cursor.fetchone()
+    if not conversa:
+        conn.close()
+        return jsonify({"erro": "Conversa não encontrada."}), 404
+
+    if usuario_id and conversa['tipo'] == 'grupo':
+        cursor.execute('INSERT OR IGNORE INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, usuario_id))
+        conn.commit()
+
+    cursor.execute('''
+        SELECT u.id, u.nome, u.avatar, u.status_jogo
+        FROM conversa_participantes cp
+        JOIN usuarios u ON cp.usuario_id = u.id
+        WHERE cp.conversa_id = ?
+    ''', (conversa_id,))
+    participantes = [dict(p) for p in cursor.fetchall()]
+
+    cursor.execute('''
+        SELECT id, conversa_id, remetente_id, remetente_nome, remetente_avatar, conteudo, data_envio
+        FROM mensagens
+        WHERE conversa_id = ?
+        ORDER BY id ASC
+    ''', (conversa_id,))
+    mensagens = [dict(m) for m in cursor.fetchall()]
+
+    conn.close()
+
+    return jsonify({
+        "conversa": dict(conversa),
+        "participantes": participantes,
+        "mensagens": mensagens
+    })
+
+
+@app.route('/api/mensagens/conversas/<int:conversa_id>/mensagens', methods=['POST'])
+def enviar_mensagem(conversa_id):
+    """
+    Envia uma nova mensagem na conversa selecionada.
+    """
+    dados = request.get_json() or {}
+    remetente_id = dados.get('remetente_id')
+    remetente_nome = dados.get('remetente_nome', 'Aventureiro').strip()
+    remetente_avatar = dados.get('remetente_avatar', '🧙‍♂️')
+    conteudo = dados.get('conteudo', '').strip()
+
+    if not conteudo:
+        return jsonify({"erro": "O conteúdo da mensagem não pode ser vazio."}), 400
+
+    if not remetente_id:
+        return jsonify({"erro": "remetente_id é obrigatório."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT id, tipo FROM conversas WHERE id = ?', (conversa_id,))
+    conversa = cursor.fetchone()
+    if not conversa:
+        conn.close()
+        return jsonify({"erro": "Conversa não encontrada."}), 404
+
+    cursor.execute('INSERT OR IGNORE INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, remetente_id))
+
+    cursor.execute('''
+        INSERT INTO mensagens (conversa_id, remetente_id, remetente_nome, remetente_avatar, conteudo)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (conversa_id, remetente_id, remetente_nome, remetente_avatar, conteudo))
+    msg_id = cursor.lastrowid
+
+    cursor.execute('UPDATE conversas SET data_atualizacao = CURRENT_TIMESTAMP WHERE id = ?', (conversa_id,))
+    conn.commit()
+
+    cursor.execute('SELECT * FROM mensagens WHERE id = ?', (msg_id,))
+    nova_msg = dict(cursor.fetchone())
+    conn.close()
+
+    return jsonify({
+        "mensagem": "Mensagem enviada com sucesso!",
+        "dados": nova_msg
+    }), 201
+
+
+@app.route('/api/mensagens/conversas/<int:conversa_id>/participantes', methods=['POST'])
+def adicionar_participante(conversa_id):
+    """Adiciona um aventureiro ao grupo."""
+    dados = request.get_json() or {}
+    usuario_id = dados.get('usuario_id')
+    if not usuario_id:
+        return jsonify({"erro": "usuario_id é obrigatório."}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('INSERT OR IGNORE INTO conversa_participantes (conversa_id, usuario_id) VALUES (?, ?)', (conversa_id, usuario_id))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"mensagem": "Aventureiro adicionado ao grupo com sucesso!"}), 200
 
 
 if __name__ == '__main__':
