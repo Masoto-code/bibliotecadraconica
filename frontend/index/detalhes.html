@@ -73,7 +73,6 @@
                 <li><a href="inicial.html">Início</a></li>
                 <li><a href="index.html">Catálogo</a></li>
                 <li><a href="forum.html">Fórum</a></li>
-                <li><a href="mensagens.html">Mensagens</a></li>
                 <li><a href="perfil.html">Meu Perfil</a></li>
                 <li><a href="login.html" class="btn-login">Entrar</a></li>
                 <li><button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button></li>
@@ -106,6 +105,18 @@
                     <div class="acao-container" id="acaoContainer" style="margin-top: 25px;">
                         <a id="btnAcaoLivro" href="#" target="_blank" rel="noopener noreferrer" class="btn-compra">
                             Comprar Livro
+                        </a>
+                    </div>
+
+                    <!-- Distintivo de Obra de Fã / RPG Autoral -->
+                    <div id="comunidadeCriadorBadge" style="display: none; margin-top: 15px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 10px 14px; color: #10b981; font-size: 0.95rem;">
+                        ✨ <strong>Obra Autoral da Comunidade</strong>: Enviada pelo aventureiro <strong id="nomeCriadorSubmissao"></strong>
+                    </div>
+
+                    <!-- Botão de Download do Arquivo Submetido -->
+                    <div class="download-container" id="downloadContainer" style="display: none; margin-top: 15px;">
+                        <a id="btnDownloadArquivo" href="#" download class="btn-compra" style="background: #10b981; color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                            📥 Baixar Arquivo do RPG / PDF
                         </a>
                     </div>
                 </div>

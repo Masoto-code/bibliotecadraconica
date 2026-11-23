@@ -101,7 +101,7 @@ if (window._draconicaAvaliacaoIniciada) {
 
             try {
                 // Tenta enviar para a API Python
-                const res = await fetch(`http://localhost:5000/api/livros/${livroId}/avaliar`, {
+                const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/${livroId}/avaliar`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dadosAvaliacao)
@@ -147,7 +147,7 @@ if (window._draconicaAvaliacaoIniciada) {
         let total = 0;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/livros/${livroId}`);
+            const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/${livroId}`);
             if (res.ok) {
                 const livro = await res.json();
                 avaliacoes = livro.avaliacoes || [];

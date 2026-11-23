@@ -40,7 +40,7 @@ const Auth = {
 
     async login(email, senha) {
         try {
-            const res = await fetch('http://localhost:5000/api/auth/login', {
+            const res = await fetch('${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, senha })
@@ -91,7 +91,7 @@ const Auth = {
 
     async register(nome, email, senha, avatar = '⚔️') {
         try {
-            const res = await fetch('http://localhost:5000/api/auth/register', {
+            const res = await fetch('${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nome, email, senha, avatar })
@@ -152,7 +152,7 @@ const Auth = {
         };
 
         try {
-            const res = await fetch('http://localhost:5000/api/usuarios/perfil', {
+            const res = await fetch('${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/usuarios/perfil', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -204,7 +204,7 @@ const Auth = {
 
     async obterAtividades(nomeUsuario) {
         try {
-            const res = await fetch(`http://localhost:5000/api/usuarios/atividades?nome=${encodeURIComponent(nomeUsuario)}`);
+            const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/usuarios/atividades?nome=${encodeURIComponent(nomeUsuario)}`);
             if (res.ok) {
                 return await res.json();
             }

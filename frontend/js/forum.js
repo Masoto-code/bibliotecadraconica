@@ -186,7 +186,7 @@ if (window._draconicaForumIniciado) {
         async function carregarTopicos() {
             let topicos = [];
             try {
-                const url = `http://localhost:5000/api/forum/topicos?sistema=${encodeURIComponent(currentSystem)}`;
+                const url = `${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos?sistema=${encodeURIComponent(currentSystem)}`;
                 const res = await fetch(url);
                 if (res.ok) {
                     topicos = await res.json();
@@ -287,7 +287,7 @@ if (window._draconicaForumIniciado) {
             }
 
             try {
-                await fetch(`http://localhost:5000/api/forum/topicos/${topicoId}`, {
+                await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos/${topicoId}`, {
                     method: 'DELETE'
                 });
             } catch (err) {
@@ -369,7 +369,7 @@ if (window._draconicaForumIniciado) {
                 const novoTopico = { titulo, autor, sistema, conteudo };
 
                 try {
-                    const res = await fetch('http://localhost:5000/api/forum/topicos', {
+                    const res = await fetch('${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(novoTopico)
@@ -429,7 +429,7 @@ if (window._draconicaForumIniciado) {
             let topico = null;
 
             try {
-                const res = await fetch(`http://localhost:5000/api/forum/topicos/${topicoId}`);
+                const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos/${topicoId}`);
                 if (res.ok) {
                     topico = await res.json();
                 } else {
@@ -554,7 +554,7 @@ if (window._draconicaForumIniciado) {
                 };
 
                 try {
-                    const res = await fetch(`http://localhost:5000/api/forum/topicos/${topicoAtivoId}/comentarios`, {
+                    const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos/${topicoAtivoId}/comentarios`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(novoComentario)

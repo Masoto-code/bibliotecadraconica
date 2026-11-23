@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Grimórios RPG - Biblioteca Dracônica</title>
+    <title>Catálogo Completo - Biblioteca Dracônica</title>
+    <!-- Favicon da Biblioteca Dracônica -->
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    
+    <!-- Folhas de Estilo -->
     <link rel="stylesheet" href="../static/staticcss/theme.css">
     <link rel="stylesheet" href="../static/staticcss/style.css">
-    <!-- Script direto no HEAD para evitar piscar a tela -->
-    <script>
-        if (localStorage.getItem('tema') === 'claro') {
-            document.documentElement.classList.add('light-theme');
-        }
-    </script>
 </head>
 <body>
-
-    <!-- Cabeçalho -->
+    <!-- Barra de Navegação Superior -->
     <header class="navbar">
         <div class="logo">
             <a href="inicial.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
@@ -27,7 +24,6 @@
             <a href="inicial.html">Início</a>
             <a href="index.html" class="active">Catálogo</a>
             <a href="forum.html">Fórum</a>
-            <a href="mensagens.html">Mensagens</a>
             <a href="perfil.html">Meu Perfil</a>
             <a href="login.html" class="btn-login">Entrar</a>
             <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
@@ -38,12 +34,22 @@
         <!-- Seção de Busca -->
         <section class="hero-search">
             <h2>Grande Catálogo de RPG</h2>
-            <p>O acervo completo de grimórios, desde JJRPGs a fantasias medievais, para compra direta ou financiamento coletivo.</p>
+            <p>O acervo completo de grimórios oficiais, suplementos e criações autorais da comunidade.</p>
             <div class="search-bar">
                 <input id="search-input" type="text" placeholder="Buscar por título, autor, sistema (JJRPG, D&D, Tormenta...) ou tema...">
                 <button id="search-btn" type="button">Buscar</button>
             </div>
         </section>
+
+        <!-- Banner de Envio de RPG / Conteúdo de Fã -->
+        <div class="banner-submissao-rpg">
+            <div class="banner-submissao-texto">
+                🎲 <strong>Criou um RPG próprio ou Homebrew?</strong> Envie seu material para moderação e publique no acervo oficial da guilda!
+            </div>
+            <a href="perfil.html?acao=submeter" class="btn-submeter-catalogo" id="btnBannerSubmeter">
+                📤 Enviar meu RPG
+            </a>
+        </div>
 
         <!-- Catálogo e Filtros Dinâmicos -->
         <section class="catalog-section">
@@ -61,42 +67,42 @@
                 </div>
             </div>
 
-            <!-- Filtros Secundários: Status de Aquisição (Compra vs Financiamento) -->
+            <!-- Filtros Secundários: Status de Aquisição e Criações de Fãs -->
             <div style="margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Disponibilidade:</span>
+                    <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Disponibilidade & Origem:</span>
                     <button type="button" class="btn-aquisicao-filtro active" data-aquisicao="todos" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--accent-color); color: var(--accent-text); border: 1px solid var(--accent-color);">
                         Todos os Grimórios
                     </button>
                     <button type="button" class="btn-aquisicao-filtro" data-aquisicao="compra" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-color);">
-                        Para Comprar
+                        🛒 Compra Direta
                     </button>
                     <button type="button" class="btn-aquisicao-filtro" data-aquisicao="financiamento" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-color);">
-                        Financiamento Coletivo
+                        🤝 Financiamento Coletivo
+                    </button>
+                    <button type="button" class="btn-aquisicao-filtro" data-aquisicao="homebrew" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-color);">
+                        🎲 Conteúdo de Fã / Homebrew
                     </button>
                 </div>
 
-                <div id="statusContadorLivros" style="color: var(--accent-color); font-weight: bold; font-size: 0.95rem;">
-                    Carregando acervo dracônico...
+                <div id="statusContadorLivros" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">
+                    Carregando grimórios...
                 </div>
             </div>
 
-            <!-- Container Dinâmico onde os Livros são Injetados via API -->
+            <!-- Grade Dinâmica de Livros Agrupados por Tipo de Jogo -->
             <div id="catalogoDinamicoContainer">
-                <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
-                    <div style="font-size: 2.5rem; margin-bottom: 12px;">🐉</div>
-                    <h3>Consultando os arquivos da guilda...</h3>
-                    <p>Buscando todos os livros de RPG e financiamentos coletivos disponíveis.</p>
-                </div>
+                <!-- Preenchido via JavaScript -->
             </div>
         </section>
     </main>
 
+    <!-- Rodapé -->
     <footer>
         <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
     </footer>
 
-    <!-- Scripts da página -->
+    <!-- Scripts -->
     <script src="../static/staticjs/tema.js"></script>
     <script src="../static/staticjs/auth.js"></script>
     <script src="../static/staticjs/pesquisar.js"></script>

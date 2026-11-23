@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Carrega contagem inicial da API
-    fetch(`http://localhost:5000/api/livros/${livroId}`)
+    fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/${livroId}`)
         .then(res => res.json())
         .then(livro => {
             if (livro && typeof livro.downloads === 'number') {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnDownload.addEventListener('click', async (e) => {
         try {
             // Envia requisição para incrementar downloads na API Python
-            const res = await fetch(`http://localhost:5000/api/livros/${livroId}/download`, {
+            const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/${livroId}/download`, {
                 method: 'POST'
             });
 

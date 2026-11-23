@@ -1,10 +1,10 @@
 // Arquivo: pesquisar.js - Catálogo Dinâmico via API com Tópicos de Tipo de Jogo, Suplementos, Homebrews e Capas via URL Web
 
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('catalogoDinamicoContainer');
+    const container = document.getElementById('catalogoDinamicoContainer') || document.getElementById('catalog-container');
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
-    const statusContador = document.getElementById('statusContadorLivros');
+    const statusContador = document.getElementById('statusContadorLivros') || document.getElementById('statusContador');
     const botoesTipoJogo = document.querySelectorAll('#filtrosTipoJogo .filter-btn');
     const botoesAquisicao = document.querySelectorAll('.btn-aquisicao-filtro');
 
@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carrega todos os livros da API Python ou Fallback Local
     async function carregarLivrosAPI() {
         try {
-            const res = await fetch('http://localhost:5000/api/livros');
+            const apiUrl = (window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000') + '/api/livros';
+            const res = await fetch(apiUrl);
             if (res.ok) {
                 todosOsLivros = await res.json();
                 console.log(`Catálogo: ${todosOsLivros.length} grimórios carregados com sucesso.`);
@@ -127,9 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
                                 (tipoJogoAtivo.toUpperCase() === 'JJRPG' && (tipoLivro.toUpperCase() === 'JJRPG' || (livro.sistema && livro.sistema.includes('Fabula'))));
 
             const tipoLink = livro.tipo_link || '';
+            const catLower = (livro.categoria || '').toLowerCase();
             const matchesAquisicao = (aquisicaoAtiva === 'todos') ||
                                      (aquisicaoAtiva === 'compra' && tipoLink === 'compra') ||
-                                     (aquisicaoAtiva === 'financiamento' && tipoLink === 'financiamento');
+                                     (aquisicaoAtiva === 'financiamento' && tipoLink === 'financiamento') ||
+                                     (aquisicaoAtiva === 'homebrew' && (catLower.includes('homebrew') || catLower.includes('fã') || catLower.includes('fa') || catLower.includes('autoral') || catLower.includes('próprio') || catLower.includes('proprio') || Boolean(livro.usuario_submissao_nome)));
 
             const matchesBusca = !termo ||
                                  (livro.titulo && livro.titulo.toLowerCase().includes(termo)) ||
@@ -226,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
                          loading="lazy" 
                          onerror="this.onerror=null; this.src='${placeholderSvg}'">
                     <span class="tag">${escapeHtml(livro.categoria || 'Manual Principal')}</span>
+                    ${livro.usuario_submissao_nome ? `<span class="tag" style="top: 36px; background: rgba(16, 185, 129, 0.25); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.45);">✨ Fã: ${escapeHtml(livro.usuario_submissao_nome)}</span>` : ''}
                     ${badgeAquisicaoHtml}
                 </div>
                 <div class="book-info">
@@ -263,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tipoJogoAtivo !== 'Todos') texto += ` em [${tipoJogoAtivo}]`;
         if (aquisicaoAtiva === 'compra') texto += ' • Compra Direta';
         if (aquisicaoAtiva === 'financiamento') texto += ' • Financiamento Coletivo';
+        if (aquisicaoAtiva === 'homebrew') texto += ' • Conteúdos de Fã & Homebrews';
         if (termoBusca) texto += ` para "${termoBusca}"`;
         statusContador.textContent = texto;
     }

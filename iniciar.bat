@@ -1,11 +1,11 @@
 @echo off
-title Biblioteca Draconica
+title Biblioteca Draconica - Django
 echo ===================================================
-echo   BIBLIOTECA DRACONICA - SERVIDOR PYTHON
+echo   BIBLIOTECA DRACONICA - SERVIDOR DJANGO
 echo ===================================================
-echo Iniciando o servidor Flask e o Banco de Dados SQLite...
+echo Iniciando o servidor Django e Banco de Dados SQLite...
 echo.
 timeout /t 2 /nobreak >nul
 start http://localhost:5000
-python backend\app.py
+python manage.py runserver 0.0.0.0:5000
 pause

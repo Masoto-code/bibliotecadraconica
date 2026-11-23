@@ -377,3 +377,207 @@ footer {
         padding: 20px;
     }
 }
+
+
+/* =========================================================
+   SISTEMA DE SUBMISSÃO E MODERAÇÃO DE RPGS / CONTEÚDOS DE FÃS
+   ========================================================= */
+
+.banner-submissao-rpg {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+    border: 1px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin: 25px auto;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    box-shadow: var(--shadow-sm);
+}
+
+.banner-submissao-texto {
+    font-size: 1.05rem;
+    color: var(--text-main);
+}
+
+.banner-submissao-texto strong {
+    color: var(--accent-color);
+}
+
+.btn-submeter-catalogo {
+    background: var(--accent-color);
+    color: var(--accent-text);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-submeter-catalogo:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(234, 179, 8, 0.35);
+}
+
+/* Badges de Status de Moderação */
+.status-submissao-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.status-submissao-badge.pendente {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.4);
+}
+
+.status-submissao-badge.aprovado {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.status-submissao-badge.rejeitado {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* Cards de Submissão no Perfil */
+.submissao-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.submissao-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.submissao-capa-thumb {
+    width: 80px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    flex-shrink: 0;
+}
+
+.submissao-info {
+    flex: 1;
+}
+
+.submissao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.submissao-titulo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.submissao-meta {
+    display: flex;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.submissao-sinopse {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.submissao-motivo-rejeicao {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid #ef4444;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #ef4444;
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+}
+
+.submissao-acoes {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn-acao-moderacao {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-acao-aprovar {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.btn-acao-aprovar:hover {
+    background: #059669;
+}
+
+.btn-acao-rejeitar {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.btn-acao-rejeitar:hover {
+    background: #dc2626;
+}
+
+.btn-acao-download {
+    background: var(--btn-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+}
+
+.btn-acao-download:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}

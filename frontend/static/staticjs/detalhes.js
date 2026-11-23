@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Em seguida, consulta a API Python para obter os dados do banco
-    fetch(`http://localhost:5000/api/livros/${livroId}`)
+    fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/${livroId}`)
         .then(res => res.json())
         .then(livroBanco => {
             if (livroBanco && livroBanco.titulo) {
@@ -288,6 +288,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     link_compra: livroBanco.link_compra,
                     tipo_link: livroBanco.tipo_link
                 });
+
+                // Se foi submetido por usuário / comunidade
+                const badgeCriador = document.getElementById('comunidadeCriadorBadge');
+                const nomeCriador = document.getElementById('nomeCriadorSubmissao');
+                if (badgeCriador && nomeCriador && livroBanco.usuario_submissao_nome) {
+                    nomeCriador.textContent = livroBanco.usuario_submissao_nome;
+                    badgeCriador.style.display = 'block';
+                }
+
+                // Se possui arquivo de RPG / PDF enviado
+                const downloadContainer = document.getElementById('downloadContainer');
+                const btnDownload = document.getElementById('btnDownloadArquivo');
+                if (downloadContainer && btnDownload && livroBanco.arquivo_url) {
+                    btnDownload.href = livroBanco.arquivo_url;
+                    downloadContainer.style.display = 'block';
+                    btnDownload.onclick = () => {
+                        fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/${livroId}/download`, { method: 'POST' }).catch(() => {});
+                    };
+                }
             }
         })
         .catch(() => {
