@@ -1,0 +1,522 @@
+﻿/* =========================================================
+   SISTEMA DE TEMAS: ESCURO (DRACÃ”NICO) E CLARO (PERGAMINHO)
+   Biblioteca DracÃ´nica - Cores calibradas para legibilidade e estÃ©tica
+   ========================================================= */
+
+:root {
+    /* === TEMA ESCURO (PADRÃƒO) === */
+    --bg-color: #0d0f14;
+    --header-bg: #151821;
+    --card-bg: #1c1f2b;
+    --card-border: #2a2f42;
+    --card-hover: #232737;
+    --hero-bg: linear-gradient(180deg, #151821 0%, #0d0f14 100%);
+    --accent-color: #facc15;
+    --accent-hover: #eab308;
+    --accent-text: #000000;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-subtle: #64748b;
+    --input-bg: #12141c;
+    --input-border: #333a4d;
+    --btn-bg: #272c3d;
+    --border-color: #2a2f42;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --star-empty: #333a4d;
+    --star-active: #facc15;
+    --badge-bg: rgba(250, 204, 21, 0.12);
+    --badge-border: rgba(250, 204, 21, 0.35);
+    --badge-text: #facc15;
+    --footer-bg: #090a0e;
+}
+
+/* === TEMA CLARO (PERGAMINHO / GUILDA REAL) === */
+:root.light-theme {
+    --bg-color: #f6f7fa;
+    --header-bg: #ffffff;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-hover: #f8fafc;
+    --hero-bg: linear-gradient(180deg, #ffffff 0%, #edf1f7 100%);
+    --accent-color: #d97706;
+    --accent-hover: #b45309;
+    --accent-text: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-subtle: #64748b;
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --btn-bg: #f1f5f9;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --star-empty: #cbd5e1;
+    --star-active: #d97706;
+    --badge-bg: rgba(217, 119, 6, 0.12);
+    --badge-border: rgba(217, 119, 6, 0.35);
+    --badge-text: #b45309;
+    --footer-bg: #e2e8f0;
+}
+
+/* TransiÃ§Ãµes suaves ao trocar de tema */
+body, header, nav, section, article, div, input, textarea, select, button, .book-card, .topico-card {
+    transition: background-color 0.25s ease, color 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+header.navbar, header {
+    background-color: var(--header-bg) !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 5% !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+.logo a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.logo2, .icon {
+    width: 55px !important;
+    height: 55px !important;
+    max-width: 55px !important;
+    max-height: 55px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.logo h1, .texto-logo {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    color: var(--text-main) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+}
+
+nav ul {
+    display: flex !important;
+    align-items: center !important;
+    list-style: none !important;
+    gap: 15px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+nav a {
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    transition: color 0.2s ease !important;
+}
+
+nav a:hover, nav a.active {
+    color: var(--accent-color) !important;
+}
+
+footer {
+    background-color: var(--footer-bg) !important;
+    color: var(--text-muted) !important;
+    border-top: 1px solid var(--border-color) !important;
+    text-align: center !important;
+    padding: 24px 20px !important;
+}
+
+/* BotÃ£o de Tema */
+.btn-theme {
+    background: var(--btn-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-theme:hover {
+    border-color: var(--accent-color) !important;
+}
+
+/* BotÃ£o de Login no Header */
+.btn-login {
+    background-color: var(--btn-bg) !important;
+    border: 1px solid var(--accent-color) !important;
+    color: var(--accent-color) !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-login:hover {
+    background-color: var(--accent-color) !important;
+    color: var(--accent-text) !important;
+}
+
+/* Inputs, Textareas e Selects universais */
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+    background-color: var(--input-bg) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--input-border) !important;
+    border-radius: 6px;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+    border-color: var(--accent-color) !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2);
+}
+
+/* Estrelas universais */
+.estrela, .star {
+    color: var(--star-empty) !important;
+}
+
+.estrela.marcada, .star.active {
+    color: var(--star-active) !important;
+    text-shadow: 0 0 6px rgba(250, 204, 21, 0.4);
+}
+
+/* Modais */
+.modal-content {
+    background: var(--header-bg) !important;
+    border: 1px solid var(--accent-color) !important;
+    color: var(--text-main) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+
+/* ================= RECURSOS DE ACESSIBILIDADE ================= */
+
+/* Skip to content link */
+.skip-to-content {
+    position: absolute;
+    top: -60px;
+    left: 10px;
+    background: #facc15;
+    color: #1a1a24;
+    padding: 10px 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    z-index: 99999;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: top 0.2s;
+}
+.skip-to-content:focus {
+    top: 10px;
+}
+
+/* BotÃ£o Flutuante de Subir ao Topo */
+.btn-subir-ao-topo {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #ffffff;
+    border: 2px solid #facc15;
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    z-index: 9990;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-subir-ao-topo:hover {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    transform: translateY(16px) scale(1.04);
+}
+.btn-subir-ao-topo.visivel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.btn-subir-ao-topo:focus-visible {
+    outline: 3px solid #facc15;
+    outline-offset: 3px;
+}
+
+/* Widget Flutuante de Acessibilidade */
+.widget-acessibilidade {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 9995;
+    font-family: inherit;
+}
+.btn-acessibilidade-toggle {
+    background: #1e293b;
+    color: #facc15;
+    border: 2px solid #facc15;
+    border-radius: 30px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+.btn-acessibilidade-toggle:hover {
+    background: #334155;
+    transform: scale(1.05);
+}
+.menu-acessibilidade {
+    position: absolute;
+    bottom: 55px;
+    left: 0;
+    width: 290px;
+    background: var(--card-bg, #1a1a24);
+    border: 2px solid var(--accent-color, #facc15);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    color: var(--text-main, #f8fafc);
+}
+.menu-acessibilidade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color, #333);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+}
+.acessibilidade-grupo {
+    margin-bottom: 14px;
+}
+.acessibilidade-grupo label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted, #94a3b8);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+.botoes-grupo {
+    display: flex;
+    gap: 6px;
+}
+.botoes-grupo button {
+    flex: 1;
+    background: var(--input-bg, #262636);
+    border: 1px solid var(--border-color, #444);
+    color: var(--text-main, #f8fafc);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.botoes-grupo button:hover {
+    background: var(--accent-color, #facc15);
+    color: #1a1a24;
+}
+.btn-acao-acessivel {
+    width: 100%;
+    margin-top: 5px;
+    background: var(--input-bg, #262636);
+    border: 1px solid var(--border-color, #444);
+    color: var(--text-main, #f8fafc);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-acao-acessivel:hover {
+    border-color: var(--accent-color, #facc15);
+    background: rgba(250, 204, 21, 0.15);
+}
+
+
+/* Modo Alto Contraste — Tema Escuro (padrão): preto com dourado */
+html.alto-contraste body,
+html.alto-contraste main,
+html.alto-contraste header,
+html.alto-contraste footer,
+html.alto-contraste .navbar,
+html.alto-contraste .card,
+html.alto-contraste .book-card,
+html.alto-contraste .detalhes-container,
+html.alto-contraste .auth-card {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffd700 !important;
+}
+html.alto-contraste h1,
+html.alto-contraste h2,
+html.alto-contraste h3,
+html.alto-contraste h4,
+html.alto-contraste strong,
+html.alto-contraste .badge {
+    color: #ffd700 !important;
+}
+html.alto-contraste a {
+    color: #ffd700 !important;
+    text-decoration: underline !important;
+}
+html.alto-contraste button,
+html.alto-contraste .btn-compra,
+html.alto-contraste .btn-submit,
+html.alto-contraste .btn-primary-hero {
+    background: #000000 !important;
+    color: #ffd700 !important;
+    border: 2px solid #ffd700 !important;
+    text-shadow: none !important;
+}
+html.alto-contraste button:hover {
+    background: #ffd700 !important;
+    color: #000000 !important;
+}
+html.alto-contraste input,
+html.alto-contraste textarea,
+html.alto-contraste select {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffd700 !important;
+}
+
+/* Modo Alto Contraste — Tema CLARO: preto sobre branco puro (WCAG AAA) */
+html.light-theme.alto-contraste body,
+html.light-theme.alto-contraste main,
+html.light-theme.alto-contraste header,
+html.light-theme.alto-contraste footer,
+html.light-theme.alto-contraste .navbar,
+html.light-theme.alto-contraste .card,
+html.light-theme.alto-contraste .book-card,
+html.light-theme.alto-contraste .detalhes-container,
+html.light-theme.alto-contraste .auth-card,
+html.light-theme.alto-contraste .hero-section,
+html.light-theme.alto-contraste section {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+}
+html.light-theme.alto-contraste h1,
+html.light-theme.alto-contraste h2,
+html.light-theme.alto-contraste h3,
+html.light-theme.alto-contraste h4,
+html.light-theme.alto-contraste strong,
+html.light-theme.alto-contraste p,
+html.light-theme.alto-contraste span,
+html.light-theme.alto-contraste li,
+html.light-theme.alto-contraste label,
+html.light-theme.alto-contraste .badge {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+html.light-theme.alto-contraste a {
+    color: #0000cc !important;
+    text-decoration: underline !important;
+}
+html.light-theme.alto-contraste button,
+html.light-theme.alto-contraste .btn-compra,
+html.light-theme.alto-contraste .btn-submit,
+html.light-theme.alto-contraste .btn-primary-hero,
+html.light-theme.alto-contraste .btn-acao-acessivel,
+html.light-theme.alto-contraste .btn-acessibilidade-toggle,
+html.light-theme.alto-contraste .btn-subir-ao-topo {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    text-shadow: none !important;
+}
+html.light-theme.alto-contraste button:hover,
+html.light-theme.alto-contraste .btn-compra:hover,
+html.light-theme.alto-contraste .btn-submit:hover {
+    background: #333333 !important;
+    color: #ffffff !important;
+}
+html.light-theme.alto-contraste input,
+html.light-theme.alto-contraste textarea,
+html.light-theme.alto-contraste select {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+html.light-theme.alto-contraste input::placeholder,
+html.light-theme.alto-contraste textarea::placeholder {
+    color: #444444 !important;
+}
+html.light-theme.alto-contraste .navbar-brand,
+html.light-theme.alto-contraste .nav-link,
+html.light-theme.alto-contraste .nav-link:visited {
+    color: #000000 !important;
+}
+html.light-theme.alto-contraste .nav-link:hover {
+    color: #0000cc !important;
+}
+html.light-theme.alto-contraste .widget-acessibilidade {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+}
+html.light-theme.alto-contraste .menu-acessibilidade {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+}
+html.light-theme.alto-contraste .btn-acao-acessivel {
+    background: #f0f0f0 !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+html.light-theme.alto-contraste .btn-acao-acessivel:hover {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Modo Leitura Limpa (Dislexia / Alta Legibilidade) */
+html.modo-legivel body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    line-height: 1.8 !important;
+    letter-spacing: 0.04em !important;
+    word-spacing: 0.08em !important;
+}

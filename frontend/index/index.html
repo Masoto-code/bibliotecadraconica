@@ -3,22 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Dracônica</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Catálogo Completo - Biblioteca Dracônica</title>
+    <!-- Favicon da Biblioteca Dracônica -->
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <h1 class="central">BIBLIOTECA DRACONICA</h1>
+    <!-- Barra de Navegação Superior -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
+        </div>
+        <nav>
+            <a href="inicial.html">Início</a>
+            <a href="index.html" class="active">Catálogo</a>
+            <a href="cadastrar-livro.html">Cadastrar Livro</a>
+            <a href="forum.html">Fórum</a>
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
 
-    <form action="/buscar" method="GET">
-        <input type="search" name="q" placeholder="Digite sua pesquisa...">
-        <button type="submit">Buscar</button>
-    </form>
+    <main id="main-content">
+        <!-- Seção de Busca -->
+        <section class="hero-search">
+            <h2>Grande Catálogo de RPG</h2>
+            <p>O acervo completo de grimórios oficiais, suplementos e criações autorais da comunidade.</p>
+            <div class="search-bar">
+                <input id="search-input" type="text" placeholder="Buscar por título, autor, tags, sistema (JJRPG, D&D, Tormenta...) ou tema..." aria-label="Buscar livros no catálogo">
+                <button id="search-btn" type="button" aria-label="Executar busca">Buscar</button>
+            </div>
+        </section>
 
-    <p>Biblioteca<br>Dracônica</p>
-    <img class="icon" src="icones/logo.png" alt="Logotipo Biblioteca Dracônica">
+        <!-- Banner de Envio de RPG / Conteúdo de Fã -->
+        <div class="banner-submissao-rpg">
+            <div class="banner-submissao-texto">
+                🎲 <strong>Criou um RPG próprio, Homebrew ou Suplemento?</strong> Publique sua obra na guilda! O sistema gera um link de download leve do seu PDF e envia para a Central de Administradores avaliar antes de ir pro ar.
+            </div>
+            <a href="cadastrar-livro.html" class="btn-submeter-catalogo" id="btnBannerSubmeter" style="text-decoration: none;">
+                📤 Cadastrar meu Livro
+            </a>
+        </div>
 
-    <footer> 
-        <p>&copy; 2023 Biblioteca Dracônica. Todos os direitos reservados.</p>
+        <!-- Catálogo e Filtros Dinâmicos -->
+        <section class="catalog-section">
+            <!-- Barra de Filtros por Tópicos de Tipo de Jogo -->
+            <div style="margin-bottom: 12px;">
+                <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">
+                    Tópicos por Tipo de Jogo:
+                </span>
+                <div class="filters" id="filtrosTipoJogo" style="margin-bottom: 20px;">
+                    <button class="filter-btn active" data-tipo="Todos">Todos os Tipos</button>
+                    <button class="filter-btn" data-tipo="JJRPG">JJRPG</button>
+                    <button class="filter-btn" data-tipo="Fantasia Medieval">Fantasia Medieval</button>
+                    <button class="filter-btn" data-tipo="Horror Cósmico">Horror Cósmico</button>
+                    <button class="filter-btn" data-tipo="Cyberpunk">Cyberpunk / Sci-Fi</button>
+                </div>
+            </div>
+
+            <!-- Filtros Secundários: Status de Aquisição e Criações de Fãs -->
+            <div style="margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Disponibilidade & Origem:</span>
+                    <button type="button" class="btn-aquisicao-filtro active" data-aquisicao="todos" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--accent-color); color: var(--accent-text); border: 1px solid var(--accent-color);">
+                        Todos os Grimórios
+                    </button>
+                    <button type="button" class="btn-aquisicao-filtro" data-aquisicao="compra" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-color);">
+                        🛒 Compra Direta
+                    </button>
+                    <button type="button" class="btn-aquisicao-filtro" data-aquisicao="financiamento" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-color);">
+                        🤝 Financiamento Coletivo
+                    </button>
+                    <button type="button" class="btn-aquisicao-filtro" data-aquisicao="homebrew" style="padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-color);">
+                        🎲 Conteúdo de Fã / Homebrew
+                    </button>
+                </div>
+
+                <div id="statusContadorLivros" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">
+                    Carregando grimórios...
+                </div>
+            </div>
+
+            <!-- Grade Dinâmica de Livros Agrupados por Tipo de Jogo -->
+            <div id="catalogoDinamicoContainer">
+                <!-- Preenchido dinamicamente pelo pesquisar.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados | <a href="termos-privacidade.html" style="color: var(--accent-color);">Termos de Privacidade</a></p>
     </footer>
+
+    <!-- Scripts -->
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/pesquisar.js"></script>
+    <script src="../static/staticjs/acessibilidade.js"></script>
 </body>
 </html>

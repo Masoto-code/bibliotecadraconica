@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Dracônica - Acervo & Comunidade RPG de Mesa</title>
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <link rel="stylesheet" href="../static/staticcss/inicial.css">
+    <!-- Script direto no HEAD para evitar piscar a tela -->
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Cabeçalho padronizado da Guilda -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
+        </div>
+        <nav>
+            <a href="inicial.html" class="active">Início</a>
+            <a href="index.html">Catálogo</a>
+            <a href="cadastrar-livro.html">Cadastrar Livro</a>
+            <a href="forum.html">Fórum</a>
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <!-- 1. Hero Section Épico -->
+        <section class="hero-epic">
+            <div class="hero-pill">
+                🐉 O Grande Arquivo dos RPGistas de Mesa
+            </div>
+            <h2>Descubra Mundos, Domine Regras e <span>Encontre Seus Grimórios</span></h2>
+            <p>O acervo definitivo da guilda para D&D 5ª Edição, Tormenta 20, Fabula Ultima e RPGs autorais. Explore tomos oficiais, publique suas próprias obras para moderação e desfrute de downloads diretos e rápidos.</p>
+            
+            <div class="hero-actions">
+                <a href="index.html" class="btn-primary-hero">📚 Explorar Catálogo Completo</a>
+                <a href="cadastrar-livro.html" class="btn-primary-hero" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">📤 Publicar / Cadastrar Livro</a>
+                <a href="forum.html" class="btn-secondary-hero">💬 Entrar na Taverna / Fórum</a>
+            </div>
+
+            <!-- Banner de Estatísticas da Guilda -->
+            <div class="stats-banner">
+                <div class="stat-item">
+                    <span class="stat-number">55+</span>
+                    <span class="stat-label">Grimórios Catalogados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">Sistemas em Destaque</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Acesso Gratuito e Livre</span>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- 3. Seção de Recursos da Guilda -->
+        <section class="home-section" style="border-top: 1px solid var(--border-color); padding-top: 50px;">
+            <div class="section-title">
+                <h3>O que Você Encontra na Biblioteca Dracônica</h3>
+                <p>Muito mais do que uma lista de títulos: uma verdadeira cidadela para mestres e jogadores</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h4>Filtros Inteligentes e Tags</h4>
+                    <p>Busca instantânea por título, autor, tags de conteúdo, sistema de regras e disponibilidade de compra ou financiamento coletivo.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h4>Publicação de Livros com Moderação</h4>
+                    <p>Envie seu próprio RPG ou homebrew com tags e descrição. Nosso sistema converte PDFs pesados em links de download direto após avaliação da Central de Administradores.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">♿</div>
+                    <h4>Acessibilidade Completa</h4>
+                    <p>Projetado para pessoas cegas, idosas e deficientes: sintetizador de voz nativo, alto contraste, ajuste de fonte e botão para subir ao topo.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h4>Fórum da Taverna</h4>
+                    <p>Participe de discussões sobre balanceamento, debata regras polêmicas, compartilhe ideias de campanhas e monte combos heroicos.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados | <a href="termos-privacidade.html" style="color: var(--accent-color);">Termos de Privacidade</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/acessibilidade.js"></script>
+</body>
+</html>

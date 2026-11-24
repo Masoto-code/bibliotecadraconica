@@ -1,0 +1,204 @@
+/* =========================================================
+   ESTILOS DE DETALHES DO LIVRO - BIBLIOTECA DRACÔNICA
+   Integrado com theme.css para Temas Escuro e Claro Perfeitos
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Georgia, serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Cabeçalho */
+header.navbar, header {
+    background-color: var(--header-bg);
+    border-bottom: 2px solid var(--accent-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(217, 119, 6, 0.4));
+}
+
+.texto-logo {
+    color: var(--text-main);
+    font-weight: bold;
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: var(--accent-color);
+}
+
+/* Container Principal */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.detalhes-container {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 35px;
+    max-width: 950px;
+    width: 100%;
+    display: flex;
+    gap: 40px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+/* Caixa da Capa */
+.capa-box {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#capaLivro {
+    max-width: 260px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--accent-color);
+    transition: transform 0.3s;
+}
+
+#capaLivro:hover {
+    transform: scale(1.03);
+}
+
+/* Caixa de Informações */
+.info-box {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#tituloLivro {
+    color: var(--text-main);
+    font-size: 32px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.info-box p {
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.info-box strong {
+    color: var(--accent-color);
+}
+
+.info-box h3 {
+    color: var(--accent-color);
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#descricaoLivro {
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+/* Sistema de Avaliação */
+.avaliacao-container {
+    margin-top: 15px;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.estrelas {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.estrela {
+    font-size: 30px;
+    color: var(--star-empty);
+    cursor: pointer;
+    transition: color 0.2s, transform 0.1s;
+}
+
+.estrela:hover {
+    transform: scale(1.2);
+}
+
+.estrela.marcada {
+    color: var(--star-active);
+    text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+}
+
+/* Rodapé */
+footer {
+    background-color: var(--footer-bg);
+    text-align: center;
+    padding: 22px;
+    color: var(--text-muted);
+    font-size: 14px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsividade para Celulares */
+@media (max-width: 768px) {
+    header.navbar, header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .detalhes-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .capa-box {
+        width: 100%;
+    }
+}

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Administradores - Biblioteca Dracônica</title>
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
+    <style>
+        .admin-container {
+            max-width: 1100px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+        }
+        .admin-gate-card {
+            max-width: 480px;
+            margin: 50px auto;
+            background: var(--card-bg);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+        }
+        .admin-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .admin-header h1 {
+            color: #ef4444;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .admin-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px 22px;
+            text-align: center;
+        }
+        .stat-val {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .stat-label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .admin-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 25px;
+            gap: 8px;
+        }
+        .admin-tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-tab.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+        .submissao-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 25px;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            transition: border-color 0.2s;
+        }
+        .submissao-card:hover {
+            border-color: var(--accent-color);
+        }
+        .submissao-capa {
+            width: 140px;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #111;
+        }
+        .submissao-info {
+            flex: 1;
+            min-width: 280px;
+        }
+        .submissao-titulo {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+        .submissao-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .submissao-meta strong {
+            color: var(--text-main);
+        }
+        .submissao-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .tag-badge {
+            background: rgba(250, 204, 21, 0.12);
+            color: var(--accent-color);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            padding: 3px 10px;
+            border-radius: 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .submissao-sinopse {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .submissao-acoes {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn-aprovar {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-aprovar:hover {
+            transform: scale(1.03);
+        }
+        .btn-rejeitar {
+            background: #ef4444;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-rejeitar:hover {
+            transform: scale(1.03);
+        }
+        .btn-pdf-link {
+            background: #3b82f6;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        .btn-pdf-link:hover {
+            background: #2563eb;
+        }
+        .badge-admin-logado {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
+        </div>
+        <nav>
+            <a href="inicial.html">Início</a>
+            <a href="index.html">Catálogo</a>
+            <a href="cadastrar-livro.html">Cadastrar Livro</a>
+            <a href="forum.html">Fórum</a>
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
+
+    <main id="main-content" class="admin-container">
+        <!-- BLOQUEIO DE ACESSO: Exibido caso o usuário NÃO seja administrador -->
+        <div id="bloqueioAcessoAdmin" style="display: none;">
+            <div class="admin-gate-card">
+                <div style="font-size: 3rem; margin-bottom: 12px; color: #ef4444;">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 style="color: #ef4444; margin-bottom: 8px; font-size: 1.5rem;">Acesso Restrito aos Administradores</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+                    A Central de Moderação e Avaliação é de uso exclusivo dos administradores da Biblioteca Dracônica.
+                </p>
+
+                <div id="loginAdminFeedback" style="display: none; padding: 10px; border-radius: 6px; margin-bottom: 16px; font-weight: bold; font-size: 0.9rem;"></div>
+
+                <form id="formLoginAdmin" style="text-align: left;">
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <label for="adminEmailInput" style="display: block; margin-bottom: 6px; font-weight: 600;">Email do Administrador:</label>
+                        <input type="email" id="adminEmailInput" class="form-control" value="ADMBIBLIOTECA@gmail.com" required style="width: 100%; padding: 12px; box-sizing: border-box;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="adminSenhaInput" style="display: block; margin-bottom: 6px; font-weight: 600;">Senha do Administrador:</label>
+                        <input type="password" id="adminSenhaInput" class="form-control" placeholder="Digite a senha de administrador" required style="width: 100%; padding: 12px; box-sizing: border-box;">
+                    </div>
+
+                    <button type="submit" class="btn-compra" style="width: 100%; background: #ef4444; color: #fff; padding: 12px; font-size: 1.05rem; justify-content: center;">
+                        <i class="fa-solid fa-key"></i> Entrar na Central Admin
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- PAINEL ADMINISTRATIVO: Exibido APENAS para contas admin -->
+        <div id="painelAdminConteudo" style="display: none;">
+            <div class="admin-header">
+                <div>
+                    <h1><i class="fa-solid fa-shield-halved"></i> Central de Administradores & Moderação</h1>
+                    <p>Avalie os grimórios submetidos pelos membros da guilda, confira os arquivos PDF e aprove para jogá-los no ar!</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="badge-admin-logado" id="badgeAdminInfo">
+                        <i class="fa-solid fa-user-shield"></i> ADMBIBLIOTECA@gmail.com
+                    </span>
+                    <a href="cadastrar-livro.html" class="btn-compra" style="background: var(--accent-color); color: var(--accent-text); padding: 10px 18px; font-size: 0.92rem;">
+                        <i class="fa-solid fa-plus"></i> Novo Livro
+                    </a>
+                </div>
+            </div>
+
+            <!-- Estatísticas Rápidas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="countPendentes">0</div>
+                    <div class="stat-label">⏳ Aguardando Avaliação</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="countAprovados" style="color: #10b981;">0</div>
+                    <div class="stat-label">🚀 Livros no Ar (Catálogo)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="countRejeitados" style="color: #ef4444;">0</div>
+                    <div class="stat-label">❌ Obras Recusadas</div>
+                </div>
+            </div>
+
+            <!-- Abas de Navegação -->
+            <div class="admin-tabs" role="tablist">
+                <button class="admin-tab active" id="tabPendentes" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-clock"></i> Fila de Avaliação (<span id="tabCountPendentes">0</span>)
+                </button>
+                <button class="admin-tab" id="tabAprovados" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-rocket"></i> Jogados no Ar (<span id="tabCountAprovados">0</span>)
+                </button>
+                <button class="admin-tab" id="tabRejeitados" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-ban"></i> Recusados (<span id="tabCountRejeitados">0</span>)
+                </button>
+            </div>
+
+            <!-- Feedback de Ação -->
+            <div id="modFeedback" style="display: none; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px; font-weight: bold;"></div>
+
+            <!-- Lista de Livros -->
+            <div id="listaSubmissoes">
+                <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Carregando submissões da guilda...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Painel Administrativo | <a href="termos-privacidade.html" style="color: var(--accent-color);">Termos de Privacidade</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/acessibilidade.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const painelAdmin = document.getElementById('painelAdminConteudo');
+            const bloqueioAdmin = document.getElementById('bloqueioAcessoAdmin');
+            const formLoginAdmin = document.getElementById('formLoginAdmin');
+            const loginFeedback = document.getElementById('loginAdminFeedback');
+
+            let todasSubmissoes = [];
+            let abaAtual = 'pendentes';
+
+            const tabPendentes = document.getElementById('tabPendentes');
+            const tabAprovados = document.getElementById('tabAprovados');
+            const tabRejeitados = document.getElementById('tabRejeitados');
+            const containerLista = document.getElementById('listaSubmissoes');
+            const feedback = document.getElementById('modFeedback');
+
+            function checarPermissaoAdmin() {
+                const usuario = Auth.getUsuario();
+                const ehAdmin = usuario && (usuario.is_admin === true || (usuario.email && usuario.email.toLowerCase() === 'admbiblioteca@gmail.com'));
+
+                if (ehAdmin) {
+                    bloqueioAdmin.style.display = 'none';
+                    painelAdmin.style.display = 'block';
+                    document.getElementById('badgeAdminInfo').innerHTML = `<i class="fa-solid fa-user-shield"></i> ${usuario.email}`;
+                    carregarSubmissoes();
+                } else {
+                    painelAdmin.style.display = 'none';
+                    bloqueioAdmin.style.display = 'block';
+                }
+            }
+
+            formLoginAdmin.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                loginFeedback.style.display = 'none';
+                const email = document.getElementById('adminEmailInput').value.trim();
+                const senha = document.getElementById('adminSenhaInput').value;
+
+                const res = await Auth.login(email, senha);
+                if (res.sucesso) {
+                    checarPermissaoAdmin();
+                } else {
+                    loginFeedback.textContent = "Email ou Senha incorreto";
+                    loginFeedback.style.background = 'rgba(239, 68, 68, 0.15)';
+                    loginFeedback.style.border = '1px solid #ef4444';
+                    loginFeedback.style.color = '#ef4444';
+                    loginFeedback.style.display = 'block';
+                }
+            });
+
+            function showFeedback(msg, isSuccess) {
+                feedback.textContent = msg;
+                feedback.style.background = isSuccess ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+                feedback.style.border = `1px solid ${isSuccess ? '#22c55e' : '#ef4444'}`;
+                feedback.style.color = isSuccess ? '#22c55e' : '#ef4444';
+                feedback.style.display = 'block';
+                window.scrollTo({ top: 120, behavior: 'smooth' });
+                setTimeout(() => { feedback.style.display = 'none'; }, 6000);
+            }
+
+            async function carregarSubmissoes() {
+                try {
+                    const baseUrl = Auth.getBaseUrl();
+                    const res = await fetch(`${baseUrl}/api/livros/submissoes?status=todos`);
+                    if (res.ok) {
+                        todasSubmissoes = await res.json();
+                    } else {
+                        const resP = await fetch(`${baseUrl}/api/livros/submissoes?apenas_pendentes=true`);
+                        todasSubmissoes = resP.ok ? await resP.json() : [];
+                    }
+                } catch {
+                    todasSubmissoes = [];
+                }
+
+                atualizarContadores();
+                renderizarAba(abaAtual);
+            }
+
+            function atualizarContadores() {
+                const pendentes = todasSubmissoes.filter(s => s.status_aprovacao === 'pendente');
+                const aprovados = todasSubmissoes.filter(s => s.status_aprovacao === 'aprovado');
+                const rejeitados = todasSubmissoes.filter(s => s.status_aprovacao === 'rejeitado');
+
+                document.getElementById('countPendentes').textContent = pendentes.length;
+                document.getElementById('countAprovados').textContent = aprovados.length;
+                document.getElementById('countRejeitados').textContent = rejeitados.length;
+
+                document.getElementById('tabCountPendentes').textContent = pendentes.length;
+                document.getElementById('tabCountAprovados').textContent = aprovados.length;
+                document.getElementById('tabCountRejeitados').textContent = rejeitados.length;
+            }
+
+            function renderizarAba(status) {
+                abaAtual = status;
+                let lista = [];
+
+                if (status === 'pendentes') {
+                    lista = todasSubmissoes.filter(s => s.status_aprovacao === 'pendente');
+                } else if (status === 'aprovados') {
+                    lista = todasSubmissoes.filter(s => s.status_aprovacao === 'aprovado');
+                } else if (status === 'rejeitados') {
+                    lista = todasSubmissoes.filter(s => s.status_aprovacao === 'rejeitado');
+                }
+
+                if (lista.length === 0) {
+                    containerLista.innerHTML = `
+                        <div style="background: var(--card-bg); border: 1px dashed var(--border-color); border-radius: 12px; padding: 40px; text-align: center; color: var(--text-muted);">
+                            <div style="font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-color);"><i class="fa-solid fa-feather-pointed"></i></div>
+                            <h3>Nenhum grimório nesta categoria no momento.</h3>
+                            <p style="margin-top: 6px;">Novas submissões enviadas pelos aventureiros aparecerão aqui para avaliação.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                containerLista.innerHTML = lista.map(livro => {
+                    const capaUrl = livro.capa_url || '../imagens/capas/livro_1.svg';
+                    const autor = livro.autor || 'Autor Não Informado';
+                    const sistema = livro.sistema || 'Sistema Geral';
+                    const tipoJogo = livro.tipo_jogo || 'Fantasia Medieval';
+                    const sinopse = livro.sinopse || 'Sem descrição cadastrada.';
+                    const tagsArray = livro.tags ? livro.tags.split(',').map(t => t.trim()).filter(Boolean) : ['RPG', sistema];
+                    const pdfUrl = livro.arquivo_url;
+
+                    const tagsHtml = tagsArray.map(t => `<span class="tag-badge"><i class="fa-solid fa-tag"></i> #${t.replace(/^#/, '')}</span>`).join(' ');
+
+                    return `
+                        <article class="submissao-card" id="cardLivro-${livro.id}">
+                            <img src="${capaUrl}" alt="Capa de ${livro.titulo}" class="submissao-capa" onerror="this.onerror=null; this.src='../imagens/capas/livro_1.svg';">
+                            <div class="submissao-info">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+                                    <h2 class="submissao-titulo">${livro.titulo}</h2>
+                                    <span style="font-size: 0.85rem; padding: 4px 10px; border-radius: 12px; font-weight: bold; background: ${
+                                        livro.status_aprovacao === 'aprovado' ? 'rgba(16, 185, 129, 0.2); color: #10b981;' :
+                                        livro.status_aprovacao === 'rejeitado' ? 'rgba(239, 68, 68, 0.2); color: #ef4444;' :
+                                        'rgba(245, 158, 11, 0.2); color: #f59e0b;'
+                                    }">
+                                        ${
+                                            livro.status_aprovacao === 'aprovado' ? '<i class="fa-solid fa-circle-check"></i> Publicado / No Ar' :
+                                            livro.status_aprovacao === 'rejeitado' ? '<i class="fa-solid fa-circle-xmark"></i> Recusado' :
+                                            '<i class="fa-solid fa-clock"></i> Aguardando Avaliação'
+                                        }
+                                    </span>
+                                </div>
+
+                                <div class="submissao-meta">
+                                    <span><strong>Autor:</strong> ${autor}</span>
+                                    <span><strong>Sistema:</strong> ${sistema}</span>
+                                    <span><strong>Tipo:</strong> ${tipoJogo}</span>
+                                    ${livro.usuario_submissao_nome ? `<span><strong>Enviado por:</strong> ${livro.usuario_submissao_nome}</span>` : ''}
+                                </div>
+
+                                <div class="submissao-tags">
+                                    ${tagsHtml}
+                                </div>
+
+                                <div class="submissao-sinopse">
+                                    <strong>Descrição da Obra:</strong><br>
+                                    ${sinopse}
+                                </div>
+
+                                ${livro.motivo_rejeicao ? `
+                                    <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 8px 12px; border-radius: 0 6px 6px 0; margin-bottom: 14px; font-size: 0.88rem; color: #ef4444;">
+                                        <strong>Motivo da Recusa:</strong> ${livro.motivo_rejeicao}
+                                    </div>
+                                ` : ''}
+
+                                <div class="submissao-acoes">
+                                    ${pdfUrl ? `
+                                        <a href="${pdfUrl}" target="_blank" download class="btn-pdf-link" title="Baixar e testar o arquivo PDF gerado pelo sistema">
+                                            <i class="fa-solid fa-file-pdf"></i> Baixar / Testar Arquivo PDF
+                                        </a>
+                                    ` : '<span style="font-size: 0.85rem; color: var(--text-muted);"><i class="fa-solid fa-circle-info"></i> Sem arquivo anexado</span>'}
+
+                                    <a href="detalhes.html?id=${livro.id}" class="btn-compra" style="padding: 10px 16px; font-size: 0.88rem; background: var(--badge-bg); color: var(--text-main); border: 1px solid var(--border-color); text-decoration: none;">
+                                        <i class="fa-solid fa-eye"></i> Visualizar Detalhes
+                                    </a>
+
+                                    ${livro.status_aprovacao !== 'aprovado' ? `
+                                        <button class="btn-aprovar" onclick="moderarLivro(${livro.id}, 'aprovar')">
+                                            <i class="fa-solid fa-check"></i> Aprovar e Jogar no Ar
+                                        </button>
+                                    ` : ''}
+
+                                    ${livro.status_aprovacao !== 'rejeitado' ? `
+                                        <button class="btn-rejeitar" onclick="solicitarRecusa(${livro.id})">
+                                            <i class="fa-solid fa-xmark"></i> Recusar Obra
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+            }
+
+            window.moderarLivro = async function (livroId, acao, motivo = '') {
+                try {
+                    const baseUrl = Auth.getBaseUrl();
+                    const res = await fetch(`${baseUrl}/api/livros/${livroId}/moderar`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ acao, motivo })
+                    });
+
+                    const data = await res.json();
+                    if (res.ok) {
+                        showFeedback(`✨ ${data.mensagem}`, true);
+                        const idx = todasSubmissoes.findIndex(s => s.id === livroId);
+                        if (idx !== -1) {
+                            todasSubmissoes[idx].status_aprovacao = acao === 'aprovar' ? 'aprovado' : 'rejeitado';
+                            if (motivo) todasSubmissoes[idx].motivo_rejeicao = motivo;
+                        }
+                        atualizarContadores();
+                        renderizarAba(abaAtual);
+                    } else {
+                        throw new Error(data.erro || 'Falha ao processar moderação.');
+                    }
+                } catch (err) {
+                    showFeedback(err.message, false);
+                }
+            };
+
+            window.solicitarRecusa = function (livroId) {
+                const motivo = prompt('Por favor, digite o motivo da recusa deste grimório (ex: Material não autoral, PDF corrompido, Violação de direitos):');
+                if (motivo !== null && motivo.trim() !== '') {
+                    window.moderarLivro(livroId, 'rejeitar', motivo.trim());
+                }
+            };
+
+            tabPendentes.addEventListener('click', () => {
+                tabPendentes.classList.add('active');
+                tabAprovados.classList.remove('active');
+                tabRejeitados.classList.remove('active');
+                renderizarAba('pendentes');
+            });
+
+            tabAprovados.addEventListener('click', () => {
+                tabAprovados.classList.add('active');
+                tabPendentes.classList.remove('active');
+                tabRejeitados.classList.remove('active');
+                renderizarAba('aprovados');
+            });
+
+            tabRejeitados.addEventListener('click', () => {
+                tabRejeitados.classList.add('active');
+                tabPendentes.classList.remove('active');
+                tabAprovados.classList.remove('active');
+                renderizarAba('rejeitados');
+            });
+
+            checarPermissaoAdmin();
+        });
+    </script>
+</body>
+</html>

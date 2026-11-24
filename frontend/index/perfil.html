@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Aventureiro - Biblioteca Dracônica</title>
+    <!-- Favicon da Biblioteca Dracônica -->
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <link rel="stylesheet" href="../static/staticcss/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Barra de Navegação Superior -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
+        </div>
+        <nav>
+            <a href="inicial.html">Início</a>
+            <a href="index.html">Catálogo</a>
+            <a href="cadastrar-livro.html">Cadastrar Livro</a>
+            <a href="forum.html">Fórum</a>
+            <a href="perfil.html" class="active">Meu Perfil</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Estado: Usuário NÃO logado -->
+        <section id="perfilNaoLogado" style="display: none; max-width: 650px; margin: 80px auto; text-align: center; padding: 40px 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
+            <div style="font-size: 3.5rem; margin-bottom: 12px;">🛡️</div>
+            <h2 style="color: var(--accent-color); margin-bottom: 10px;">Identifique-se, Aventureiro!</h2>
+            <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 25px; line-height: 1.6;">
+                Para visualizar sua ficha de aventureiro, personalizar seu perfil, enviar RPGs próprios e conteúdos de fã para moderação, acesse a guilda com sua conta.
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="login.html" class="btn-destaque-perfil" style="text-decoration: none; padding: 12px 28px;">
+                    ⚔️ Fazer Login na Taverna
+                </a>
+                <a href="login.html" class="btn-editar-perfil" style="text-decoration: none; padding: 12px 28px;">
+                    📜 Cadastrar Nova Ficha
+                </a>
+            </div>
+        </section>
+
+        <!-- Estado: Usuário LOGADO -->
+        <section id="perfilLogado" class="perfil-container" style="display: none; margin-top: 30px;">
+            <!-- Capa / Banner da Guilda -->
+            <div class="perfil-banner">
+                <span style="background: rgba(0,0,0,0.6); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.2);">
+                    🏰 Hall dos Heróis & Cronistas
+                </span>
+            </div>
+
+            <!-- Card Principal de Informações do Usuário -->
+            <div class="perfil-header-card">
+                <div class="perfil-header-top">
+                    <!-- Avatar com Botão de Upload Rápido -->
+                    <div class="perfil-avatar-wrapper">
+                        <div id="perfilAvatarDisplay" class="perfil-avatar-img">
+                            🧙‍♂️
+                        </div>
+                        <button type="button" class="btn-avatar-camera" id="btnAbrirEditarPerfil" title="Personalizar Perfil e Foto">
+                            📷
+                        </button>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div class="perfil-botoes-acoes">
+                        <button type="button" class="btn-destaque-perfil" id="btnAbrirSubmeterRPG" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #059669; color: #fff;">
+                            📤 Enviar RPG / Homebrew
+                        </button>
+                        <button type="button" class="btn-destaque-perfil" id="btnAbrirEditarPerfil2" onclick="document.getElementById('btnAbrirEditarPerfil').click()">
+                            ✏️ Personalizar Perfil
+                        </button>
+                        <a href="forum.html" class="btn-editar-perfil" style="text-decoration: none;">
+                            ⚔️ Ir ao Fórum
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Detalhes Textuais do Aventureiro -->
+                <div class="perfil-dados-usuario">
+                    <h2 class="perfil-nome-titulo">
+                        <span id="perfilNomeDisplay">Aventureiro Lendário</span>
+                        <!-- Status de Campanha em Destaque -->
+                        <span id="perfilStatusDisplay" class="status-badge status-procurando_campanha" title="Clique para alterar seu status de jogo">
+                            🛡️ Procurando Campanha
+                        </span>
+                    </h2>
+                    
+                    <p class="perfil-email-sub">
+                        📧 <span id="perfilEmailDisplay">aventureiro@draconica.com</span>
+                    </p>
+
+                    <!-- Biografia / Sobre o Personagem -->
+                    <div class="perfil-bio-box" id="perfilBioDisplay">
+                        Carregando crônicas do aventureiro...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegação das Abas de Atividades -->
+            <div class="perfil-tabs-nav">
+                <button type="button" class="perfil-tab-btn active" data-target="abaCriados">
+                    📜 Meus Fóruns Criados <span class="tab-badge-count" id="tabCountCriados">0</span>
+                </button>
+                <button type="button" class="perfil-tab-btn" data-target="abaRespondidos">
+                    💬 Discussões Respondidas <span class="tab-badge-count" id="tabCountRespondidos">0</span>
+                </button>
+                <button type="button" class="perfil-tab-btn" data-target="abaAvaliacoes">
+                    ⭐ Minhas Avaliações & Resenhas <span class="tab-badge-count" id="tabCountAvaliacoes">0</span>
+                </button>
+                <button type="button" class="perfil-tab-btn" data-target="abaMeusRPGs">
+                    🎲 Meus RPGs & Conteúdos de Fã <span class="tab-badge-count" id="tabCountRPGs">0</span>
+                </button>
+                <!-- Aba Exclusiva de Administradores -->
+                <button type="button" class="perfil-tab-btn" data-target="abaModeracao" id="tabBtnModeracao" style="display: none; background: rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.4);">
+                    🛡️ Moderação da Guilda <span class="tab-badge-count" id="tabCountPendentes">0</span>
+                </button>
+            </div>
+
+            <!-- Conteúdo da Aba 1: Tópicos Criados -->
+            <section id="abaCriados" class="perfil-tab-content active">
+                <div id="listaTopicosCriados">
+                    <p style="color: var(--text-muted); text-align: center; padding: 25px;">Carregando tópicos criados...</p>
+                </div>
+            </section>
+
+            <!-- Conteúdo da Aba 2: Tópicos Respondidos -->
+            <section id="abaRespondidos" class="perfil-tab-content">
+                <div id="listaTopicosRespondidos">
+                    <p style="color: var(--text-muted); text-align: center; padding: 25px;">Carregando respostas no fórum...</p>
+                </div>
+            </section>
+
+            <!-- Conteúdo da Aba 3: Minhas Avaliações -->
+            <section id="abaAvaliacoes" class="perfil-tab-content">
+                <div id="listaMinhasAvaliacoes">
+                    <p style="color: var(--text-muted); text-align: center; padding: 25px;">Carregando avaliações em livros...</p>
+                </div>
+            </section>
+
+            <!-- Conteúdo da Aba 4: Meus RPGs Enviados (Conteúdos Autorais e de Fãs) -->
+            <section id="abaMeusRPGs" class="perfil-tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h3 style="color: var(--accent-color); margin: 0 0 5px;">📜 Meus RPGs & Conteúdos de Fã</h3>
+                        <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0;">Obras autorais e suplementos de fã enviados para a moderação da Biblioteca Dracônica.</p>
+                    </div>
+                    <button type="button" class="btn-destaque-perfil" onclick="document.getElementById('btnAbrirSubmeterRPG').click()">
+                        ➕ Enviar Novo RPG
+                    </button>
+                </div>
+                <div id="listaMeusRPGs">
+                    <p style="color: var(--text-muted); text-align: center; padding: 25px;">Carregando suas submissões de RPG...</p>
+                </div>
+            </section>
+
+            <!-- Conteúdo da Aba 5: Painel de Moderação (Administradores) -->
+            <section id="abaModeracao" class="perfil-tab-content">
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: var(--accent-color); margin: 0 0 5px;">🛡️ Painel de Moderação da Guilda</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0;">
+                        Examine materiais enviados pela comunidade. Aceitamos <strong>apenas conteúdos criados por fãs</strong> ou <strong>RPGs autorais/próprios</strong>. Ao aprovar, o material entra imediatamente no catálogo oficial com todas as funções!
+                    </p>
+                </div>
+                <div id="listaModeracaoRPGs">
+                    <p style="color: var(--text-muted); text-align: center; padding: 25px;">Carregando submissões pendentes...</p>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- Modal de Personalização do Perfil -->
+    <div class="modal-overlay" id="modalEditarPerfil">
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="btnFecharEditarPerfil">&times;</button>
+            <h3 style="color: var(--accent-color); font-size: 1.45rem; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                ⚙️ Personalizar Ficha de Aventureiro
+            </h3>
+
+            <div id="editFeedback" style="display: none; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 0.95rem;"></div>
+
+            <form id="formEditarPerfil">
+                <!-- Alteração de Nome -->
+                <div class="form-group" style="margin-bottom: 18px;">
+                    <label for="editNome" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        Nome do Aventureiro / Personagem:
+                    </label>
+                    <input type="text" id="editNome" class="form-control" style="width: 100%; padding: 11px 14px;" placeholder="Ex: Gandalf, o Cinzento" required>
+                    <small style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; display: block;">
+                        Ao alterar seu nome, suas postagens e resenhas serão atualizadas com o novo nome.
+                    </small>
+                </div>
+
+                <!-- Status de Campanha -->
+                <div class="form-group" style="margin-bottom: 18px;">
+                    <label for="editStatusJogo" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        Status de Campanha RPG:
+                    </label>
+                    <select id="editStatusJogo" class="form-control" style="width: 100%; padding: 11px 14px;">
+                        <option value="procurando_campanha">🛡️ Procurando Campanha (Jogador buscando mesa)</option>
+                        <option value="procurando_jogadores">📜 Procurando Jogadores (Mestre recrutando aventureiros)</option>
+                        <option value="em_campanha">⚔️ Em Campanha (Jogando ativamente)</option>
+                    </select>
+                </div>
+
+                <!-- Avatar: Upload ou Emoji RPG -->
+                <div class="form-group" style="margin-bottom: 18px;">
+                    <label style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 8px;">
+                        Avatar / Brasão de Aventureiro:
+                    </label>
+
+                    <!-- Área de Upload de Foto -->
+                    <div class="upload-area" id="uploadAvatarArea">
+                        <input type="file" id="uploadAvatarInput" accept="image/*" style="display: none;">
+                        <span style="font-size: 1.8rem; display: block; margin-bottom: 6px;">📸</span>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-main); font-weight: 500;">
+                            Clique ou arraste uma imagem do seu computador
+                        </p>
+                        <small style="color: var(--text-muted); font-size: 0.8rem;">PNG, JPG, WEBP ou GIF (máx. 5MB)</small>
+                        <div id="uploadPreview" style="margin-top: 10px; display: none;"></div>
+                    </div>
+
+                    <!-- Ou Escolha um Emoji / Classe Clássica -->
+                    <label style="color: var(--text-muted); font-size: 0.88rem; display: block; margin: 12px 0 6px;">
+                        Ou escolha um ícone de classe:
+                    </label>
+                    <div class="avatar-selection-grid">
+                        <button type="button" class="avatar-option-btn" data-avatar="🧙‍♂️" title="Mago">🧙‍♂️</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="⚔️" title="Guerreiro">⚔️</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🏹" title="Ranger / Arqueira">🏹</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🛡️" title="Paladino">🛡️</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🐉" title="Draconato">🐉</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🧝" title="Elfo / Ladina">🧝</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🧌" title="Bárbaro">🧌</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🐺" title="Druida">🐺</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="🪙" title="Ladino">🪙</button>
+                        <button type="button" class="avatar-option-btn" data-avatar="📖" title="Bardo">📖</button>
+                    </div>
+                </div>
+
+                <!-- Biografia / Sobre o Aventureiro -->
+                <div class="form-group" style="margin-bottom: 22px;">
+                    <label for="editBio" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        Biografia & Crônica do Personagem (Sobre Você):
+                    </label>
+                    <textarea id="editBio" rows="4" class="form-control" style="width: 100%; padding: 11px 14px; resize: vertical;" placeholder="Conte sobre sua experiência com RPG, seus sistemas favoritos (D&D 5E, Tormenta 20, Fabula Ultima...), suas classes preferidas e estilo de jogo..."></textarea>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button type="button" class="btn-editar-perfil" onclick="document.getElementById('modalEditarPerfil').style.display='none'">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-destaque-perfil">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: SUBMETER RPG PRÓPRIO / CONTEÚDO DE FÃ ================= -->
+    <div class="modal-overlay" id="modalSubmeterRPG" style="display: none;">
+        <div class="modal-content" style="max-width: 650px;">
+            <button type="button" class="modal-close" id="btnFecharSubmeterRPG">&times;</button>
+            <h3 style="color: var(--accent-color); font-size: 1.45rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                🎲 Enviar RPG Próprio ou Conteúdo de Fã
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.4;">
+                Envie sua criação autoral ou suplemento de fã (Homebrew). Os administradores avaliarão seu arquivo antes de publicá-lo oficialmente no catálogo da guilda.
+            </p>
+
+            <div id="submeterFeedback" style="display: none; padding: 12px 16px; border-radius: 8px; margin-bottom: 18px; font-size: 0.95rem;"></div>
+
+            <form id="formSubmeterRPG" enctype="multipart/form-data">
+                <!-- Título da Obra -->
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="subTitulo" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        Título do Grimório / RPG: *
+                    </label>
+                    <input type="text" id="subTitulo" name="titulo" class="form-control" style="width: 100%; padding: 10px 14px;" placeholder="Ex: O Templo das Sombras - Suplemento Autoral" required>
+                </div>
+
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <!-- Autor -->
+                    <div class="form-group" style="flex: 1; min-width: 240px; margin-bottom: 16px;">
+                        <label for="subAutor" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                            Nome do Criador / Autor: *
+                        </label>
+                        <input type="text" id="subAutor" name="autor" class="form-control" style="width: 100%; padding: 10px 14px;" placeholder="Seu nome ou pseudônimo" required>
+                    </div>
+
+                    <!-- Sistema -->
+                    <div class="form-group" style="flex: 1; min-width: 240px; margin-bottom: 16px;">
+                        <label for="subSistema" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                            Sistema de Regras: *
+                        </label>
+                        <select id="subSistema" name="sistema" class="form-control" style="width: 100%; padding: 10px 14px;">
+                            <option value="Sistema Próprio">Sistema Próprio / Autoral</option>
+                            <option value="D&D 5E">D&D 5ª Edição</option>
+                            <option value="Tormenta 20">Tormenta 20</option>
+                            <option value="Fabula Ultima">Fabula Ultima</option>
+                            <option value="Chamado de Cthulhu">Chamado de Cthulhu</option>
+                            <option value="Ordem Paranormal">Ordem Paranormal</option>
+                            <option value="Cyberpunk RED">Cyberpunk RED</option>
+                            <option value="Outro">Outro Sistema</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <!-- Categoria (Aceitando somente conteúdos autorais ou criados por fãs) -->
+                    <div class="form-group" style="flex: 1; min-width: 240px; margin-bottom: 16px;">
+                        <label for="subCategoria" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                            Tipo de Criação: *
+                        </label>
+                        <select id="subCategoria" name="categoria" class="form-control" style="width: 100%; padding: 10px 14px;">
+                            <option value="RPG Autoral / Próprio">RPG Autoral / Próprio (Sistema Completo)</option>
+                            <option value="Homebrew / Conteúdo de Fã">Homebrew / Conteúdo de Fã</option>
+                            <option value="Suplemento de Fã">Suplemento de Fã (Classes, Monstros, Itens)</option>
+                            <option value="Aventura / One-shot">Aventura / Módulo de Campanha</option>
+                        </select>
+                    </div>
+
+                    <!-- Tipo de Jogo -->
+                    <div class="form-group" style="flex: 1; min-width: 240px; margin-bottom: 16px;">
+                        <label for="subTipoJogo" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                            Gênero / Estilo: *
+                        </label>
+                        <select id="subTipoJogo" name="tipo_jogo" class="form-control" style="width: 100%; padding: 10px 14px;">
+                            <option value="Fantasia Medieval">Fantasia Medieval</option>
+                            <option value="JJRPG">JJRPG (Estilo Anime / Japonês)</option>
+                            <option value="Horror Cósmico">Horror Cósmico & Investigação</option>
+                            <option value="Cyberpunk">Cyberpunk & Sci-Fi</option>
+                            <option value="Outro">Outro Gênero</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sinopse -->
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="subSinopse" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        Sinopse e Descrição da Obra: *
+                    </label>
+                    <textarea id="subSinopse" name="sinopse" rows="3" class="form-control" style="width: 100%; padding: 10px 14px; resize: vertical;" placeholder="Descreva sua criação, o que os jogadores encontrarão (novas regras, lore, desafios)..." required></textarea>
+                </div>
+
+                <!-- Upload do Arquivo de RPG (PDF / Documento) -->
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="subArquivo" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        📄 Arquivo do Livro / RPG (PDF, ZIP, EPUB):
+                    </label>
+                    <input type="file" id="subArquivo" name="arquivo" class="form-control" accept=".pdf,.zip,.epub,.txt,.rar" style="width: 100%; padding: 10px 14px;">
+                    <small style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; display: block;">
+                        Faça upload do arquivo para que os membros da guilda possam baixá-lo após aprovação.
+                    </small>
+                </div>
+
+                <!-- Upload da Capa ou Seleção -->
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="subCapaArquivo" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        🖼️ Imagem de Capa (Opcional):
+                    </label>
+                    <input type="file" id="subCapaArquivo" name="capa_arquivo" class="form-control" accept="image/*" style="width: 100%; padding: 10px 14px;">
+                </div>
+
+                <!-- Link Externo Opcional -->
+                <div class="form-group" style="margin-bottom: 22px;">
+                    <label for="subLinkCompra" style="color: var(--text-main); font-weight: bold; display: block; margin-bottom: 6px;">
+                        🔗 Link de Apoio, Financiamento ou Compra (Opcional):
+                    </label>
+                    <input type="url" id="subLinkCompra" name="link_compra" class="form-control" style="width: 100%; padding: 10px 14px;" placeholder="Ex: https://catarse.me/seu-rpg ou https://itch.io/...">
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button type="button" class="btn-editar-perfil" onclick="document.getElementById('modalSubmeterRPG').style.display='none'">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-destaque-perfil" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-color: #059669; color: #fff;">
+                        🚀 Enviar para Avaliação
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados | <a href="termos-privacidade.html" style="color: var(--accent-color);">Termos de Privacidade</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/perfil.js"></script>
+    <script src="../static/staticjs/acessibilidade.js"></script>
+</body>
+</html>
