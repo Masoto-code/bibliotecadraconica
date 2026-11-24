@@ -9,6 +9,8 @@ urlpatterns = [
     # Autenticação
     path('api/auth/register', views.auth_register, name='api_register'),
     path('api/auth/login', views.auth_login, name='api_login'),
+    path('api/auth/recuperar-senha', views.auth_recuperar_senha, name='api_recuperar_senha'),
+    path('api/auth/redefinir-senha', views.auth_redefinir_senha, name='api_redefinir_senha'),
 
     # Perfil e Aventureiros
     path('api/usuarios/perfil', views.usuarios_perfil, name='api_perfil'),

@@ -101,13 +101,13 @@ print('[TEST 8 OK] POST /api/forum/topicos/<id>/comentarios adicionou avaliaçã
 
 # 9. Testar Registro e Login
 email_teste = f'teste_{os.getpid()}@draconica.com'
-res_reg = jc.post('/api/auth/register', json_data={'nome': 'Paladino de Teste', 'email': email_teste, 'senha': 'segredoepico'})
+res_reg = jc.post('/api/auth/register', json_data={'nome': 'Paladino de Teste', 'email': email_teste, 'senha': 'Segredo@123'})
 assert res_reg.status_code == 201
-res_login = jc.post('/api/auth/login', json_data={'email': email_teste, 'senha': 'segredoepico'})
+res_login = jc.post('/api/auth/login', json_data={'email': email_teste, 'senha': 'Segredo@123'})
 assert res_login.status_code == 200
 print('[TEST 9 OK] Registro e Login funcionando com sucesso via Django!')
 
-# 10. Testar páginas estáticas (inicial, catalogo, forum, detalhes, login, perfil)
+# 10. Testar páginas estáticas (inicial, catalogo, forum, detalhes, login, perfil, cadastrar-livro, central-admin, termos-privacidade)
 assert client.get('/').status_code == 200
 assert client.get('/inicial.html').status_code == 200
 assert client.get('/index.html').status_code == 200
@@ -115,7 +115,10 @@ assert client.get('/forum.html').status_code == 200
 assert client.get('/detalhes.html').status_code == 200
 assert client.get('/login.html').status_code == 200
 assert client.get('/perfil.html').status_code == 200
-print('[TEST 10 OK] Todas as páginas estáticas servidas pelo Django com sucesso!')
+assert client.get('/cadastrar-livro.html').status_code == 200
+assert client.get('/central-admin.html').status_code == 200
+assert client.get('/termos-privacidade.html').status_code == 200
+print('[TEST 10 OK] Todas as páginas estáticas (incluindo cadastrar-livro, central-admin e termos-privacidade) servidas pelo Django com sucesso!')
 
 # 11. Testar Personalização de Perfil (Nome, Bio, Status de Jogo e Avatar)
 user_id = res_login.get_json()['usuario']['id']
@@ -151,7 +154,7 @@ assert perfil_get['status_jogo'] == 'procurando_jogadores'
 print('[TEST 13 OK] GET /api/usuarios/perfil/<id> retornou dados do perfil!')
 
 # 14. Testar Tratamento de Erros e Proteção contra Duplicidade
-res_dup = jc.post('/api/auth/register', json_data={'nome': 'Outro', 'email': email_teste, 'senha': 'senha_duplicada'})
+res_dup = jc.post('/api/auth/register', json_data={'nome': 'Outro', 'email': email_teste, 'senha': 'Segredo@123'})
 assert res_dup.status_code == 409
 assert 'já está cadastrado' in res_dup.get_json()['erro']
 print('[TEST 14 OK] Proteção contra emails duplicados validada no Django!')
@@ -213,6 +216,9 @@ res_submeter = jc.post('/api/livros/submeter', json_data={
     'sistema': 'Eldoria D20',
     'tipo_jogo': 'Fantasia Medieval',
     'categoria': 'RPG Autoral / Próprio',
+    'tags': 'fantasia, rúnica, autoral, d20',
+
+    'tags': 'fantasia, rúnica, autoral, d20',
     'sinopse': 'Sistema de RPG totalmente autoral com mecânicas inéditas de magia rúnica e combate narrativo.',
     'usuario_id': user_id,
     'arquivo_url': '../uploads/rpgs/cronicas_eldoria.pdf'
@@ -285,4 +291,38 @@ res_cat_rej = jc.get('/api/livros?busca=Material+N%C3%A3o+Autoral')
 assert len(res_cat_rej.get_json()) == 0
 print('[TEST 23 OK] POST /api/livros/<id>/moderar REJEITOU material impróprio com motivo e blindou o catálogo!')
 
-print('\n>>> TODOS OS TESTES (23/23) PASSARAM COM 100% DE SUCESSO NO DJANGO! <<<')
+
+# 24. Testar erro de login com credenciais incorretas ("Email ou Senha incorreto")
+res_login_err = jc.post('/api/auth/login', json_data={'email': email_teste, 'senha': 'SenhaErrada@999'})
+assert res_login_err.status_code == 401
+assert res_login_err.get_json()['erro'] == 'Email ou Senha incorreto'
+print('[TEST 24 OK] Validação de login com erro retornou exatamente "Email ou Senha incorreto"!')
+
+# 25. Testar Recuperação e Redefinição de Senha
+res_rec = jc.post('/api/auth/recuperar-senha', json_data={'email': email_teste})
+assert res_rec.status_code == 200
+rec_dados = res_rec.get_json()
+assert 'Confirme aqui para alterar a senha' in rec_dados['mensagem']
+token_rec = rec_dados['token']
+
+res_redef = jc.post('/api/auth/redefinir-senha', json_data={
+    'email': email_teste,
+    'nova_senha': 'NovaSenha@999',
+    'confirmar_senha': 'NovaSenha@999',
+    'token': token_rec
+})
+assert res_redef.status_code == 200
+res_login_novo = jc.post('/api/auth/login', json_data={'email': email_teste, 'senha': 'NovaSenha@999'})
+assert res_login_novo.status_code == 200
+print('[TEST 25 OK] Fluxo de Recuperação e Redefinição de Senha testado com 100% de sucesso!')
+
+
+# 26. Testar Autenticação e Privilégios da Conta Administrador Oficial (ADMBIBLIOTECA@gmail.com)
+res_adm = jc.post('/api/auth/login', json_data={'email': 'ADMBIBLIOTECA@gmail.com', 'senha': 'AKhDd*M38DI0(d2N'})
+assert res_adm.status_code == 200
+adm_data = res_adm.get_json()['usuario']
+assert adm_data['email'].lower() == 'admbiblioteca@gmail.com'
+assert adm_data['is_admin'] == True
+print('[TEST 26 OK] Conta oficial de Administrador (ADMBIBLIOTECA@gmail.com) autenticada com privilégios confirmados!')
+
+print('\n>>> TODOS OS TESTES (26/26) PASSARAM COM 100% DE SUCESSO NO DJANGO! <<<')

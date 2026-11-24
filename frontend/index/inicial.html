@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Dracônica - Acervo & Comunidade RPG de Mesa</title>
+    <link rel="icon" type="image/png" href="../icones/logo.png">
     <link rel="stylesheet" href="../static/staticcss/theme.css">
     <link rel="stylesheet" href="../static/staticcss/style.css">
     <link rel="stylesheet" href="../static/staticcss/inicial.css">
@@ -13,6 +14,7 @@
             document.documentElement.classList.add('light-theme');
         }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
@@ -27,6 +29,7 @@
         <nav>
             <a href="inicial.html" class="active">Início</a>
             <a href="index.html">Catálogo</a>
+            <a href="cadastrar-livro.html">Cadastrar Livro</a>
             <a href="forum.html">Fórum</a>
             <a href="perfil.html">Meu Perfil</a>
             <a href="login.html" class="btn-login">Entrar</a>
@@ -34,112 +37,69 @@
         </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <!-- 1. Hero Section Épico -->
         <section class="hero-epic">
             <div class="hero-pill">
                 🐉 O Grande Arquivo dos RPGistas de Mesa
             </div>
             <h2>Descubra Mundos, Domine Regras e <span>Encontre Seus Grimórios</span></h2>
-            <p>O acervo definitivo da guilda para D&D 5ª Edição, Tormenta 20 e Fabula Ultima. Explore tomos oficiais, participe do fórum de regras e saiba onde adquirir seus livros com segurança.</p>
+            <p>O acervo definitivo da guilda para D&D 5ª Edição, Tormenta 20, Fabula Ultima e RPGs autorais. Explore tomos oficiais, publique suas próprias obras para moderação e desfrute de downloads diretos e rápidos.</p>
             
             <div class="hero-actions">
                 <a href="index.html" class="btn-primary-hero">📚 Explorar Catálogo Completo</a>
+                <a href="cadastrar-livro.html" class="btn-primary-hero" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">📤 Publicar / Cadastrar Livro</a>
                 <a href="forum.html" class="btn-secondary-hero">💬 Entrar na Taverna / Fórum</a>
             </div>
 
             <!-- Banner de Estatísticas da Guilda -->
             <div class="stats-banner">
                 <div class="stat-item">
-                    <span class="stat-number">21+</span>
+                    <span class="stat-number">55+</span>
                     <span class="stat-label">Grimórios Catalogados</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">3</span>
-                    <span class="stat-label">Sistemas Principais</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">⭐ 5.0</span>
-                    <span class="stat-label">Avaliações da Guilda</span>
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">Sistemas em Destaque</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">100%</span>
-                    <span class="stat-label">Lojas Oficiais & Financiamentos</span>
+                    <span class="stat-label">Acesso Gratuito e Livre</span>
                 </div>
             </div>
         </section>
 
-        <!-- 2. Participe da Taverna dos Aventureiros (Posicionado acima dos sistemas) -->
-        <section class="taverna-top-section">
-            <div class="taverna-box">
-                <span class="taverna-badge">⚔️ FÓRUM & COMUNIDADE DA GUILDA</span>
-                <h3>Participe da Taverna dos Aventureiros</h3>
-                <p>Crie sua ficha de aventureiro gratuita, tire dúvidas sobre regras, debata táticas, avalie tópicos com estrelas e compartilhe suas campanhas e aventuras com mestres e jogadores de todo o reino.</p>
-                
-                <div class="taverna-actions">
-                    <a href="forum.html" class="btn-primary-hero">⚔️ Acessar Fórum da Guilda</a>
-                    <a href="login.html" class="btn-secondary-hero">📜 Criar Conta na Guilda</a>
-                </div>
-            </div>
-        </section>
+        
 
-        <!-- 3. Navegação por Sistemas de RPG -->
-        <section class="systems-section">
-            <div class="section-title-wrap">
-                <h3>Escolha o seu Sistema de RPG</h3>
-                <p>Navegue diretamente pelos universos mais jogados da guilda</p>
-            </div>
-
-            <div class="systems-grid">
-                <!-- Card Sistema D&D 5E -->
-                <a href="index.html" class="system-box">
-                    <div class="system-icon">🎲</div>
-                    <h4>Dungeons & Dragons 5E</h4>
-                    <p>O mais consagrado sistema de alta fantasia medieval do mundo. Explore masmorras, domine magias lendárias e enfrente dragões ancestrais.</p>
-                    <span class="system-link">Ver Livros de D&D 5E &rarr;</span>
-                </a>
-
-                <!-- Card Sistema Tormenta 20 -->
-                <a href="index.html" class="system-box">
-                    <div class="system-icon">⚔️</div>
-                    <h4>Tormenta 20 (T20)</h4>
-                    <p>O maior cenário de RPG do Brasil. Enfrente a tempestade rubra alienígena em Arton com poderes épicos, 20 divindades e combate dinâmico.</p>
-                    <span class="system-link">Ver Livros de Tormenta 20 &rarr;</span>
-                </a>
-
-                <!-- Card Sistema Fabula Ultima -->
-                <a href="index.html" class="system-box">
-                    <div class="system-icon">🔮</div>
-                    <h4>Fabula Ultima (TTJRPG)</h4>
-                    <p>Inspirado nos clássicos videogames japoneses (Final Fantasy e Dragon Quest). Narrativa compartilhada cinematográfica, laços heroicos e batalhas táticas.</p>
-                    <span class="system-link">Ver Livros de Fabula Ultima &rarr;</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- 4. Vantagens da Guilda -->
-        <section class="guild-features">
-            <div class="section-title-wrap">
-                <h3>Por que a Biblioteca Dracônica?</h3>
-                <p>Tudo o que você precisa reunido em um único santuário</p>
+        <!-- 3. Seção de Recursos da Guilda -->
+        <section class="home-section" style="border-top: 1px solid var(--border-color); padding-top: 50px;">
+            <div class="section-title">
+                <h3>O que Você Encontra na Biblioteca Dracônica</h3>
+                <p>Muito mais do que uma lista de títulos: uma verdadeira cidadela para mestres e jogadores</p>
             </div>
 
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🛒</div>
-                    <h4>Onde Adquirir</h4>
-                    <p>Redirecionamos você diretamente para as lojas oficiais (Amazon, Jambô Editora, Need Games) ou campanhas no Catarse e Kickstarter.</p>
+                    <div class="feature-icon">🔍</div>
+                    <h4>Filtros Inteligentes e Tags</h4>
+                    <p>Busca instantânea por título, autor, tags de conteúdo, sistema de regras e disponibilidade de compra ou financiamento coletivo.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">⭐</div>
-                    <h4>Resenhas e Avaliações</h4>
-                    <p>Avalie os livros com notas de 1 a 5 estrelas e leia comentários sinceros deixados por outros mestres e jogadores da comunidade.</p>
+                    <div class="feature-icon">📤</div>
+                    <h4>Publicação de Livros com Moderação</h4>
+                    <p>Envie seu próprio RPG ou homebrew com tags e descrição. Nosso sistema converte PDFs pesados em links de download direto após avaliação da Central de Administradores.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">♿</div>
+                    <h4>Acessibilidade Completa</h4>
+                    <p>Projetado para pessoas cegas, idosas e deficientes: sintetizador de voz nativo, alto contraste, ajuste de fonte e botão para subir ao topo.</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">💬</div>
-                    <h4>Fórum da Guilda</h4>
+                    <h4>Fórum da Taverna</h4>
                     <p>Participe de discussões sobre balanceamento, debata regras polêmicas, compartilhe ideias de campanhas e monte combos heroicos.</p>
                 </div>
             </div>
@@ -148,11 +108,12 @@
 
     <!-- Rodapé -->
     <footer>
-        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados</p>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados | <a href="termos-privacidade.html" style="color: var(--accent-color);">Termos de Privacidade</a></p>
     </footer>
 
     <!-- Scripts -->
     <script src="../static/staticjs/tema.js"></script>
     <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/acessibilidade.js"></script>
 </body>
 </html>

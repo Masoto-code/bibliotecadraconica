@@ -369,7 +369,7 @@ if (window._draconicaForumIniciado) {
                 const novoTopico = { titulo, autor, sistema, conteudo };
 
                 try {
-                    const res = await fetch('${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos', {
+                    const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/forum/topicos`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(novoTopico)

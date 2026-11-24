@@ -9,6 +9,7 @@ class Usuario(models.Model):
     bio = models.TextField(blank=True, default='')
     status_jogo = models.CharField(max_length=50, default='procurando_campanha')
     is_admin = models.BooleanField(default=False)
+    reset_token = models.CharField(max_length=100, blank=True, default='')
     data_criacao = models.DateTimeField(auto_now_add=True)
 
     def set_senha(self, raw_password):
@@ -25,7 +26,7 @@ class Usuario(models.Model):
             return check_password(raw_password, self.senha_hash)
 
     def eh_administrador(self):
-        return self.is_admin or self.email.lower() == 'mestre@draconica.com'
+        return self.is_admin or self.email.lower() in ['admbiblioteca@gmail.com', 'mestre@draconica.com']
 
     def to_dict(self):
         return {
@@ -56,6 +57,7 @@ class Livro(models.Model):
     tipo_jogo = models.CharField(max_length=100, default='Fantasia Medieval')
     categoria = models.CharField(max_length=100)
     sinopse = models.TextField(blank=True, default='')
+    tags = models.CharField(max_length=255, blank=True, default='')
     capa_url = models.CharField(max_length=500, blank=True, default='')
     arquivo_url = models.CharField(max_length=500, blank=True, default='')
     link_compra = models.CharField(max_length=500, null=True, blank=True)
@@ -75,6 +77,7 @@ class Livro(models.Model):
             'tipo_jogo': self.tipo_jogo,
             'categoria': self.categoria,
             'sinopse': self.sinopse,
+            'tags': self.tags,
             'capa_url': self.capa_url,
             'arquivo_url': self.arquivo_url,
             'link_compra': self.link_compra,

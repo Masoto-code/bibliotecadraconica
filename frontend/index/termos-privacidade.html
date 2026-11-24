@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos de Privacidade - Biblioteca Dracônica</title>
+    <link rel="icon" type="image/png" href="../icones/logo.png">
+    <link rel="stylesheet" href="../static/staticcss/theme.css">
+    <link rel="stylesheet" href="../static/staticcss/style.css">
+    <script>
+        if (localStorage.getItem('tema') === 'claro') {
+            document.documentElement.classList.add('light-theme');
+        }
+    </script>
+    <style>
+        .privacidade-container {
+            max-width: 900px;
+            margin: 40px auto 70px;
+            padding: 0 20px;
+        }
+        .privacidade-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            line-height: 1.7;
+        }
+        .privacidade-card h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 14px;
+        }
+        .privacidade-card h2 {
+            color: var(--accent-color);
+            font-size: 1.35rem;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .privacidade-card p, .privacidade-card li {
+            color: var(--text-main);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .privacidade-card ul {
+            padding-left: 25px;
+            margin-bottom: 18px;
+        }
+        .privacidade-destaque {
+            background: rgba(250, 204, 21, 0.08);
+            border-left: 4px solid var(--accent-color);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.98rem;
+        }
+        .privacidade-data {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+        .btn-voltar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            background: var(--accent-color);
+            color: var(--accent-text);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .btn-voltar:hover {
+            opacity: 0.9;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="inicial.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+                <img class="logo2" src="../icones/logo.png" alt="Logo da Biblioteca Dracônica">
+                <h1>BIBLIOTECA DRACÔNICA</h1>
+            </a>
+        </div>
+        <nav>
+            <a href="inicial.html">Início</a>
+            <a href="index.html">Catálogo</a>
+            <a href="cadastrar-livro.html">Cadastrar Livro</a>
+            <a href="forum.html">Fórum</a>
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="login.html" class="btn-login">Entrar</a>
+            <button id="theme-toggle" class="btn-theme">☀️ Tema Claro</button>
+        </nav>
+    </header>
+
+    <main class="privacidade-container">
+        <article class="privacidade-card">
+            <h1>📜 Termos de Privacidade e Proteção de Dados</h1>
+            <div class="privacidade-data">Última atualização: Novembro de 2026 | Em conformidade com a LGPD (Lei nº 13.709/2018)</div>
+
+            <div class="privacidade-destaque">
+                🛡️ <strong>A Promessa da Guilda Dracônica:</strong> Valorizamos a honra, a segurança e a privacidade de cada mestre, jogador e criador de conteúdo que cruza os portais da nossa biblioteca. Seus dados estão seguros conosco.
+            </div>
+
+            <h2>1. Informações que Coletamos</h2>
+            <p>Ao se registrar e explorar a Biblioteca Dracônica, coletamos apenas os dados essenciais para o funcionamento da sua experiência de jogo e comunidade:</p>
+            <ul>
+                <li><strong>Identificação de Aventureiro:</strong> Nome ou alcunha de jogador/mestre, biografia e avatar de exibição.</li>
+                <li><strong>Credenciais de Acesso:</strong> Endereço de e-mail (ou Gmail) e palavra-passe (senha). Sua senha é criptografada imediatamente no momento do cadastro por algoritmos irreversíveis de hash (PBKDF2/SHA-256).</li>
+                <li><strong>Atividades Comunitárias:</strong> Resenhas, avaliações atribuídas aos grimórios (1 a 5 estrelas) e publicações no Fórum da Taverna.</li>
+                <li><strong>Submissões Autorais:</strong> Título, autor, sinopse, tags e arquivos enviados para publicação de livros.</li>
+            </ul>
+
+            <h2>2. Finalidade e Uso dos Dados</h2>
+            <p>Os dados coletados têm propósitos estritamente legítimos:</p>
+            <ul>
+                <li>Autenticar seu acesso aos recursos exclusivos de membro da guilda.</li>
+                <li>Permitir a recuperação segura da sua palavra-passe via confirmação de e-mail.</li>
+                <li>Exibir seu perfil público de aventureiro com suas contribuições e preferências de mesa.</li>
+                <li>Avaliar materiais submetidos através da nossa <strong>Central de Administradores</strong>.</li>
+            </ul>
+
+            <h2>3. Submissão de Grimórios e Arquivos Pesados (PDFs)</h2>
+            <p>A Biblioteca Dracônica apoia a criatividade comunitária, permitindo que mestres e autores publiquem seus próprios sistemas e suplementos:</p>
+            <ul>
+                <li><strong>Otimização de Arquivos:</strong> Como arquivos em formato PDF são volumosos, ao receber seu arquivo de RPG, nosso sistema o armazena de forma segura em nossos servidores e o substitui automaticamente por um link de download direto e leve.</li>
+                <li><strong>Avaliação Prévia:</strong> Para garantir a segurança dos usuários e combater pirataria ou materiais impróprios, nenhuma obra entra automaticamente no ar. Todas as submissões são encaminhadas à <strong>Central de Administradores</strong> para análise e aprovação.</li>
+                <li><strong>Direitos Autorais:</strong> O criador mantém todos os direitos morais sobre seus RPGs autorais e conteúdos de fãs, concedendo à Biblioteca Dracônica apenas a permissão para exibição no catálogo público.</li>
+            </ul>
+
+            <h2>4. Segurança e Armazenamento</h2>
+            <p>Adotamos medidas técnicas robustas de proteção da informação:</p>
+            <ul>
+                <li>Políticas rígidas de criação de contas: exigimos senhas de no mínimo 8 caracteres com combinação de letras maiúsculas, minúsculas, números e caracteres especiais.</li>
+                <li>Blindagem contra invasões e proteção de rotas via Django Security Middleware e isolamento de banco de dados.</li>
+                <li>Não compartilhamos, alugamos nem vendemos dados pessoais com terceiros comerciais ou anunciantes.</li>
+            </ul>
+
+            <h2>5. Direitos do Titular (LGPD)</h2>
+            <p>De acordo com o Art. 18 da LGPD, você tem o direito garantido de:</p>
+            <ul>
+                <li>Confirmar a existência do tratamento dos seus dados.</li>
+                <li>Acessar e editar seus dados a qualquer momento pela página de <em>Meu Perfil</em>.</li>
+                <li>Solicitar a redefinição de suas credenciais de segurança.</li>
+                <li>Solicitar a exclusão definitiva da sua ficha de aventureiro e de suas obras cadastradas.</li>
+            </ul>
+
+            <h2>6. Contato com o Guardião dos Dados</h2>
+            <p>Para dúvidas, requisições de titulares ou esclarecimentos sobre estes termos, você pode entrar em contato com a equipe através do e-mail oficial de administração: <strong>mestre@draconica.com</strong>.</p>
+
+            <a href="inicial.html" class="btn-voltar">⬅️ Voltar à Página Inicial</a>
+        </article>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 Biblioteca Dracônica - Todos os direitos reservados | <a href="termos-privacidade.html" style="color: var(--accent-color);">Termos de Privacidade</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../static/staticjs/tema.js"></script>
+    <script src="../static/staticjs/auth.js"></script>
+    <script src="../static/staticjs/acessibilidade.js"></script>
+</body>
+</html>

@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             formData.append('usuario_id', usuarioAtual.id);
 
             try {
-                const res = await fetch('${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/submeter', {
+                const res = await fetch(`${(window.location.origin && window.location.origin.startsWith('http') ? '' : 'http://localhost:5000')}/api/livros/submeter`, {
                     method: 'POST',
                     body: formData
                 });
@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             } catch {
                 if (submeterFeedback) {
-                    submeterFeedback.textContent = 'Falha de comunicação com o servidor Django.';
+                    submeterFeedback.textContent = 'Conta não encontrada. Entre em uma conta ou Crie para enviar um livro.';
                     submeterFeedback.style.background = 'rgba(239, 68, 68, 0.15)';
                     submeterFeedback.style.color = '#ef4444';
                 }

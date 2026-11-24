@@ -140,7 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                  (livro.sinopse && livro.sinopse.toLowerCase().includes(termo)) ||
                                  (livro.sistema && livro.sistema.toLowerCase().includes(termo)) ||
                                  (livro.categoria && livro.categoria.toLowerCase().includes(termo)) ||
-                                 (tipoLivro.toLowerCase().includes(termo));
+                                 (tipoLivro.toLowerCase().includes(termo)) ||
+                                 (livro.tags && livro.tags.toLowerCase().includes(termo));
 
             return matchesTipo && matchesAquisicao && matchesBusca;
         });

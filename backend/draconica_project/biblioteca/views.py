@@ -57,6 +57,20 @@ def serve_frontend(request, filename):
 
 # ================= ROTAS DE AUTENTICAÇÃO =================
 
+def validar_complexidade_senha(senha):
+    """Valida os requisitos de senha: mín 8 caracteres, número, especial, maiúscula e minúscula."""
+    if len(senha) < 8:
+        return False, "A senha deve conter no mínimo 8 caracteres."
+    if not re.search(r'[0-9]', senha):
+        return False, "A senha deve conter pelo menos um número."
+    if not re.search(r'[A-Z]', senha):
+        return False, "A senha deve conter pelo menos uma letra maiúscula."
+    if not re.search(r'[a-z]', senha):
+        return False, "A senha deve conter pelo menos uma letra minúscula."
+    if not re.search(r'[^a-zA-Z0-9]', senha):
+        return False, "A senha deve conter pelo menos um caractere especial (!@#$%^&* etc)."
+    return True, ""
+
 @csrf_exempt
 def auth_register(request):
     """Registra uma nova conta de aventureiro."""
@@ -76,8 +90,9 @@ def auth_register(request):
     if not nome or not email or not senha:
         return JsonResponse({"erro": "Preencha todos os campos obrigatórios (nome, email e senha)."}, status=400)
 
-    if len(senha) < 4:
-        return JsonResponse({"erro": "A senha deve conter no mínimo 4 caracteres."}, status=400)
+    valida, msg_erro = validar_complexidade_senha(senha)
+    if not valida:
+        return JsonResponse({"erro": msg_erro}, status=400)
 
     if Usuario.objects.filter(email=email).exists():
         return JsonResponse({"erro": "Este email já está cadastrado na guilda."}, status=409)
@@ -117,13 +132,88 @@ def auth_login(request):
 
     usuario = Usuario.objects.filter(email=email).first()
     if not usuario or not usuario.check_senha(senha):
-        return JsonResponse({"erro": "Email ou senha incorretos."}, status=401)
+        return JsonResponse({"erro": "Email ou Senha incorreto"}, status=401)
 
     return JsonResponse({
         "mensagem": f"Saudações, {usuario.nome}! Login realizado com sucesso.",
         "usuario": usuario.to_dict()
     }, status=200)
 
+
+
+@csrf_exempt
+def auth_recuperar_senha(request):
+    """Envia o link / token de confirmação de recuperação de senha."""
+    if request.method != 'POST':
+        return JsonResponse({"erro": "Método não permitido"}, status=405)
+    
+    try:
+        dados = json.loads(request.body.decode('utf-8')) if request.body else {}
+    except Exception:
+        dados = {}
+
+    email = dados.get('email', '').strip().lower()
+    if not email:
+        return JsonResponse({"erro": "Email é obrigatório."}, status=400)
+
+    usuario = Usuario.objects.filter(email=email).first()
+    if not usuario:
+        return JsonResponse({"erro": "Email não encontrado na guilda."}, status=404)
+
+    import uuid
+    token = uuid.uuid4().hex[:12]
+    usuario.reset_token = token
+    usuario.save(update_fields=['reset_token'])
+
+    return JsonResponse({
+        "mensagem": "Confirme aqui para alterar a senha",
+        "email": usuario.email,
+        "token": token,
+        "link_confirmacao": f"login.html?token={token}&email={usuario.email}"
+    }, status=200)
+
+
+@csrf_exempt
+def auth_redefinir_senha(request):
+    """Muda a senha da conta do usuário após confirmação."""
+    if request.method != 'POST':
+        return JsonResponse({"erro": "Método não permitido"}, status=405)
+
+    try:
+        dados = json.loads(request.body.decode('utf-8')) if request.body else {}
+    except Exception:
+        dados = {}
+
+    email = dados.get('email', '').strip().lower()
+    nova_senha = dados.get('nova_senha', '').strip()
+    confirmar_senha = dados.get('confirmar_senha', '').strip()
+    token = dados.get('token', '').strip()
+
+    if not email or not nova_senha or not confirmar_senha:
+        return JsonResponse({"erro": "Preencha todos os campos (email, nova senha e confirmação)."}, status=400)
+
+    if nova_senha != confirmar_senha:
+        return JsonResponse({"erro": "A nova senha e a confirmação não coincidem."}, status=400)
+
+    valida, msg_erro = validar_complexidade_senha(nova_senha)
+    if not valida:
+        return JsonResponse({"erro": msg_erro}, status=400)
+
+    usuario = Usuario.objects.filter(email=email).first()
+    if not usuario:
+        return JsonResponse({"erro": "Email não cadastrado."}, status=404)
+
+    if token and usuario.reset_token and usuario.reset_token != token:
+        return JsonResponse({"erro": "Token de recuperação inválido ou expirado."}, status=400)
+
+    usuario.set_senha(nova_senha)
+    usuario.reset_token = ''
+    usuario.save()
+
+    return JsonResponse({
+        "mensagem": "Senha alterada com sucesso! Você já pode entrar com sua nova senha.",
+        "email": usuario.email
+    }, status=200)
 
 # ================= ROTAS DE PERFIL DE USUÁRIO =================
 
@@ -252,6 +342,7 @@ def livros_list(request):
                 Q(autor__icontains=busca) |
                 Q(sistema__icontains=busca) |
                 Q(sinopse__icontains=busca) |
+                Q(tags__icontains=busca) |
                 Q(tipo_jogo__icontains=busca)
             )
 
@@ -293,7 +384,8 @@ def livros_list(request):
         sistema = dados.get('sistema', '').strip()
         tipo_jogo = dados.get('tipo_jogo', 'Fantasia Medieval').strip()
         categoria = dados.get('categoria', 'Manual Principal').strip()
-        sinopse = dados.get('sinopse', '').strip()
+        sinopse = dados.get('sinopse', '').strip() or dados.get('descricao', '').strip()
+        tags = dados.get('tags', '').strip()
         capa_url = dados.get('capa_url', '').strip()
         link_compra = dados.get('link_compra')
         tipo_link = dados.get('tipo_link')
@@ -309,6 +401,7 @@ def livros_list(request):
             tipo_jogo=tipo_jogo,
             categoria=categoria,
             sinopse=sinopse,
+            tags=tags,
             capa_url=capa_url,
             link_compra=link_compra,
             tipo_link=tipo_link,
@@ -477,7 +570,8 @@ def livro_submeter(request):
     sistema = dados.get('sistema', 'Sistema Próprio').strip() or 'Sistema Próprio'
     tipo_jogo = dados.get('tipo_jogo', 'Fantasia Medieval').strip() or 'Fantasia Medieval'
     categoria = dados.get('categoria', 'RPG Autoral / Próprio').strip() or 'RPG Autoral / Próprio'
-    sinopse = dados.get('sinopse', '').strip()
+    sinopse = dados.get('sinopse', '').strip() or dados.get('descricao', '').strip()
+    tags = dados.get('tags', '').strip()
     link_compra = dados.get('link_compra', '').strip() or None
     tipo_link = dados.get('tipo_link', '').strip() or None
     usuario_id = dados.get('usuario_id')
@@ -495,6 +589,8 @@ def livro_submeter(request):
     usuario = None
     if usuario_id:
         usuario = Usuario.objects.filter(id=usuario_id).first()
+    if not usuario:
+        return JsonResponse({"erro": "Conta não encontrada. Entre em uma conta ou Crie para enviar um livro."}, status=401)
 
     # Salva arquivo de RPG enviado (PDF, ZIP, etc.)
     if 'arquivo' in arquivos:
@@ -529,6 +625,7 @@ def livro_submeter(request):
         tipo_jogo=tipo_jogo,
         categoria=categoria,
         sinopse=sinopse,
+        tags=tags,
         capa_url=capa_url,
         arquivo_url=arquivo_url,
         link_compra=link_compra,

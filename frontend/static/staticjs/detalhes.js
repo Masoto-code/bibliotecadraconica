@@ -228,6 +228,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lógica do botão de compra ou financiamento coletivo
         configurarBotaoCompra(livro.link_compra, livro.tipo_link);
+        // Renderiza tags do livro
+        const tagsContainer = document.getElementById('tagsLivroContainer');
+        if (tagsContainer) {
+            tagsContainer.innerHTML = '';
+            const rawTags = livro.tags || (livro.sistema ? (livro.sistema + ', RPG de Mesa, Fantasia') : 'RPG');
+            const tagsArray = rawTags.split(',').map(t => t.trim()).filter(Boolean);
+            tagsArray.forEach(tag => {
+                const badge = document.createElement('span');
+                badge.style.background = 'rgba(250, 204, 21, 0.12)';
+                badge.style.color = 'var(--accent-color, #facc15)';
+                badge.style.border = '1px solid rgba(250, 204, 21, 0.35)';
+                badge.style.padding = '4px 12px';
+                badge.style.borderRadius = '14px';
+                badge.style.fontSize = '0.85rem';
+                badge.style.fontWeight = 'bold';
+                badge.textContent = '#' + tag.replace(/^#/, '');
+                tagsContainer.appendChild(badge);
+            });
+        }
+
     }
 
     function configurarBotaoCompra(link, tipo) {
@@ -286,7 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     sinopse: livroBanco.sinopse,
                     capa: livroBanco.capa_url,
                     link_compra: livroBanco.link_compra,
-                    tipo_link: livroBanco.tipo_link
+                    tipo_link: livroBanco.tipo_link,
+                    tags: livroBanco.tags,
+                    arquivo_url: livroBanco.arquivo_url
                 });
 
                 // Se foi submetido por usuário / comunidade

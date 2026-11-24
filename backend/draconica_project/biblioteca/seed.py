@@ -12,6 +12,7 @@ def run_seed():
 
     # 1. Usuários Iniciais
     usuarios_iniciais = [
+        ('Administrador da Guilda', 'admbiblioteca@gmail.com', 'AKhDd*M38DI0(d2N', '👑', 'Administrador supremo da Biblioteca Dracônica com acesso à Central de Moderação.', 'em_campanha'),
         ('Mestre dos Magos', 'mestre@draconica.com', 'draconica123', '🧙‍♂️', 'Guardião dos tomos arcanos da Biblioteca Dracônica e mestre de masmorra veterano.', 'procurando_jogadores'),
         ('Valéria, a Feiticeira', 'valeria@draconica.com', 'draconica123', '🧝‍♀️', 'Maga elementalista em busca de grimórios raros e feitiços perdidos de Fabula Ultima.', 'em_campanha'),
         ('Eldrin, o Paladino', 'eldrin@draconica.com', 'draconica123', '🛡️', 'Devoto da justiça e combatente de linha de frente. Procurando mesa aos finais de semana.', 'procurando_campanha'),
@@ -28,9 +29,10 @@ def run_seed():
                 'status_jogo': status
             }
         )
-        if created:
-            u.set_senha(senha)
-            u.save()
+        if email.lower() == 'admbiblioteca@gmail.com':
+            u.is_admin = True
+        u.set_senha(senha)
+        u.save()
 
     # 2. Livros Iniciais
     livros_iniciais = [
